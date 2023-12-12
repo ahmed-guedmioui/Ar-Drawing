@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name" translatable="false">Med Drawing</string>
+
+    <string name="AdMob_AppId" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="AdMob_Banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="AdMob_Native" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="AdMob_Interstitial" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="AdMob_OpenApp" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="privacy" translatable="false">https://gsbusinessenvanto.blogspot.com/2022/05/gs-business.html</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <string name="action_cancel" translatable="false">Cancel</string>
+    <string name="label" translatable="false">Label</string>
+    <string name="lbl_header_settings" translatable="false">Settings</string>
+    <string name="lbl_permission_denied" translatable="false">Permission Denied</string>
+    <string name="lbl_permission_denied_message" translatable="false">If you reject this all permission,you can not use application properly. \n\nPlease turn on permissions at [Setting] &gt; [Permission]</string>
+    <string name="lbl_setting" translatable="false">Settings</string>
+    <string name="learn_more" translatable="false">Privacy &amp; Policy\nHow App &amp; our partners uses your data!</string>
+
+    <string name="share_app" translatable="false">Share App</string>
+    <string name="title_camera" translatable="false">Camera</string>
+    <string name="title_choose_image_provider" translatable="false">Choose</string>
+    <string name="title_gallery" translatable="false">Gallery</string>
+    <string name="help1" translatable="false">Start the app and place the mobile on a glass or any other object as shown in the image.</string>
+    <string name="help1_1" translatable="false">Select any image to draw.</string>
+    <string name="help1_2" translatable="false">Take a tracing paper to trace &amp; draw objects.</string>
+    <string name="help1_3" translatable="false">Place tracing paper over the mobile Screen &amp; start tracing the object.</string>
+    <string name="help2" translatable="false">Select any image to draw.</string>
+    <string name="help3" translatable="false">Add transparency to the screen so that you can view your book on mobile screen.</string>
+    <string name="help4" translatable="false">Start drawing by placing the pencil over the boarders of the image. The mobile screen will guide you to draw.</string>
+    <string name="help5"  translatable="false"/>
+</resources>

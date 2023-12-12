@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2">
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp">
+
+        <TextView
+            android:id="@+id/info_lbl_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto_bold"
+            android:lines="1"
+            android:text="App Guideline"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adsstatus"
+        android:layout_below="@+id/title_layout">
+
+        <ImageView
+            android:id="@+id/ic_help"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/help2" />
+
+        <TextView
+            android:id="@+id/txt_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ic_help"
+            android:layout_marginLeft="@dimen/_13sdp"
+            android:layout_marginRight="@dimen/_13sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/help1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_below="@+id/txt_help"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:background="@drawable/oval_black"
+            android:padding="@dimen/_5sdp"
+            android:text="Next"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/adsstatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#dfdfdf"
+        android:minHeight="50dp">
+
+        <FrameLayout
+            android:id="@+id/banner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:minHeight="60dp" />
+
+
+    </FrameLayout>
+</RelativeLayout>

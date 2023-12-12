@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <LinearLayout
+        android:id="@+id/top_layer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:weightSum="5">
+
+        <RelativeLayout
+            android:id="@+id/rel_lock"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ic_lock"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/round_gray"
+                android:padding="@dimen/_8sdp"
+                app:srcCompat="@drawable/lock" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_edit_round"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_bg"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/background" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_flip"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/flip" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/oval_gray">
+
+            <RelativeLayout
+                android:id="@+id/rel_camera"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/camera" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_gallery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/gallery" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_layer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:id="@+id/rel_opacity_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_3sdp"
+            android:layout_toLeftOf="@+id/rel_edit_round"
+            android:layout_toRightOf="@+id/rel_lock"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ic_opacity"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:src="@drawable/opacity" />
+
+            <SeekBar
+                android:id="@+id/alpha_seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/ic_opacity"
+                android:max="10"
+                android:maxHeight="@dimen/_12sdp"
+                android:minHeight="@dimen/_12sdp"
+                android:progress="5"
+                android:progressDrawable="@drawable/progressdrawable"
+                android:thumb="@drawable/thumb"
+                android:thumbOffset="-5dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_brightness_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_3sdp"
+            android:layout_toLeftOf="@+id/rel_flip"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ic_brightness"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:src="@drawable/brightness" />
+
+            <SeekBar
+                android:id="@+id/brightness_seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_toRightOf="@+id/ic_brightness"
+                android:max="255"
+                android:maxHeight="@dimen/_12sdp"
+                android:minHeight="@dimen/_12sdp"
+                android:progressDrawable="@drawable/progressdrawable"
+                android:thumb="@drawable/thumb"
+                android:thumbOffset="-5dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_layer"
+        android:layout_below="@+id/top_layer"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@android:color/black">
+
+        <ImageView
+            android:id="@+id/objImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:alpha="50"
+            android:scaleType="matrix"
+            android:src="@mipmap/ic_launcher" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_250sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="LottieHandStrech.lottie"
+            app:lottie_loop="true" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.med.drawing'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.med.drawing"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'com.airbnb.android:lottie:6.1.0'
+    implementation 'com.github.yehiahd:FastSave-Android:1.0.6'
+    implementation 'com.valdesekamdem.library:md-toast:0.9.0'
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation project(":library")
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
+    implementation "com.anggrayudi:storage:1.5.5"
+    implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.4'
+    implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.0-RC1'
+
+    implementation project(":spectrum")
+
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.6.2"
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.6.2"
+
+    implementation 'com.google.android.gms:play-services-ads:22.4.0'
+    implementation 'com.google.ads.mediation:facebook:6.14.0.0'
+}
