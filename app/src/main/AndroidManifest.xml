@@ -62,7 +62,7 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name="com.med.drawing.SplashActivity"
+            android:name="com.med.drawing.splash.presentaion.SplashActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

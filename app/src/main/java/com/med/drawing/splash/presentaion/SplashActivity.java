@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.splash.presentaion;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+
+import com.med.drawing.AdsManager;
+import com.med.drawing.R;
+import com.med.drawing.StartActivity;
 
 
 public class SplashActivity extends Activity {
