@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +33,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdOptions;
 import com.google.android.gms.ads.nativead.NativeAdView;
+import com.med.drawing.R;
 
 import java.util.Arrays;
 import java.util.Map;

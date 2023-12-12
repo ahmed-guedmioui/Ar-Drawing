@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.content.Context;
 import android.database.Cursor;

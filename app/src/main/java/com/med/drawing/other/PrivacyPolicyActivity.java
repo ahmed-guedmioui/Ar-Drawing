@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.med.drawing.R;
 
 
 public class PrivacyPolicyActivity extends Activity {

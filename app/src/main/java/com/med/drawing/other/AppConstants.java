@@ -1,6 +1,8 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.app.Activity;
+
+import com.med.drawing.R;
 
 
 public class AppConstants {

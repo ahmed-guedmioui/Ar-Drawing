@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.med.drawing.R;
 
 
 public class StartActivity extends AppCompatActivity {

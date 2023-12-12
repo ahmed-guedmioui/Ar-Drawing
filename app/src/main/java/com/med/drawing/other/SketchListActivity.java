@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import com.med.drawing.Adapter.DrawingListAdapter;
+import com.med.drawing.R;
 
 import java.io.File;
 import java.io.IOException;

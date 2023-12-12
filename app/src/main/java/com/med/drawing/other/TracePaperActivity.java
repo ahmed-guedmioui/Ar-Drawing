@@ -1,4 +1,4 @@
-package com.med.drawing;
+package com.med.drawing.other;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -29,6 +29,7 @@ import androidx.core.view.ViewCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.med.drawing.R;
 import com.thebluealliance.spectrum.SpectrumDialog;
 
 
