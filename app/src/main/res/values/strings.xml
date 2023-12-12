@@ -51,4 +51,6 @@
     <string name="help3" translatable="false">Add transparency to the screen so that you can view your book on mobile screen.</string>
     <string name="help4" translatable="false">Start drawing by placing the pencil over the boarders of the image. The mobile screen will guide you to draw.</string>
     <string name="help5"  translatable="false"/>
+    <string name="try_again">Try Again</string>
+    <string name="error_connect_to_a_network_and_try_again">Error,\nConnect to a network and try again</string>
 </resources>

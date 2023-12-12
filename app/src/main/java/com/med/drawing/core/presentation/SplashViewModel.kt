@@ -29,8 +29,19 @@ class SplashViewModel @Inject constructor(
     private val _appDataResultChannel = Channel<AppDataResult<Unit>>()
     val appDataResultChannel = _appDataResultChannel.receiveAsFlow()
 
-
     init {
+       getData()
+    }
+
+    fun onEvent(splashUiEvent: SplashUiEvent) {
+        when (splashUiEvent) {
+            SplashUiEvent.TryAgain -> {
+                getData()
+            }
+        }
+    }
+
+    private fun getData() {
         viewModelScope.launch {
             _splashState.update {
                 it.copy(isLoading = true)
@@ -45,7 +56,6 @@ class SplashViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 
