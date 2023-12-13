@@ -77,6 +77,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".core.presentation.tips.TipsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity
             android:name=".core.presentation.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -92,7 +97,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
         <activity
-            android:name="com.med.drawing.camera.CameraActivity"
+            android:name="com.med.drawing.camera.presentation.CameraActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />

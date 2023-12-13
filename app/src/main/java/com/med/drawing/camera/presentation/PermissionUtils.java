@@ -1,4 +1,4 @@
-package com.med.drawing.camera;
+package com.med.drawing.camera.presentation;
 
 import android.app.Activity;
 import android.content.Context;

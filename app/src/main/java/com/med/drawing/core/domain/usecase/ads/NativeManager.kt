@@ -28,10 +28,21 @@ object NativeManager {
 
     private var admobNativeAd: NativeAd? = null
 
-    fun loadNative(nativeFrame: FrameLayout, nativeTemp: TextView, activity: Activity) {
+    fun loadNative(
+        nativeFrame: FrameLayout,
+        nativeTemp: TextView,
+        activity: Activity,
+        isButtonTop: Boolean = false
+    ) {
         when (AppDataManager.appData.native) {
-            AppDataManager.AdType.admob -> loadAdmobNative(nativeFrame, nativeTemp, activity)
-            AppDataManager.AdType.facebook -> loadFacebookNative(nativeFrame, nativeTemp, activity)
+            AppDataManager.AdType.admob -> loadAdmobNative(
+                nativeFrame, nativeTemp, activity, isButtonTop
+            )
+
+            AppDataManager.AdType.facebook -> loadFacebookNative(
+                nativeFrame, nativeTemp, activity, isButtonTop
+            )
+
             else -> {
                 nativeFrame.visibility = View.GONE
                 nativeTemp.visibility = View.GONE
@@ -45,7 +56,8 @@ object NativeManager {
     private fun loadAdmobNative(
         nativeFrame: FrameLayout,
         nativeTemp: TextView,
-        activity: Activity
+        activity: Activity,
+        isButtonTop: Boolean
     ) {
         val builder = AdLoader.Builder(activity, AppDataManager.appData.admobNative)
         builder.forNativeAd { nativeAd: NativeAd ->
@@ -58,8 +70,15 @@ object NativeManager {
                 admobNativeAd?.destroy()
             }
             admobNativeAd = nativeAd
-            val adView =
+            val adView = if (!isButtonTop) {
                 activity.layoutInflater.inflate(R.layout.native_admob, null) as NativeAdView
+            } else {
+                activity.layoutInflater.inflate(
+                    R.layout.native_admob_button_top,
+                    null
+                ) as NativeAdView
+            }
+
             populateAdmobNative(nativeAd, adView)
             nativeFrame.removeAllViews()
             nativeFrame.addView(adView)
@@ -126,7 +145,8 @@ object NativeManager {
     private fun loadFacebookNative(
         nativeFrame: FrameLayout,
         nativeTemp: TextView,
-        activity: Activity
+        activity: Activity,
+        isButtonTop: Boolean
     ) {
         val nativeAd = com.facebook.ads.NativeAd(activity, AppDataManager.appData.facebookNative)
         val nativeAdListener: NativeAdListener = object : NativeAdListener {
@@ -142,7 +162,7 @@ object NativeManager {
                 }
                 nativeTemp.visibility = View.GONE
                 nativeFrame.visibility = View.VISIBLE
-                populateFacebookNative(nativeFrame, nativeAd, activity)
+                populateFacebookNative(nativeFrame, nativeAd, activity, isButtonTop)
             }
 
             override fun onAdClicked(ad: Ad) {}
@@ -152,7 +172,10 @@ object NativeManager {
     }
 
     private fun populateFacebookNative(
-        nativeFrame: FrameLayout, nativeAd: com.facebook.ads.NativeAd, activity: Activity
+        nativeFrame: FrameLayout,
+        nativeAd: com.facebook.ads.NativeAd,
+        activity: Activity,
+        isButtonTop: Boolean
     ) {
         nativeAd.unregisterView()
         val nativeAdLayout = NativeAdLayout(activity)
@@ -160,7 +183,11 @@ object NativeManager {
         // Add the Ad view into the ad container.
         val inflater = LayoutInflater.from(activity)
         // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
-        val adView = inflater.inflate(R.layout.native_meta, null) as LinearLayout
+        val adView = if (!isButtonTop) {
+            inflater.inflate(R.layout.native_meta, null) as LinearLayout
+        } else {
+            inflater.inflate(R.layout.native_meta_button_top, null) as LinearLayout
+        }
         nativeFrame.addView(adView)
 
 

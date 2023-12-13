@@ -1,4 +1,4 @@
-package com.med.drawing.camera;
+package com.med.drawing.camera.presentation;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -420,7 +420,7 @@ public class CameraActivity extends AppCompatActivity {
                         byte[] bArr2 = bArr;
                         return BitmapFactory.decodeByteArray(bArr2, 0, bArr2.length);
                     }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Bitmap>() { // from class: com.med.drawing.camera.CameraActivity.15.1
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Bitmap>() { // from class: com.med.drawing.camera.presentation.CameraActivity.15.1
                     @Override 
                     public void onError(Throwable th) {
                     }

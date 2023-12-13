@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
-import com.med.drawing.camera.CameraActivity
+import com.med.drawing.camera.presentation.CameraActivity
 import com.med.drawing.core.domain.usecase.ads.InterManager
 import com.med.drawing.databinding.ActivitySketchListBinding
 import com.med.drawing.other.AppConstant
@@ -21,12 +21,14 @@ import com.med.drawing.other.HelpActivity
 import com.med.drawing.other.HelpActivity2
 import com.med.drawing.other.TracePaperActivity
 import com.med.drawing.sketch.sketch_list.presentation.Adapter.DrawingListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
 
 /**
  * @author Android Devs Academy (Ahmed Guedmioui)
  */
+@AndroidEntryPoint
 class SketchListActivity : AppCompatActivity() {
 
     private lateinit var selectedImagePath: String

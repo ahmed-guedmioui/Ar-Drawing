@@ -17,10 +17,12 @@ import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.other.AppConstant
 import com.med.drawing.other.PrivacyPolicyActivity
 import com.med.drawing.sketch.sketch_list.presentation.SketchListActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * @author Android Devs Academy (Ahmed Guedmioui)
  */
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private var pushAnimation: Animation? = null
 

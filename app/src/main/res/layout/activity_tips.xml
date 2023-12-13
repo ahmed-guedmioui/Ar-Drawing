@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <RelativeLayout
+        android:id="@+id/tip_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/tip_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tip_image_1"
+            app:shapeAppearanceOverlay="@style/ImageView.Corner" />
+
+        <TextView
+            android:id="@+id/tip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tip_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/font"
+            android:text="@string/tip_title_1"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tip_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tip_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/font"
+            android:text="@string/tip_desc_1"
+            android:textColor="@color/black" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ntv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <include layout="@layout/four_dots_indicator" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/next_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ntv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/font"
+        android:text="@string/next"
+        android:textColor="#81000000"
+        android:textStyle="italic" />
+
+
+    <RelativeLayout
+        android:id="@+id/ntv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp">
+
+        <include layout="@layout/include_native_button_top" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

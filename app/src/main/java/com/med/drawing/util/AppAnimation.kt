@@ -6,7 +6,7 @@ import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 
-class RepeatingAnimation {
+class AppAnimation {
 
     private lateinit var animatorSet: AnimatorSet
     private var isBig = false
@@ -43,6 +43,21 @@ class RepeatingAnimation {
             override fun onAnimationRepeat(animation: Animator) {}
         })
 
+        animatorSet.start()
+    }
+
+
+    fun startLeftwardScaleAnimation(view: View) {
+        view.translationX = view.width.toFloat()
+
+        // Create translationX animator
+        val translationXAnimator = ObjectAnimator.ofFloat(view, "translationX", 0f)
+        translationXAnimator.duration = 100L
+        translationXAnimator.interpolator = AccelerateDecelerateInterpolator()
+
+        // Create animator set and play the translationX animator
+        val animatorSet = AnimatorSet()
+        animatorSet.play(translationXAnimator)
         animatorSet.start()
     }
 
