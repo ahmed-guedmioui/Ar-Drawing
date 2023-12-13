@@ -1,23 +1,19 @@
-package com.med.drawing.core.presentation
+package com.med.drawing.core.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
+import com.med.drawing.core.domain.usecase.ads.InterManager
+import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.databinding.ActivitySplashBinding
-import com.med.drawing.other.StartActivity
-import com.med.drawing.util.AppDataManager
 import com.med.drawing.util.AppDataResult
 import com.med.drawing.util.RepeatingAnimation
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -62,8 +58,11 @@ class SplashActivity : AppCompatActivity() {
                     is AppDataResult.Loading -> {}
 
                     is AppDataResult.Success -> {
+
+                        InterManager.loadInterstitial(this@SplashActivity)
+
                         startActivity(
-                            Intent(this@SplashActivity, StartActivity::class.java)
+                            Intent(this@SplashActivity, HomeActivity::class.java)
                         )
                     }
                 }

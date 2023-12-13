@@ -1,4 +1,4 @@
-package com.med.drawing.other;
+package com.med.drawing.camera;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -31,7 +31,10 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.cameraview.CameraView;
 import com.google.android.cameraview.CameraViewImpl;
 import com.med.drawing.R;
-import com.med.drawing.camera.PermissionUtils;
+import com.med.drawing.other.AppConstant;
+import com.med.drawing.other.FileUtils;
+import com.med.drawing.other.MultiTouch;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -417,7 +420,7 @@ public class CameraActivity extends AppCompatActivity {
                         byte[] bArr2 = bArr;
                         return BitmapFactory.decodeByteArray(bArr2, 0, bArr2.length);
                     }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Bitmap>() { // from class: com.med.drawing.other.CameraActivity.15.1
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Bitmap>() { // from class: com.med.drawing.camera.CameraActivity.15.1
                     @Override 
                     public void onError(Throwable th) {
                     }

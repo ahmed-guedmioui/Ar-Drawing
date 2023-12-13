@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
     android:padding="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +25,7 @@
         android:background="@drawable/ad_tag_bg"
         android:paddingVertical="2dp"
         android:paddingHorizontal="4dp"
-        android:text="Ad"
+        android:text="@string/ad"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/ad_headline"
@@ -75,7 +74,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintDimensionRatio="W,16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ad_body" />
@@ -86,7 +84,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:textSize="16sp"
-        android:backgroundTint="#2196F3"
+        android:backgroundTint="@color/primary"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ad_media"

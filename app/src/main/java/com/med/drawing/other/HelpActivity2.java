@@ -25,7 +25,7 @@ public class HelpActivity2 extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_help);
         this.pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push);
-        AdsManager.getInstance().loadBanner(HelpActivity2.this, getString(R.string.AdMob_Banner));
+
 
         this.text_help = (TextView) findViewById(R.id.txt_help);
         this.img_help = (ImageView) findViewById(R.id.ic_help);

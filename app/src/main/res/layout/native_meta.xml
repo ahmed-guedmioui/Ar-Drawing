@@ -3,7 +3,6 @@
     android:id="@+id/ad_unit"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingHorizontal="8dp"
     android:paddingTop="8dp">
@@ -15,7 +14,7 @@
         android:background="@drawable/ad_tag_bg"
         android:paddingVertical="2dp"
         android:paddingHorizontal="4dp"
-        android:text="Ad"
+        android:text="@string/ad"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/white" />
 
@@ -113,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="@color/primary"
             android:paddingLeft="3dp"
             android:layout_marginBottom="1dp"
             android:paddingRight="3dp"

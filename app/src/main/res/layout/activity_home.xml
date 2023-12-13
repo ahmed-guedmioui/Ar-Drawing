@@ -3,37 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg">
+
     <RelativeLayout
-        android:id="@+id/cvNative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EDEDED"
-        android:gravity="center"
-        android:minHeight="280dp">
+        android:layout_margin="8dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:gravity="center"
-            android:text="Ads Loading..."
-            android:textColor="@color/black"
-            android:textSize="25sp" />
-
-        <FrameLayout
-            android:id="@+id/flNative"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical" />
+        <include layout="@layout/include_native" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cvNative"
-        android:layout_above="@+id/adsdaad">
+        android:layout_above="@+id/adsdaad"
+        android:layout_below="@+id/cvNative">
 
         <ImageView
             android:id="@+id/icon_trace"
@@ -140,13 +125,13 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/privacypolicy"
+            android:id="@+id/privacy_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="Privacy Policy"
+            android:text="@string/privacy_policy"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>

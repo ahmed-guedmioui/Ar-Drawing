@@ -1,11 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Med Drawing</string>
 
-    <string name="AdMob_AppId" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="AdMob_Banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="AdMob_Native" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="AdMob_Interstitial" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="AdMob_OpenApp" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
     <string name="privacy" translatable="false">https://gsbusinessenvanto.blogspot.com/2022/05/gs-business.html</string>
 
 
@@ -53,4 +48,10 @@
     <string name="help5"  translatable="false"/>
     <string name="try_again">Try Again</string>
     <string name="error_connect_to_a_network_and_try_again">Error,\nConnect to a network and try again</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="ad">Ad</string>
+    <string name="no_drawing_available">No Drawing Available</string>
+    <string name="select_drawing">Select Drawing</string>
+    <string name="next">Next</string>
+    <string name="app_guideline">App Guideline</string>
 </resources>

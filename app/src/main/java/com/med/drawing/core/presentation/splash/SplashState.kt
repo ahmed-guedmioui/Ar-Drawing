@@ -1,4 +1,4 @@
-package com.med.drawing.core.presentation
+package com.med.drawing.core.presentation.splash
 
 
 /**

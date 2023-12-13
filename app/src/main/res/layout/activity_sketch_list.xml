@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:fontFamily="@font/roboto_bold"
             android:lines="1"
-            android:text="Select Drawing"
+            android:text="@string/select_drawing"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp" />
@@ -26,9 +26,9 @@
             android:id="@+id/rel_help"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:background="@drawable/blue_circle">
 
             <ImageView
@@ -44,7 +44,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/adsstatus"
         android:layout_below="@+id/title_layout">
 
         <TextView
@@ -52,37 +51,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="No Drawing Available"
+            android:text="@string/no_drawing_available"
             android:textColor="@color/black"
             android:textSize="@dimen/_16sdp"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_drawing_list"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:fadingEdge="none"
             android:scrollbars="none" />
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/adsstatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#dfdfdf"
-        android:minHeight="50dp">
-
-        <FrameLayout
-            android:id="@+id/banner_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:minHeight="60dp" />
-
-
-    </FrameLayout>
 
 </RelativeLayout>
