@@ -82,6 +82,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
         <activity
+            android:name=".core.presentation.get_started.GetStartedActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity
             android:name=".core.presentation.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

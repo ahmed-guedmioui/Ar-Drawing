@@ -3,6 +3,7 @@ package com.med.drawing.core.presentation.tips
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
 import com.med.drawing.core.domain.usecase.ads.NativeManager
-import com.med.drawing.core.presentation.home.HomeActivity
+import com.med.drawing.core.presentation.get_started.GetStartedActivity
 import com.med.drawing.databinding.ActivityTipsBinding
 import com.med.drawing.util.AppAnimation
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,6 +57,7 @@ class TipsActivity : AppCompatActivity() {
     }
 
     private fun nextTip() {
+
         changeDotsColor()
         when (tipsState.tipNum) {
             1 -> {
@@ -102,8 +104,7 @@ class TipsActivity : AppCompatActivity() {
 
             5 -> {
                 prefs.edit().putBoolean("tipsShown", true).apply()
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
+                startActivity(Intent(this, GetStartedActivity::class.java))
             }
         }
     }
@@ -128,7 +129,7 @@ class TipsActivity : AppCompatActivity() {
                 findViewById<CardView>(R.id.dot_3).setCardBackgroundColor(getColor(R.color.primary_3))
             }
 
-            4 -> {
+            4, 5 -> {
                 findViewById<CardView>(R.id.dot_4).setCardBackgroundColor(getColor(R.color.primary_3))
             }
         }

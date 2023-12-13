@@ -3,7 +3,6 @@ package com.med.drawing.core.presentation.splash
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,17 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
 import com.med.drawing.core.domain.usecase.ads.InterManager
+import com.med.drawing.core.presentation.get_started.GetStartedActivity
 import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.core.presentation.tips.TipsActivity
 import com.med.drawing.databinding.ActivitySplashBinding
-import com.med.drawing.util.AppDataResult
 import com.med.drawing.util.AppAnimation
+import com.med.drawing.util.AppDataResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SplashActivity: AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()
 
@@ -72,7 +72,13 @@ class SplashActivity: AppCompatActivity() {
                             if (!prefs.getBoolean("tipsShown", false)) {
                                 Intent(this@SplashActivity, TipsActivity::class.java)
                             } else {
-                                Intent(this@SplashActivity, HomeActivity::class.java)
+
+                                if (!prefs.getBoolean("getStartedShown", false)) {
+                                    Intent(this@SplashActivity, GetStartedActivity::class.java)
+                                } else {
+                                    Intent(this@SplashActivity, HomeActivity::class.java)
+                                }
+
                             }
                         )
                         finish()

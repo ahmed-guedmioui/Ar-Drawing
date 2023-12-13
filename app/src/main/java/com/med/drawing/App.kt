@@ -12,6 +12,12 @@ import java.io.File
 @HiltAndroidApp
 class App: Application() {
 
+    companion object {
+        const val PRIVACY =
+            "We are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information (\"Personal Information\").\n" +
+                    "As part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Personal Information."
+    }
+
     override fun onCreate() {
         super.onCreate()
 

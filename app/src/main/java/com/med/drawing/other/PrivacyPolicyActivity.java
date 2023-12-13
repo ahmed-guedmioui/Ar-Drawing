@@ -1,5 +1,6 @@
 package com.med.drawing.other;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,8 @@ import com.med.drawing.R;
 public class PrivacyPolicyActivity extends Activity {
 
 
-    @Override 
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         AppConstants.overridePendingTransitionEnter(this);
@@ -28,7 +30,7 @@ public class PrivacyPolicyActivity extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(getString(R.string.privacy));
+        webView.loadUrl("ff");
     }
 
 

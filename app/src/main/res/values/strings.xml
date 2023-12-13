@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Med Drawing</string>
 
-    <string name="privacy" translatable="false">https://gsbusinessenvanto.blogspot.com/2022/05/gs-business.html</string>
-
-
     <string name="tip_title_1">Tip 1</string>
     <string name="tip_desc_1">Tip desc 1</string>
 
@@ -16,6 +13,12 @@
     <string name="tip_title_4">Tip 4</string>
     <string name="tip_desc_4">Tip desc 4</string>
 
+
+    <string name="get_started_title">Med Drawing</string>
+    <string name="get_started_desc">Med drawing desc</string>
+
+
+    <string name="privacy_notice">By click start you confirm that you reviewed and accepted our Privacy Policy</string>
 
     <string name="action_cancel">Cancel</string>
     <string name="label">Label</string>
@@ -48,4 +51,6 @@
     <string name="next">Next</string>
     <string name="app_guideline">App Guideline</string>
     <string name="start">Start</string>
+    <string name="get_started">Get Started</string>
+    <string name="okay">Okay</string>
 </resources>
