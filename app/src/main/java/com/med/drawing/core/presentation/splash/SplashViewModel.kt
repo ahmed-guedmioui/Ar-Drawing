@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 @HiltViewModel
 class SplashViewModel @Inject constructor(

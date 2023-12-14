@@ -6,7 +6,7 @@ import com.med.drawing.core.domain.model.AppData
 import com.med.drawing.core.domain.model.RecommendedApp
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 
 fun AppDataDto.toAppData(): AppData {

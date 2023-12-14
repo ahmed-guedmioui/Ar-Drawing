@@ -1,9 +1,6 @@
-package com.med.drawing.core.domain.usecase.ads
+package com.med.drawing.util.ads
 
 import android.app.Activity
-import android.app.ProgressDialog
-import android.os.Handler
-import android.os.Looper
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
@@ -38,20 +35,13 @@ object InterManager {
 
         if (AppDataManager.appData.clicksToShowInter == counter) {
             counter = 1
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setCancelable(false)
-            progressDialog.setMessage("Loading Ads...")
-            progressDialog.show()
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                when (AppDataManager.appData.interstitial) {
-                    AppDataManager.AdType.admob -> showAdmobInter(activity)
-                    AppDataManager.AdType.facebook -> showFacebookInter(activity)
+            when (AppDataManager.appData.interstitial) {
+                AppDataManager.AdType.admob -> showAdmobInter(activity)
+                AppDataManager.AdType.facebook -> showFacebookInter(activity)
+                else -> onAdClosedListener.onAdClosed()
+            }
 
-                    else -> onAdClosedListener.onAdClosed()
-                }
-                progressDialog.dismiss()
-            }, 2000)
         } else {
             counter++
             onAdClosedListener.onAdClosed()

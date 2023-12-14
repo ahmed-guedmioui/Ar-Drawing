@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 @Module
 @InstallIn(SingletonComponent::class)

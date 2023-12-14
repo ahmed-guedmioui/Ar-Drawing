@@ -1,4 +1,4 @@
-package com.med.drawing.core.domain.usecase.ads
+package com.med.drawing.util.ads
 
 import android.app.Activity
 import android.view.LayoutInflater

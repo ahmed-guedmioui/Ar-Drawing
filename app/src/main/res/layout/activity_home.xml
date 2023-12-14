@@ -1,143 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        app:cardBackgroundColor="@color/variant_background"
-        android:layout_height="55dp">
-
-    </androidx.cardview.widget.CardView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_below="@id/top_bar"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
-
-        <include layout="@layout/include_native" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/adsdaad"
-        android:layout_below="@+id/cvNative">
-
-
-
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="22dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/title_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Draw:"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_22sdp"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/font"
+            android:text="@string/app_name"
+            android:textColor="@color/primary"
+            android:textSize="19sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/title_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_minus4sdp"
-            android:fontFamily="@font/segoesc"
-            android:text="Trace &amp; Sketch"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="italic|bold" />
+        <ImageView
+            android:id="@+id/guide"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end"
+            android:layout_marginEnd="25dp"
+            android:layout_toStartOf="@id/settings"
+            android:src="@drawable/user_guide"
+            app:tint="@color/text" />
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end"
+            android:src="@drawable/settings"
+            app:tint="@color/text" />
+
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/adsdaad"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/rel_start_trace"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/oval_black">
-
-            <ImageView
-                android:id="@+id/icon_edit"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/start" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@+id/icon_edit"
-                android:gravity="center"
-                android:text="Sketch"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rel_trace_paper"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/oval_black">
-
-            <ImageView
-                android:id="@+id/icon_edit_paper"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/light_box" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_toRightOf="@+id/icon_edit_paper"
-                android:gravity="center"
-                android:text="Trace"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/privacy_policy"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:gravity="center"
-            android:text="@string/privacy_policy"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/gray"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="22dp"
+                        android:layout_marginVertical="12dp"
+                        android:fontFamily="@font/font"
+                        android:text="@string/your_art"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/sketch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/button_bg_light"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/sketch" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font"
+                                android:text="@string/sketch"
+                                android:textColor="@color/white"
+                                android:textSize="21sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font"
+                                android:text="@string/turn_your_emotions_into_art_like_a_true_artistic_pro"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/trace"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/button_bg_dark"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/trace" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font"
+                                android:text="@string/trace"
+                                android:textColor="@color/white"
+                                android:textSize="21sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font"
+                                android:text="@string/trace_your_drawing_discover_something_new"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/creation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:background="@drawable/button_bg_light"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/img_creation"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/creation" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_gravity="center"
+                            android:layout_toEndOf="@+id/img_creation"
+                            android:fontFamily="@font/font"
+                            android:gravity="center"
+                            android:text="@string/my_creation"
+                            android:textColor="@color/white"
+                            android:textSize="23sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp">
+
+                        <include layout="@layout/include_native_button_top" />
+                    </RelativeLayout>
+
+                </LinearLayout>
 
 
-</RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="@color/gray"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_toStartOf="@id/img_tip"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font"
+                                    android:text="@string/trace"
+                                    android:textColor="@color/text"
+                                    android:textSize="21sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font"
+                                    android:text="@string/draw_quickly_and_easily_with_apps_is_a_great_way_to_get_started_in_the_world_of_art"
+                                    android:textColor="@color/text"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/img_tip"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/kids" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/button_bg_dark">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginHorizontal="18dp"
+                                android:layout_marginVertical="12dp"
+                                android:layout_toStartOf="@id/img_rate"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font"
+                                    android:text="@string/support_us_to_develop_app_better_with_5_stars"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <Button
+                                    android:id="@+id/rate_btn"
+                                    android:layout_width="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/rate_btn"
+                                    android:fontFamily="@font/font"
+                                    android:text="@string/rate"
+                                    android:textColor="@color/white" />
+
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:id="@+id/img_rate"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="14dp"
+                                android:src="@drawable/stars" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

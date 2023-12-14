@@ -5,7 +5,7 @@ import com.med.drawing.core.data.remote.respnod.AppDataDto
 import retrofit2.http.GET
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 interface AppDataApi {
 

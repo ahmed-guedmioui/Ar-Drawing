@@ -9,8 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
-import com.med.drawing.core.domain.usecase.ads.AdmobAppOpenManager
-import com.med.drawing.core.domain.usecase.ads.InterManager
+import com.med.drawing.util.ads.AdmobAppOpenManager
+import com.med.drawing.util.ads.InterManager
 import com.med.drawing.core.presentation.get_started.GetStartedActivity
 import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.core.presentation.tips.TipsActivity

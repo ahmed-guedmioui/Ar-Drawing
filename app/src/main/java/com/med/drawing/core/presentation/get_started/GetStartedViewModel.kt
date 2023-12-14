@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 @HiltViewModel
 class GetStartedViewModel @Inject constructor() : ViewModel() {

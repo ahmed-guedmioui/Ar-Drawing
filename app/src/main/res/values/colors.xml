@@ -14,6 +14,15 @@
     <color name="primary_dark">#A566B5</color>
     <color name="variant_background">#FDE7F7</color>
 
+    <color name="dark_button_start">#7C51EF</color>
+    <color name="dark_button_end">#9187EC</color>
+
+    <color name="light_button_start">#DF44C6</color>
+    <color name="light_button_end">#EF73DA</color>
+
+
+
+    <color name="gray">#F5F5F5</color>
 
 
 
@@ -29,11 +38,7 @@
 
 
 
-
-
-
-
-
+    <color name="rate_btn">#17ECECEC</color>
     <color name="trans">#07666666</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

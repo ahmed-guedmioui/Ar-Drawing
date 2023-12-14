@@ -53,4 +53,14 @@
     <string name="start">Start</string>
     <string name="get_started">Get Started</string>
     <string name="okay">Okay</string>
+    <string name="sketch">Sketch</string>
+    <string name="turn_your_emotions_into_art_like_a_true_artistic_pro">Turn your emotions into art like a true artistic pro.</string>
+    <string name="trace">Trace</string>
+    <string name="trace_your_drawing_discover_something_new">Trace your drawing discover something new.</string>
+    <string name="my_creation">My Creation</string>
+    <string name="your_art">Your Art</string>
+    <string name="draw_quickly_and_easily_with_apps_is_a_great_way_to_get_started_in_the_world_of_art">Draw quickly and easily with apps is a great way to get started in the world of art</string>
+    <string name="support_us_to_develop_app_better_with_5_stars">Support us to develop\napp better with 5 stars</string>
+    <string name="rate">Rate</string>
+    <string name="double_click_to_exit">Double click to exit</string>
 </resources>

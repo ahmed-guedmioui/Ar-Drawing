@@ -11,23 +11,25 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
-import com.med.drawing.core.domain.usecase.ads.NativeManager
+import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.core.presentation.get_started.GetStartedActivity
+import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.databinding.ActivityTipsBinding
 import com.med.drawing.util.AppAnimation
+import com.med.drawing.util.ads.InterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 @AndroidEntryPoint
 class TipsActivity : AppCompatActivity() {
 
     private val tipsViewModel: TipsViewModel by viewModels()
-
     private lateinit var tipsState: TipsState
+
     private lateinit var binding: ActivityTipsBinding
 
     @Inject
@@ -104,9 +106,14 @@ class TipsActivity : AppCompatActivity() {
             }
 
             5 -> {
-                prefs.edit().putBoolean("tipsShown", true).apply()
-                startActivity(Intent(this, GetStartedActivity::class.java))
-                finish()
+
+                InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
+                    override fun onAdClosed() {
+                        prefs.edit().putBoolean("tipsShown", true).apply()
+                        startActivity(Intent(this@TipsActivity, GetStartedActivity::class.java))
+                        finish()
+                    }
+                })
             }
         }
     }

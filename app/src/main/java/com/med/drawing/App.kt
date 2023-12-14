@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 @HiltAndroidApp
 class App: Application() {

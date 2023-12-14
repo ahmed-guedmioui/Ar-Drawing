@@ -3,7 +3,7 @@ package com.med.drawing.util
 import com.med.drawing.core.domain.model.AppData
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 object AppDataManager {
 

@@ -4,9 +4,8 @@
 
     <corners android:radius="22dp" />
 
-    <stroke android:color="@color/primary"
-        android:dashWidth="8dp"
-        android:dashGap="8dp"
-        android:width="2dp"/>
+    <gradient
+        android:startColor="@color/dark_button_start"
+        android:endColor="@color/dark_button_end" />
 
 </shape>

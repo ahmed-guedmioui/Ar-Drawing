@@ -14,7 +14,7 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 class AppDataRepositoryImpl @Inject constructor(
     private val appDataApi: AppDataApi,

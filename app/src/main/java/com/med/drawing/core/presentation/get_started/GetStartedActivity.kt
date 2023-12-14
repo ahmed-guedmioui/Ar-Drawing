@@ -24,15 +24,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.App
 import com.med.drawing.R
-import com.med.drawing.core.domain.usecase.ads.NativeManager
+import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.databinding.ActivityGetStartedBinding
+import com.med.drawing.sketch.sketch_list.presentation.SketchListActivity
+import com.med.drawing.util.ads.InterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 @AndroidEntryPoint
 class GetStartedActivity : AppCompatActivity() {
@@ -66,9 +68,13 @@ class GetStartedActivity : AppCompatActivity() {
         )
 
         binding.getStarted.setOnClickListener {
-            prefs.edit().putBoolean("getStartedShown", true).apply()
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+            InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
+                override fun onAdClosed() {
+                    prefs.edit().putBoolean("getStartedShown", true).apply()
+                    startActivity(Intent(this@GetStartedActivity, HomeActivity::class.java))
+                    finish()
+                }
+            })
         }
 
     }

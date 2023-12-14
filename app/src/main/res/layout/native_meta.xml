@@ -72,8 +72,9 @@
 
     <com.facebook.ads.MediaView
         android:id="@+id/native_ad_media"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
         android:gravity="center" />
 
     <LinearLayout

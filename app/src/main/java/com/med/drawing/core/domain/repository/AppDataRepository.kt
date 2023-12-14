@@ -5,7 +5,7 @@ import com.med.drawing.util.AppDataResult
 import kotlinx.coroutines.flow.Flow
 
 /**
- * @author Android Devs Academy (Ahmed Guedmioui)
+ * @author Ahmed Guedmioui
  */
 interface AppDataRepository {
     suspend fun getAppData(): Flow<AppDataResult<Unit>>
