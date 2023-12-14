@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:backgroundTint="@color/primary"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
+            android:fontFamily="@font/font"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8dp" />
@@ -34,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="#000000"
+            android:textColor="@color/text"
+            android:fontFamily="@font/font"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@id/ad_app_icon" />
 
@@ -48,7 +50,8 @@
             android:paddingVertical="2dp"
             android:text="@string/ad"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
+            android:fontFamily="@font/font"
             app:layout_constraintBottom_toBottomOf="@+id/ad_headline"
             app:layout_constraintStart_toEndOf="@+id/ad_app_icon"
             app:layout_constraintTop_toTopOf="@+id/ad_headline" />
@@ -73,7 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#000000"
+            android:textColor="@color/text"
+            android:fontFamily="@font/font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ad_app_icon" />

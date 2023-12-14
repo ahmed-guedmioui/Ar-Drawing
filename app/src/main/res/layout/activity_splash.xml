@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/background">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/animation_image"
@@ -11,6 +11,7 @@
         android:layout_height="165dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/v"
+        app:cardBackgroundColor="@color/variant_background"
         android:layout_gravity="center"
         app:cardCornerRadius="20dp">
 
@@ -36,6 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="50dp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/primary"
         android:fontFamily="@font/font"
         android:text="@string/try_again"

@@ -42,7 +42,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_3sdp"
-                android:src="@drawable/background" />
+                android:src="@drawable/copy" />
         </RelativeLayout>
 
         <RelativeLayout

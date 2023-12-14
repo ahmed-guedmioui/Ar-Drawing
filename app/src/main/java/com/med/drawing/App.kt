@@ -5,6 +5,10 @@ import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
+import javax.inject.Inject
+
+
+
 
 /**
  * @author Android Devs Academy (Ahmed Guedmioui)
@@ -16,6 +20,7 @@ class App: Application() {
         const val PRIVACY =
             "We are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information (\"Personal Information\").\n" +
                     "As part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Personal Information."
+
     }
 
     override fun onCreate() {
@@ -25,6 +30,7 @@ class App: Application() {
 
         MobileAds.initialize(this)
         AudienceNetworkAds.initialize(this)
+
     }
 
     private fun trimCache() {

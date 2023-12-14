@@ -2,10 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/variant_background"
+        android:layout_height="55dp">
+
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_below="@id/top_bar"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
@@ -20,20 +30,13 @@
         android:layout_above="@+id/adsdaad"
         android:layout_below="@+id/cvNative">
 
-        <ImageView
-            android:id="@+id/icon_trace"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:src="@drawable/title_ic" />
+
 
 
         <TextView
             android:id="@+id/title_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/icon_trace"
             android:layout_centerHorizontal="true"
             android:text="Draw:"
             android:textAllCaps="true"

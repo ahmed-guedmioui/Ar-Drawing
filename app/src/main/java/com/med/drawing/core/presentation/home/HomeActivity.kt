@@ -46,9 +46,7 @@ class HomeActivity : AppCompatActivity() {
 
         binding.privacyPolicy.setOnClickListener {
             startActivity(
-                Intent(
-                    this@HomeActivity,
-                    PrivacyPolicyActivity::class.java
+                Intent(this@HomeActivity, PrivacyPolicyActivity::class.java
                 )
             )
         }

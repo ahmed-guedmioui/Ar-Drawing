@@ -3,6 +3,7 @@ package com.med.drawing.core.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.med.drawing.App
 import com.med.drawing.core.data.remote.AppDataApi
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 /**
  * @author Android Devs Academy (Ahmed Guedmioui)
@@ -43,7 +45,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSharedPref(app: Application): SharedPreferences {
-        return app.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        return app.getSharedPreferences("med drawing prefs file", Context.MODE_PRIVATE)
     }
 
 }

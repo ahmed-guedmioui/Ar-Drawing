@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
+import com.med.drawing.core.domain.usecase.ads.AdmobAppOpenManager
 import com.med.drawing.core.domain.usecase.ads.InterManager
 import com.med.drawing.core.presentation.get_started.GetStartedActivity
 import com.med.drawing.core.presentation.home.HomeActivity
@@ -49,6 +50,10 @@ class SplashActivity : AppCompatActivity() {
             splashViewModel.onEvent(SplashUiEvent.TryAgain)
         }
 
+        val admobAppOpenManager = AdmobAppOpenManager(
+            this@SplashActivity.application, prefs
+        )
+
         lifecycleScope.launch {
             splashViewModel.appDataResultChannel.collect { result ->
                 when (result) {
@@ -65,23 +70,26 @@ class SplashActivity : AppCompatActivity() {
                     is AppDataResult.Loading -> {}
 
                     is AppDataResult.Success -> {
-
                         InterManager.loadInterstitial(this@SplashActivity)
 
-                        startActivity(
-                            if (!prefs.getBoolean("tipsShown", false)) {
-                                Intent(this@SplashActivity, TipsActivity::class.java)
-                            } else {
-
-                                if (!prefs.getBoolean("getStartedShown", false)) {
-                                    Intent(this@SplashActivity, GetStartedActivity::class.java)
+                        admobAppOpenManager.showSplashAd {
+                            startActivity(
+                                if (!prefs.getBoolean("tipsShown", false)) {
+                                    Intent(this@SplashActivity, TipsActivity::class.java)
                                 } else {
-                                    Intent(this@SplashActivity, HomeActivity::class.java)
-                                }
 
-                            }
-                        )
-                        finish()
+                                    if (!prefs.getBoolean("getStartedShown", false)) {
+                                        Intent(this@SplashActivity, GetStartedActivity::class.java)
+                                    } else {
+                                        Intent(this@SplashActivity, HomeActivity::class.java)
+                                    }
+
+                                }
+                            )
+                            finish()
+                        }
+
+
                     }
                 }
             }

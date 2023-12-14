@@ -1,6 +1,7 @@
 package com.med.drawing.core.domain.usecase.ads
 
 import android.app.Activity
+import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -15,13 +16,11 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
-import com.med.drawing.App
-import com.med.drawing.util.AppDataManager
 import java.util.Date
 
 class AdmobAppOpenManager(
-    private val app: App,
-    private val prefs: SharedPreferences
+    private val app: Application,
+    private var prefs: SharedPreferences
 ) : LifecycleObserver, ActivityLifecycleCallbacks {
 
     private var appOpenAd: AppOpenAd? = null
@@ -32,7 +31,7 @@ class AdmobAppOpenManager(
         /**
          * Creates and returns ad request.
          */
-        get() = AdRequest.Builder().build()
+        private get() = AdRequest.Builder().build()
 
     /**
      * Utility method to check if ad was loaded more than n hours ago.
@@ -52,13 +51,15 @@ class AdmobAppOpenManager(
     /**
      * Request an ad
      */
-    fun fetchAd() {
+    fun fetchAd(
+        onAdClosed: () -> Unit
+    ) {
         // Have unused ad, no need to fetch another.
         if (isAdAvailable) {
             return
         }
-        val id = prefs.getString("admobOpenApp", null)
-
+        val id = prefs.getString("admobOpenApp", "") ?: ""
+        Log.d(LOG_TAG, "id = $id")
         loadCallback = object : AppOpenAdLoadCallback() {
             /**
              * Called when an app open ad has loaded.
@@ -69,6 +70,13 @@ class AdmobAppOpenManager(
                 appOpenAd = ad
                 loadTime = Date().time
                 Log.d(LOG_TAG, "onAdLoaded")
+                Log.d(LOG_TAG, "\n\n")
+
+                if (isSplash) {
+                    showAdIfAvailable {
+                        onAdClosed()
+                    }
+                }
             }
 
             /**
@@ -77,17 +85,15 @@ class AdmobAppOpenManager(
              * @param loadAdError the error.
              */
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                Log.d(
-                    LOG_TAG, "onAdFailedToLoad $loadAdError"
-                )
+                Log.d(LOG_TAG, "onAdFailedToLoad $loadAdError")
+                if (isSplash) {
+                    onAdClosed()
+                }
             }
         }
         val request = adRequest
         AppOpenAd.load(
-            app,
-            id ?: AppDataManager.appData.admobOpenApp,
-            request,
-            loadCallback
+            app, id, request, loadCallback
         )
     }
 
@@ -102,7 +108,9 @@ class AdmobAppOpenManager(
     /**
      * Shows the ad if one isn't already showing.
      */
-    private fun showAdIfAvailable() {
+    private fun showAdIfAvailable(
+        onAdClosed: () -> Unit
+    ) {
         // Only show ad if there is not already an app open ad currently showing
         // and an ad is available.
         if (!isShowingAd && isAdAvailable) {
@@ -113,10 +121,18 @@ class AdmobAppOpenManager(
                         // Set the reference to null so isAdAvailable() returns false.
                         appOpenAd = null
                         isShowingAd = false
-                        fetchAd()
+                        if (isSplash) {
+                            onAdClosed()
+                        }
+                        fetchAd {}
                     }
 
-                    override fun onAdFailedToShowFullScreenContent(adError: AdError) {}
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                        if (isSplash) {
+                            onAdClosed()
+                        }
+                    }
+
                     override fun onAdShowedFullScreenContent() {
                         isShowingAd = true
                     }
@@ -124,14 +140,28 @@ class AdmobAppOpenManager(
             appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
             if (currentActivity != null) {
                 appOpenAd?.show(currentActivity!!)
+            } else {
+                Log.d(LOG_TAG, "currentActivity = null")
+                if (isSplash) {
+                    onAdClosed()
+                }
             }
         } else {
             Log.d(LOG_TAG, "Can not show ad.")
-            fetchAd()
+            if (isSplash) {
+                onAdClosed()
+            }
+            fetchAd {}
         }
     }
 
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+    override fun onActivityStopped(activity: Activity) {}
+    override fun onActivityPaused(activity: Activity) {}
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    }
+
     override fun onActivityStarted(activity: Activity) {
         currentActivity = activity
     }
@@ -140,9 +170,6 @@ class AdmobAppOpenManager(
         currentActivity = activity
     }
 
-    override fun onActivityStopped(activity: Activity) {}
-    override fun onActivityPaused(activity: Activity) {}
-    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
     override fun onActivityDestroyed(activity: Activity) {
         currentActivity = null
     }
@@ -152,12 +179,25 @@ class AdmobAppOpenManager(
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        showAdIfAvailable()
-        Log.d(LOG_TAG, "onStart")
+        if (!isSplash) {
+            Log.d(LOG_TAG, "onStart")
+            showAdIfAvailable {}
+        }
+    }
+
+    fun showSplashAd(onAdClosed: () -> Unit) {
+        if (isSplash) {
+            fetchAd {
+                onAdClosed()
+                Log.d(LOG_TAG, "onAdClosed()")
+                isSplash = false
+            }
+        }
     }
 
     companion object {
         private const val LOG_TAG = "AppOpenManager"
         private var isShowingAd = false
+        private var isSplash = true
     }
 }

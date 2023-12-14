@@ -15,8 +15,8 @@
         android:layout_marginBottom="3dp"
         android:text="@string/app_name"
         android:backgroundTint="@color/primary"
-        android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        android:textColor="@color/white"
+        android:fontFamily="@font/font"/>
 
     <TextView
         android:id="@+id/textView"
@@ -27,7 +27,8 @@
         android:paddingHorizontal="4dp"
         android:text="@string/ad"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/white"
+        android:fontFamily="@font/font" />
 
 
     <LinearLayout
@@ -55,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@android:color/black"
+                android:textColor="@color/text"
+                android:fontFamily="@font/font"
                 android:textSize="15sp" />
 
             <TextView
@@ -64,7 +66,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/text"
+                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -102,7 +105,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/text"
+                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
             <TextView
@@ -112,7 +116,8 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:lines="2"
-                android:textColor="@android:color/black"
+                android:textColor="@color/text"
+                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
         </LinearLayout>

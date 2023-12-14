@@ -68,8 +68,7 @@
         <activity
             android:name="com.med.drawing.core.presentation.splash.SplashActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -49,6 +49,7 @@ class TipsActivity : AppCompatActivity() {
             this, true
         )
 
+        nextTip()
         binding.nextStart.setOnClickListener {
             tipsViewModel.onEvent(TipsUiEvent.NextTip)
             nextTip()
@@ -105,6 +106,7 @@ class TipsActivity : AppCompatActivity() {
             5 -> {
                 prefs.edit().putBoolean("tipsShown", true).apply()
                 startActivity(Intent(this, GetStartedActivity::class.java))
+                finish()
             }
         }
     }

@@ -68,6 +68,7 @@ class GetStartedActivity : AppCompatActivity() {
         binding.getStarted.setOnClickListener {
             prefs.edit().putBoolean("getStartedShown", true).apply()
             startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
 
     }

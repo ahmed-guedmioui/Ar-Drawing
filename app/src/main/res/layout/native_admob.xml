@@ -22,12 +22,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:fontFamily="@font/font"
         android:background="@drawable/ad_tag_bg"
         android:paddingVertical="2dp"
         android:paddingHorizontal="4dp"
         android:text="@string/ad"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/ad_headline"
         app:layout_constraintStart_toEndOf="@+id/ad_app_icon"
         app:layout_constraintTop_toTopOf="@+id/ad_headline" />
@@ -37,37 +38,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textColor="#000000"
+        android:fontFamily="@font/font"
+        android:textColor="@color/text"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Title" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/ad_advertiser"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:textColor="#000000"
+        android:textColor="@color/text"
+        android:fontFamily="@font/font"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="@+id/ad_app_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ad_app_icon"
-        app:layout_constraintTop_toBottomOf="@+id/ad_headline"
-        tools:text="Advertiser" />
+        app:layout_constraintTop_toBottomOf="@+id/ad_headline" />
 
     <TextView
         android:id="@+id/ad_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
+        android:textColor="@color/text"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/font"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ad_app_icon"
-        tools:text="Body" />
+        app:layout_constraintTop_toBottomOf="@+id/ad_app_icon" />
 
     <com.google.android.gms.ads.nativead.MediaView
         android:id="@+id/ad_media"
@@ -84,8 +85,9 @@
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:textSize="16sp"
+        android:fontFamily="@font/font"
         android:backgroundTint="@color/primary"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ad_media"
         tools:layout_editor_absoluteX="8dp"

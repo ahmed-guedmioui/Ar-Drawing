@@ -4,15 +4,15 @@
 
 
 
-    <color name="background">#F1F1F1</color>
-    <color name="text">#000000</color>
+    <color name="background">#0C0C0C</color>
+    <color name="text">#FFFFFF</color>
 
     <color name="primary">#C683D7</color>
     <color name="primary_2">#ED9ED6</color>
-    <color name="primary_3">#7071E8</color>
+    <color name="primary_3">#9293CE</color>
     <color name="primary_4">#FFC7C7</color>
     <color name="primary_dark">#A566B5</color>
-    <color name="variant_background">#FDE7F7</color>
+    <color name="variant_background">#3A2141</color>
 
 
 
@@ -34,7 +34,7 @@
 
 
 
-    <color name="trans">#07666666</color>
+    <color name="trans">#11ECECEC</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/background">
 
     <RelativeLayout
         android:id="@+id/tip_parent"
@@ -27,7 +27,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/font"
             android:text="@string/tip_title_1"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:textSize="16sp"
             android:fontFamily="@font/font"
             android:text="@string/tip_desc_1"
-            android:textColor="@color/black" />
+            android:textColor="@color/text" />
 
 
     </RelativeLayout>
@@ -67,8 +67,7 @@
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/font"
         android:text="@string/next"
-        android:textColor="#81000000"
-        android:textStyle="italic" />
+        android:textColor="@color/text" />
 
 
     <RelativeLayout
