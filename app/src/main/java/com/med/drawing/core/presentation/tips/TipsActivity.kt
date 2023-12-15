@@ -3,7 +3,6 @@ package com.med.drawing.core.presentation.tips
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +10,11 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
-import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.core.presentation.get_started.GetStartedActivity
-import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.databinding.ActivityTipsBinding
 import com.med.drawing.util.AppAnimation
 import com.med.drawing.util.ads.InterManager
+import com.med.drawing.util.ads.NativeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

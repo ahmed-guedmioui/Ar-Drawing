@@ -63,4 +63,14 @@
     <string name="support_us_to_develop_app_better_with_5_stars">Support us to develop\napp better with 5 stars</string>
     <string name="rate">Rate</string>
     <string name="double_click_to_exit">Double click to exit</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="more_apps_ad">More Apps (Ad)</string>
+    <string name="explore_recommended_apps">Explore Recommended Apps</string>
+    <string name="follow_us">Follow Us</string>
+    <string name="facebook">Facebook</string>
+    <string name="tiktok">TikTok</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_twitter">X (Twitter)</string>
 </resources>
