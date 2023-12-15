@@ -10,12 +10,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
+import com.med.drawing.core.presentation.settings.SettingsActivity
 import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.other.AppConstant
 import com.med.drawing.sketch.sketch_list.presentation.SketchListActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
-import com.med.drawing.util.rate
+import com.med.drawing.util.rateApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -69,6 +70,10 @@ class HomeActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
+        binding.settings.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
         binding.trace.setOnClickListener {
             it.startAnimation(pushAnimation)
             AppConstant.selected_id = AppConstant.TraceDirect
@@ -87,11 +92,11 @@ class HomeActivity : AppCompatActivity() {
 
         binding.rate.setOnClickListener {
             it.startAnimation(pushAnimation)
-            rate(this)
+            rateApp(this)
         }
 
         binding.rateBtn.setOnClickListener {
-            rate(this)
+            rateApp(this)
         }
     }
 

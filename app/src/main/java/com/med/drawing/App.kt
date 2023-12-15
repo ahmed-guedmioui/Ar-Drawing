@@ -17,6 +17,13 @@ import javax.inject.Inject
 class App: Application() {
 
     companion object {
+        const val DEVELOPER_NAME = "AhmedGuedmioui"
+
+        const val tiktok = "realmadrid"
+        const val facebook = "RealMadrid"
+        const val instagram = "realmadrid"
+        const val twitter = "realmadrid"
+
         const val PRIVACY =
             "We are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information (\"Personal Information\").\n" +
                     "As part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Personal Information."
