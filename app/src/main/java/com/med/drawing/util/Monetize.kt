@@ -10,8 +10,11 @@ import com.med.drawing.BuildConfig
 /**
  * @author Ahmed Guedmioui
  */
-fun rateApp(activity: Activity) {
-    val uri: Uri = Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
+fun rateApp(
+    activity: Activity,
+    packageName: String = BuildConfig.APPLICATION_ID
+) {
+    val uri: Uri = Uri.parse("market://details?id=${packageName}")
     val goToMarket = Intent(Intent.ACTION_VIEW, uri)
     goToMarket.addFlags(
         Intent.FLAG_ACTIVITY_NO_HISTORY or
@@ -24,7 +27,7 @@ fun rateApp(activity: Activity) {
         activity.startActivity(
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("http://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")
+                Uri.parse("http://play.google.com/store/apps/details?id=${packageName}")
             )
         )
     }

@@ -15,10 +15,14 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.med.drawing.App
 import com.med.drawing.R
 import com.med.drawing.core.presentation.follow.FollowActivity
+import com.med.drawing.core.presentation.settings.adapter.RecommendedAppsAdapter
 import com.med.drawing.databinding.ActivitySettingsBinding
+import com.med.drawing.util.AppDataManager
 import com.med.drawing.util.openDeveloper
 import com.med.drawing.util.rateApp
 import com.med.drawing.util.shareApp
@@ -49,6 +53,16 @@ class SettingsActivity : AppCompatActivity() {
                 privacyDialog()
             }
         }
+
+        if (AppDataManager.appData.showRecommendedApps) {
+            binding.recommendedAppsRecyclerView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+            binding.recommendedAppsRecyclerView.adapter = RecommendedAppsAdapter(this)
+        } else {
+            binding.recommendedAppsParent.visibility = View.GONE
+        }
+
 
         binding.back.setOnClickListener {
            onBackPressed()
