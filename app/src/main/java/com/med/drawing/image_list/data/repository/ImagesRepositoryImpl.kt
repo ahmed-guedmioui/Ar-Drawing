@@ -1,12 +1,7 @@
 package com.med.drawing.image_list.data.repository
 
-import android.content.SharedPreferences
-import com.med.drawing.core.data.mapper.toAppData
-import com.med.drawing.core.data.remote.AppDataApi
-import com.med.drawing.core.domain.repository.AppDataRepository
 import com.med.drawing.image_list.data.mapper.toImageList
 import com.med.drawing.image_list.data.remote.ImagesApi
-import com.med.drawing.image_list.domain.model.images.ImageList
 import com.med.drawing.image_list.domain.repository.ImagesRepository
 import com.med.drawing.util.DataManager
 import com.med.drawing.util.Resource

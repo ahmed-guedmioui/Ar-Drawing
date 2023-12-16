@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
 import com.med.drawing.util.ads.AdmobAppOpenManager
 import com.med.drawing.util.ads.InterManager
-import com.med.drawing.core.presentation.get_started.GetStartedActivity
-import com.med.drawing.core.presentation.home.HomeActivity
-import com.med.drawing.core.presentation.tips.TipsActivity
+import com.med.drawing.main.presentaion.get_started.GetStartedActivity
+import com.med.drawing.main.presentaion.home.HomeActivity
+import com.med.drawing.main.presentaion.tips.TipsActivity
 import com.med.drawing.databinding.ActivitySplashBinding
 import com.med.drawing.util.AppAnimation
 import com.med.drawing.util.Resource
@@ -55,42 +55,35 @@ class SplashActivity : AppCompatActivity() {
         )
 
         lifecycleScope.launch {
-            splashViewModel.appDataResultChannel.collect { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        Toast.makeText(
-                            this@SplashActivity,
-                            getString(R.string.error_connect_to_a_network_and_try_again),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        binding.tryAgain.visibility = View.VISIBLE
-                        binding.progressBar.visibility = View.GONE
-                    }
+            splashViewModel.areBothImagesAndDataLoadedChannel.collect { result ->
+                if (result) {
+                    InterManager.loadInterstitial(this@SplashActivity)
 
-                    is Resource.Loading -> {}
+                    admobAppOpenManager.showSplashAd {
+                        startActivity(
+                            if (!prefs.getBoolean("tipsShown", false)) {
+                                Intent(this@SplashActivity, TipsActivity::class.java)
+                            } else {
 
-                    is Resource.Success -> {
-                        InterManager.loadInterstitial(this@SplashActivity)
-
-                        admobAppOpenManager.showSplashAd {
-                            startActivity(
-                                if (!prefs.getBoolean("tipsShown", false)) {
-                                    Intent(this@SplashActivity, TipsActivity::class.java)
+                                if (!prefs.getBoolean("getStartedShown", false)) {
+                                    Intent(this@SplashActivity, GetStartedActivity::class.java)
                                 } else {
-
-                                    if (!prefs.getBoolean("getStartedShown", false)) {
-                                        Intent(this@SplashActivity, GetStartedActivity::class.java)
-                                    } else {
-                                        Intent(this@SplashActivity, HomeActivity::class.java)
-                                    }
-
+                                    Intent(this@SplashActivity, HomeActivity::class.java)
                                 }
-                            )
-                            finish()
-                        }
 
-
+                            }
+                        )
+                        finish()
                     }
+                } else {
+
+                    Toast.makeText(
+                        this@SplashActivity,
+                        getString(R.string.error_connect_to_a_network_and_try_again),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    binding.tryAgain.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.med.drawing.core.presentation.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.med.drawing.core.domain.repository.AppDataRepository
+import com.med.drawing.image_list.domain.repository.ImagesRepository
 import com.med.drawing.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -18,41 +19,75 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val appDataRepository: AppDataRepository
+    private val appDataRepository: AppDataRepository,
+    private val imagesRepository: ImagesRepository
 ) : ViewModel() {
 
     private val _splashState = MutableStateFlow(SplashState())
     val splashState = _splashState.asStateFlow()
 
-
-
-    private val _resourceChannel = Channel<Resource<Unit>>()
-    val appDataResultChannel = _resourceChannel.receiveAsFlow()
+    private val _areBothImagesAndDataLoadedChannel = Channel<Boolean>()
+    val areBothImagesAndDataLoadedChannel = _areBothImagesAndDataLoadedChannel.receiveAsFlow()
 
     init {
-       getData()
+        getData()
+        getImages()
     }
 
     fun onEvent(splashUiEvent: SplashUiEvent) {
         when (splashUiEvent) {
             SplashUiEvent.TryAgain -> {
                 getData()
+                getImages()
             }
         }
     }
 
     private fun getData() {
         viewModelScope.launch {
-            _splashState.update {
-                it.copy(isLoading = true)
-            }
 
-            appDataRepository.getAppData().collect {
-                _resourceChannel.send(it)
-            }
+            appDataRepository.getAppData().collect { appDataResult ->
+                when (appDataResult) {
+                    is Resource.Error -> {
+                        _areBothImagesAndDataLoadedChannel.send(false)
+                    }
 
-            _splashState.update {
-                it.copy(isLoading = false)
+                    is Resource.Loading -> {
+                    }
+
+                    is Resource.Success -> {
+                        _splashState.update {
+                            it.copy(isAppDataLoaded = true)
+                        }
+                        if (splashState.value.areImagesLoaded) {
+                            _areBothImagesAndDataLoadedChannel.send(true)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getImages() {
+        viewModelScope.launch {
+            imagesRepository.getImages().collect { imagesResult ->
+                when (imagesResult) {
+                    is Resource.Error -> {
+                        _areBothImagesAndDataLoadedChannel.send(false)
+                    }
+
+                    is Resource.Loading -> {
+                    }
+
+                    is Resource.Success -> {
+                        _splashState.update {
+                            it.copy(areImagesLoaded = true)
+                        }
+                        if (splashState.value.isAppDataLoaded) {
+                            _areBothImagesAndDataLoadedChannel.send(true)
+                        }
+                    }
+                }
             }
         }
     }

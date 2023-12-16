@@ -1,7 +1,7 @@
 package com.med.drawing.image_list.data.mapper
 
-import com.med.drawing.image_list.data.remote.respond.ImageDto
-import com.med.drawing.image_list.data.remote.respond.ImageListDto
+import com.med.drawing.image_list.data.remote.respond.images.ImageDto
+import com.med.drawing.image_list.data.remote.respond.images.ImageListDto
 import com.med.drawing.image_list.domain.model.images.Image
 import com.med.drawing.image_list.domain.model.images.ImageList
 

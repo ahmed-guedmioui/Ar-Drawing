@@ -1,7 +1,7 @@
 package com.med.drawing.image_list.data.remote
 
 import com.med.drawing.BuildConfig
-import com.med.drawing.image_list.data.remote.respond.ImageListDto
+import com.med.drawing.image_list.data.remote.respond.images.ImageListDto
 import retrofit2.http.GET
 
 /**

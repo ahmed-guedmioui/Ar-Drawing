@@ -1,7 +1,7 @@
 package com.med.drawing.core.data.mapper
 
-import com.med.drawing.core.data.remote.respnod.AppDataDto
-import com.med.drawing.core.data.remote.respnod.RecommendedAppDto
+import com.med.drawing.core.data.remote.respnod.app_data.AppDataDto
+import com.med.drawing.core.data.remote.respnod.app_data.RecommendedAppDto
 import com.med.drawing.core.domain.model.app_data.AppData
 import com.med.drawing.core.domain.model.app_data.RecommendedApp
 

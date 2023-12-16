@@ -77,27 +77,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".core.presentation.tips.TipsActivity"
+            android:name=".main.presentaion.tips.TipsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".core.presentation.get_started.GetStartedActivity"
+            android:name=".main.presentaion.get_started.GetStartedActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".core.presentation.home.HomeActivity"
+            android:name=".main.presentaion.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".core.presentation.settings.SettingsActivity"
+            android:name=".main.presentaion.settings.SettingsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".core.presentation.follow.FollowActivity"
+            android:name=".main.presentaion.follow.FollowActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.image_list.presentation.sketch_list.SketchListActivity"
+            android:name="com.med.drawing.image_list.presentation.ImageListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

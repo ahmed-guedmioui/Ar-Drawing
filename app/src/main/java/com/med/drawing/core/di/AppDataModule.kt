@@ -1,4 +1,4 @@
-package com.med.drawing.image_list.di
+package com.med.drawing.core.di
 
 import android.app.Application
 import android.content.Context
@@ -21,7 +21,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object ImagesModule {
+object AppDataModule {
 
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -33,13 +33,19 @@ object ImagesModule {
 
     @Provides
     @Singleton
-    fun providesImagesApi() : ImagesApi {
+    fun providesAppDataApi() : AppDataApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(ImagesApi.IMAGES_BASE_URL)
+            .baseUrl(AppDataApi.ADS_BASE_URL)
             .client(client)
             .build()
-            .create(ImagesApi::class.java)
+            .create(AppDataApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPref(app: Application): SharedPreferences {
+        return app.getSharedPreferences("med drawing prefs file", Context.MODE_PRIVATE)
     }
 
 }
