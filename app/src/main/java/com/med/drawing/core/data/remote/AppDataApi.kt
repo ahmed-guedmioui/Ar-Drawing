@@ -15,9 +15,6 @@ interface AppDataApi {
     companion object {
         const val ADS_BASE_URL = BuildConfig.ADS_BASE_URL
         const val ADS_PATH = BuildConfig.ADS_PATH
-
-        const val IMAGES_BASE_URL = BuildConfig.IMAGES_BASE_URL
-        const val IMAGES_PATH = BuildConfig.IMAGES_PATH
     }
 
 }

@@ -9,7 +9,7 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.med.drawing.util.AppDataManager
+import com.med.drawing.util.DataManager
 
 object InterManager {
 
@@ -24,21 +24,21 @@ object InterManager {
     private var counter = 1
 
     fun loadInterstitial(activity: Activity) {
-        when (AppDataManager.appData.interstitial) {
-            AppDataManager.AdType.admob -> loadAdmobInter(activity)
-            AppDataManager.AdType.facebook -> loadFacebookInter(activity)
+        when (DataManager.appData.interstitial) {
+            AdType.admob -> loadAdmobInter(activity)
+            AdType.facebook -> loadFacebookInter(activity)
         }
     }
 
     fun showInterstitial(activity: Activity, adClosedListener: OnAdClosedListener) {
         onAdClosedListener = adClosedListener
 
-        if (AppDataManager.appData.clicksToShowInter == counter) {
+        if (DataManager.appData.clicksToShowInter == counter) {
             counter = 1
 
-            when (AppDataManager.appData.interstitial) {
-                AppDataManager.AdType.admob -> showAdmobInter(activity)
-                AppDataManager.AdType.facebook -> showFacebookInter(activity)
+            when (DataManager.appData.interstitial) {
+                AdType.admob -> showAdmobInter(activity)
+                AdType.facebook -> showFacebookInter(activity)
                 else -> onAdClosedListener.onAdClosed()
             }
 
@@ -54,7 +54,7 @@ object InterManager {
     private fun loadFacebookInter(activity: Activity) {
         isFacebookInterLoaded = false
         facebookInterstitialAd =
-            com.facebook.ads.InterstitialAd(activity, AppDataManager.appData.facebookInterstitial)
+            com.facebook.ads.InterstitialAd(activity, DataManager.appData.facebookInterstitial)
         val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
             override fun onInterstitialDisplayed(ad: Ad) {}
             override fun onInterstitialDismissed(ad: Ad) {
@@ -96,7 +96,7 @@ object InterManager {
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(
             activity,
-            AppDataManager.appData.admobInterstitial,
+            DataManager.appData.admobInterstitial,
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {

@@ -97,7 +97,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.sketch.sketch_list.presentation.SketchListActivity"
+            android:name="com.med.drawing.image_list.presentation.sketch_list.SketchListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

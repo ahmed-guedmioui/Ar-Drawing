@@ -1,4 +1,4 @@
-package com.med.drawing.sketch.sketch_list.presentation.Adapter;
+package com.med.drawing.image_list.presentation.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

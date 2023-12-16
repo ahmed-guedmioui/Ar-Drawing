@@ -1,4 +1,4 @@
-package com.med.drawing.sketch.sketch_list.presentation
+package com.med.drawing.image_list.presentation.sketch_list
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,7 +20,7 @@ import com.med.drawing.other.AppConstants
 import com.med.drawing.other.HelpActivity
 import com.med.drawing.other.HelpActivity2
 import com.med.drawing.other.TracePaperActivity
-import com.med.drawing.sketch.sketch_list.presentation.Adapter.DrawingListAdapter
+import com.med.drawing.image_list.presentation.Adapter.DrawingListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException

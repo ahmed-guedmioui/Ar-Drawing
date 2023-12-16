@@ -22,7 +22,7 @@ import com.google.android.gms.ads.VideoController.VideoLifecycleCallbacks
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.med.drawing.R
-import com.med.drawing.util.AppDataManager
+import com.med.drawing.util.DataManager
 
 object NativeManager {
 
@@ -34,12 +34,12 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean = false
     ) {
-        when (AppDataManager.appData.native) {
-            AppDataManager.AdType.admob -> loadAdmobNative(
+        when (DataManager.appData.native) {
+            AdType.admob -> loadAdmobNative(
                 nativeFrame, nativeTemp, activity, isButtonTop
             )
 
-            AppDataManager.AdType.facebook -> loadFacebookNative(
+            AdType.facebook -> loadFacebookNative(
                 nativeFrame, nativeTemp, activity, isButtonTop
             )
 
@@ -59,7 +59,7 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean
     ) {
-        val builder = AdLoader.Builder(activity, AppDataManager.appData.admobNative)
+        val builder = AdLoader.Builder(activity, DataManager.appData.admobNative)
         builder.forNativeAd { nativeAd: NativeAd ->
             val isDestroyed = activity.isDestroyed
             if (isDestroyed || activity.isFinishing || activity.isChangingConfigurations) {
@@ -148,7 +148,7 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean
     ) {
-        val nativeAd = com.facebook.ads.NativeAd(activity, AppDataManager.appData.facebookNative)
+        val nativeAd = com.facebook.ads.NativeAd(activity, DataManager.appData.facebookNative)
         val nativeAdListener: NativeAdListener = object : NativeAdListener {
             override fun onMediaDownloaded(ad: Ad) {}
             override fun onError(ad: Ad, adError: AdError) {

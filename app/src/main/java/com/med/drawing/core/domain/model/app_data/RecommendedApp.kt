@@ -1,4 +1,4 @@
-package com.med.drawing.core.domain.model
+package com.med.drawing.core.domain.model.app_data
 
 data class RecommendedApp(
     val icon: String,

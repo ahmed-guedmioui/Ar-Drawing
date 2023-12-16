@@ -3,7 +3,7 @@ package com.med.drawing.core.presentation.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.med.drawing.core.domain.repository.AppDataRepository
-import com.med.drawing.util.AppDataResult
+import com.med.drawing.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +26,8 @@ class SplashViewModel @Inject constructor(
 
 
 
-    private val _appDataResultChannel = Channel<AppDataResult<Unit>>()
-    val appDataResultChannel = _appDataResultChannel.receiveAsFlow()
+    private val _resourceChannel = Channel<Resource<Unit>>()
+    val appDataResultChannel = _resourceChannel.receiveAsFlow()
 
     init {
        getData()
@@ -48,7 +48,7 @@ class SplashViewModel @Inject constructor(
             }
 
             appDataRepository.getAppData().collect {
-                _appDataResultChannel.send(it)
+                _resourceChannel.send(it)
             }
 
             _splashState.update {

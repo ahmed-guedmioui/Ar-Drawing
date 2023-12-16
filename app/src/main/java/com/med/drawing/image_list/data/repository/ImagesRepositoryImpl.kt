@@ -1,9 +1,13 @@
-package com.med.drawing.core.data.repository
+package com.med.drawing.image_list.data.repository
 
 import android.content.SharedPreferences
 import com.med.drawing.core.data.mapper.toAppData
 import com.med.drawing.core.data.remote.AppDataApi
 import com.med.drawing.core.domain.repository.AppDataRepository
+import com.med.drawing.image_list.data.mapper.toImageList
+import com.med.drawing.image_list.data.remote.ImagesApi
+import com.med.drawing.image_list.domain.model.images.ImageList
+import com.med.drawing.image_list.domain.repository.ImagesRepository
 import com.med.drawing.util.DataManager
 import com.med.drawing.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -15,18 +19,17 @@ import javax.inject.Inject
 /**
  * @author Ahmed Guedmioui
  */
-class AppDataRepositoryImpl @Inject constructor(
-    private val appDataApi: AppDataApi,
-    private val prefs: SharedPreferences
-) : AppDataRepository {
+class ImagesRepositoryImpl @Inject constructor(
+    private val imagesApi: ImagesApi
+) : ImagesRepository {
 
-    override suspend fun getAppData(): Flow<Resource<Unit>> {
+    override suspend fun getImages(): Flow<Resource<Unit>> {
         return flow {
 
             emit(Resource.Loading(true))
 
-            val appDataDto = try {
-                appDataApi.getAppData()
+            val imageListDto = try {
+                imagesApi.getImages()
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Error loading data"))
@@ -41,13 +44,9 @@ class AppDataRepositoryImpl @Inject constructor(
                 return@flow
             }
 
-            val appData = appDataDto.toAppData()
+            val imageList = imageListDto.toImageList()
 
-            DataManager.appData = appData
-
-            prefs.edit()
-                .putString("admobOpenApp", appData.admobOpenApp)
-                .apply()
+            DataManager.images = imageList
 
             emit(Resource.Success())
 

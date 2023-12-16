@@ -12,7 +12,6 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -27,7 +26,6 @@ import com.med.drawing.R
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.databinding.ActivityGetStartedBinding
-import com.med.drawing.sketch.sketch_list.presentation.SketchListActivity
 import com.med.drawing.util.ads.InterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

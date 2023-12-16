@@ -16,7 +16,7 @@ import com.med.drawing.core.presentation.home.HomeActivity
 import com.med.drawing.core.presentation.tips.TipsActivity
 import com.med.drawing.databinding.ActivitySplashBinding
 import com.med.drawing.util.AppAnimation
-import com.med.drawing.util.AppDataResult
+import com.med.drawing.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,7 +57,7 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             splashViewModel.appDataResultChannel.collect { result ->
                 when (result) {
-                    is AppDataResult.Error -> {
+                    is Resource.Error -> {
                         Toast.makeText(
                             this@SplashActivity,
                             getString(R.string.error_connect_to_a_network_and_try_again),
@@ -67,9 +67,9 @@ class SplashActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.GONE
                     }
 
-                    is AppDataResult.Loading -> {}
+                    is Resource.Loading -> {}
 
-                    is AppDataResult.Success -> {
+                    is Resource.Success -> {
                         InterManager.loadInterstitial(this@SplashActivity)
 
                         admobAppOpenManager.showSplashAd {

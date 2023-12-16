@@ -4,12 +4,11 @@ import android.app.Activity
 import com.facebook.ads.Ad
 import com.facebook.ads.RewardedVideoAd
 import com.facebook.ads.RewardedVideoAdListener
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.med.drawing.util.AppDataManager
+import com.med.drawing.util.DataManager
 
 
 object RewardedManager {
@@ -24,18 +23,18 @@ object RewardedManager {
 
 
     fun loadRewarded(activity: Activity) {
-        when (AppDataManager.appData.rewarded) {
-            AppDataManager.AdType.admob -> loadAdmobRewarded(activity)
-            AppDataManager.AdType.facebook -> loadFacebookRewarded(activity)
+        when (DataManager.appData.rewarded) {
+            AdType.admob -> loadAdmobRewarded(activity)
+            AdType.facebook -> loadFacebookRewarded(activity)
         }
     }
 
     fun showRewarded(activity: Activity, adClosedListener: OnAdClosedListener) {
         onAdClosedListener = adClosedListener
 
-        when (AppDataManager.appData.rewarded) {
-            AppDataManager.AdType.admob -> showAdmobRewarded(activity)
-            AppDataManager.AdType.facebook -> showFacebookRewarded(activity)
+        when (DataManager.appData.rewarded) {
+            AdType.admob -> showAdmobRewarded(activity)
+            AdType.facebook -> showFacebookRewarded(activity)
             else -> onAdClosedListener.onRewClosed()
         }
     }
@@ -50,7 +49,7 @@ object RewardedManager {
 
         com.google.android.gms.ads.rewarded.RewardedAd.load(
             activity,
-            AppDataManager.appData.admobRewarded,
+            DataManager.appData.admobRewarded,
             adRequest,
             object : RewardedAdLoadCallback() {
 
@@ -97,7 +96,7 @@ object RewardedManager {
     private fun loadFacebookRewarded(activity: Activity) {
 
         isFacebookRewardedLoaded = false
-        facebookRewardedAd = RewardedVideoAd(activity, AppDataManager.appData.facebookRewarded)
+        facebookRewardedAd = RewardedVideoAd(activity, DataManager.appData.facebookRewarded)
 
         val rewardedVideoAdListener: RewardedVideoAdListener =
             object : RewardedVideoAdListener {
