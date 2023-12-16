@@ -1,16 +1,30 @@
 package com.med.drawing.core.presentation.home
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.StrictMode
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager.widget.ViewPager
+import com.med.drawing.App
 import com.med.drawing.R
+import com.med.drawing.core.presentation.home.adapter.HelperPagerAdapter
 import com.med.drawing.core.presentation.settings.SettingsActivity
+import com.med.drawing.core.presentation.settings.SettingsUiEvent
 import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.other.AppConstant
 import com.med.drawing.sketch.sketch_list.presentation.SketchListActivity
@@ -39,7 +53,10 @@ class HomeActivity : AppCompatActivity() {
         setContentView(view)
 
         lifecycleScope.launch {
-            homeViewModel.homeState.collect { homeState = it }
+            homeViewModel.homeState.collect {
+                homeState = it
+                helperDialog()
+            }
         }
 
         lifecycleScope.launch {
@@ -98,6 +115,72 @@ class HomeActivity : AppCompatActivity() {
         binding.rateBtn.setOnClickListener {
             rateApp(this)
         }
+
+        binding.helper.setOnClickListener {
+            homeViewModel.onEvent(HomeUiEvent.ShowHideHelperDialog)
+        }
+
+    }
+
+    private fun helperDialog() {
+        val helperDialog = Dialog(this)
+        helperDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        helperDialog.setCancelable(true)
+        helperDialog.setContentView(R.layout.dialog_helper)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(helperDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        helperDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        helperDialog.window!!.attributes = layoutParams
+
+        helperDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            helperDialog.dismiss()
+        }
+
+        helperDialog.setOnDismissListener {
+            homeViewModel.onEvent(HomeUiEvent.ShowHideHelperDialog)
+        }
+        if (homeState.showHelperDialog) {
+            helperDialog.show()
+        } else {
+            helperDialog.dismiss()
+        }
+
+        val viewPager = helperDialog.findViewById<ViewPager>(R.id.viewPager)
+        val adapter = HelperPagerAdapter(this)
+        viewPager.adapter = adapter
+
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int, positionOffset: Float, positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                        helperDialog.findViewById<CardView>(R.id.dot_1)
+                            .setCardBackgroundColor(getColor(R.color.primary_3))
+                        helperDialog.findViewById<CardView>(R.id.dot_2)
+                            .setCardBackgroundColor(getColor(R.color.primary_2))
+                    }
+
+                    1 -> {
+                        helperDialog.findViewById<CardView>(R.id.dot_2)
+                            .setCardBackgroundColor(getColor(R.color.primary_3))
+                        helperDialog.findViewById<CardView>(R.id.dot_1)
+                            .setCardBackgroundColor(getColor(R.color.primary_2))
+                    }
+                }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+        })
     }
 
     private fun drawingListScreen() {

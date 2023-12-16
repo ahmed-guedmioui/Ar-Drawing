@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/guide"
+            android:id="@+id/helper"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerVertical="true"

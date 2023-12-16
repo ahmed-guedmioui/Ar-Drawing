@@ -49,6 +49,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             }
+
+            HomeUiEvent.ShowHideHelperDialog -> {
+                _homeState.update {
+                    it.copy(showHelperDialog = !homeState.value.showHelperDialog)
+                }
+            }
         }
     }
 }

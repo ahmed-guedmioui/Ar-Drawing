@@ -6,4 +6,5 @@ package com.med.drawing.core.presentation.home
  */
 data class HomeState(
      var doubleBackToExitPressedOnce: Boolean = false,
+     val showHelperDialog: Boolean = false,
 )

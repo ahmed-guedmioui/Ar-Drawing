@@ -73,6 +73,12 @@
     <string name="tiktok">TikTok</string>
     <string name="instagram">Instagram</string>
     <string name="x_twitter">X (Twitter)</string>
-    <string name="how_to_use">How To Use</string>
+    <string name="how_to_use_trace">How To Use Trace</string>
+    <string name="how_to_use_sketch">How To Use Sketch</string>
     <string name="_1">1</string>
+    <string name="how_to_trace_1">After selecting your favorite image, the trace screen will show the drawing on your phone\'s screen</string>
+    <string name="how_to_trace_2">Place a piece of paper on the screen and proceed to draw the image</string>
+    <string name="how_to_sketch_1">Put your phone on a cup so that it is parallel to the table</string>
+    <string name="how_to_sketch_2">The image form the phone will be inverted, and you can draw it form there</string>
+    <string name="_2">2</string>
 </resources>
