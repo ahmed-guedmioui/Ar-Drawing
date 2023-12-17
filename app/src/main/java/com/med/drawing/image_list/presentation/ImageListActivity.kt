@@ -1,29 +1,30 @@
 package com.med.drawing.image_list.presentation
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
-import com.med.drawing.camera.presentation.CameraActivity
-import com.med.drawing.util.ads.InterManager
-import com.med.drawing.databinding.ActivitySketchListBinding
+import com.med.drawing.camera_trace.presentation.CameraTraceActivity
+import com.med.drawing.databinding.ActivityImageListBinding
+import com.med.drawing.image_list.domain.model.images.Image
+import com.med.drawing.image_list.presentation.adapter.CategoriesAdapter
 import com.med.drawing.other.AppConstant
-import com.med.drawing.other.AppConstants
 import com.med.drawing.other.HelpActivity
 import com.med.drawing.other.HelpActivity2
-import com.med.drawing.other.TracePaperActivity
-import com.med.drawing.image_list.presentation.Adapter.ImageListAdapter
+import com.med.drawing.sketch.presentation.SketchActivity
+import com.med.drawing.image_list.data.ImagesManager
+import com.med.drawing.util.ads.InterManager
+import com.med.drawing.util.ads.RewardedManager
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.IOException
+import javax.inject.Inject
 
 /**
  * @author Ahmed Guedmioui
@@ -31,33 +32,34 @@ import java.io.IOException
 @AndroidEntryPoint
 class ImageListActivity : AppCompatActivity() {
 
-    private lateinit var selectedImagePath: String
+    private var isTrace = false
     private var storagePermissionRequestCode = 12
 
-    private lateinit var drawingAdapter: ImageListAdapter
+    private lateinit var drawingAdapter: CategoriesAdapter
 
     private lateinit var pushAnimation: Animation
 
-    private var actionName = "back"
-    private var back = "back"
-    private var selectedImagePosition = 0
-    private var selectedImageName = ""
-    private var drawingList = ArrayList<String>()
+    @Inject
+    lateinit var prefs: SharedPreferences
 
-
-    private lateinit var binding: ActivitySketchListBinding
+    private lateinit var binding: ActivityImageListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySketchListBinding.inflate(layoutInflater)
+        binding = ActivityImageListBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
 
+        val bundle = intent.extras
+        if (bundle != null) {
+            isTrace = bundle.getBoolean("isTrace", true)
+        }
+
+
         pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
-        drawingList = addAssetsImages("sketch_drawing")
 
         binding.recyclerView.setHasFixedSize(true)
-        val gridLayoutManager = GridLayoutManager(this, 3)
+        val gridLayoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = gridLayoutManager
 
         binding.relHelp.setOnClickListener {
@@ -69,39 +71,50 @@ class ImageListActivity : AppCompatActivity() {
             }
         }
 
-        val imageListAdapter: ImageListAdapter = object : ImageListAdapter(
-            this,
-            drawingList
-        ) {
-            override fun onDrawingListClickItem(i: Int, view: View) {
-                selectedImagePath = drawingList[i]
-                actionName = if (AppConstant.selected_id == AppConstant.TraceDirect) {
-                    AppConstant.TraceDirect
+        val categoriesAdapter = CategoriesAdapter(this)
+        categoriesAdapter.setClickListener(object : CategoriesAdapter.ClickListener {
+            override fun oClick(categoryPosition: Int, imagePosition: Int) {
+
+                val imageItem =
+                    ImagesManager.imageCategoryList[categoryPosition].imageList[imagePosition]
+
+                if (imageItem.locked) {
+                    rewarded(categoryPosition, imagePosition, imageItem)
                 } else {
-                    AppConstant.TracePaper
-                }
-                selectedImagePosition = i
-                selectedImageName = "Image_$i"
-                if (selectedImagePosition > 5) {
-                    if (AppConstant.selected_id == AppConstant.TraceDirect) {
-                        traceDrawingScreen()
+                    if (isTrace) {
+                        traceDrawingScreen(imageItem.image)
                     } else {
-                        tracePaperScreen()
+                        sketchDrawingScreen(imageItem.image)
                     }
-                } else {
-                    traceDrawingScreen()
                 }
+
+                // Gallery click
+//                 if (isWriteStoragePermissionGranted()) {
+//                    ImagePicker.with(this@ImageListActivity).galleryOnly().start()
+//                }
+            }
+        })
+
+        drawingAdapter = categoriesAdapter
+        binding.recyclerView.adapter = categoriesAdapter
+    }
+
+    private fun rewarded(
+        categoryPosition: Int,
+        imagePosition: Int,
+        imageItem: Image
+    ) {
+        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
+            override fun onRewClosed() {}
+
+            override fun onRewComplete() {
+                imageItem.locked = false
+                ImagesManager.imageCategoryList[categoryPosition]
+                    .adapter?.notifyItemChanged(imagePosition)
+                prefs.edit().putBoolean(imageItem.prefsId, false).apply()
             }
 
-            override fun onGalleryClickItem(i: Int, view: View) {
-                if (isWriteStoragePermissionGranted()) {
-                    ImagePicker.with(this@ImageListActivity).galleryOnly().start()
-                }
-            }
-        }
-
-        drawingAdapter = imageListAdapter
-        binding.recyclerView.adapter = imageListAdapter
+        })
     }
 
     private fun isWriteStoragePermissionGranted(): Boolean {
@@ -138,20 +151,6 @@ class ImageListActivity : AppCompatActivity() {
         ImagePicker.with(this@ImageListActivity).galleryOnly().start()
     }
 
-    private fun addAssetsImages(str: String): ArrayList<String> {
-        val arrayList = ArrayList<String>()
-        try {
-            arrayList.add("Gallery")
-            for (str2 in assets.list(str)!!) {
-                arrayList.add(str + File.separator + str2)
-                Log.e("pathList item", str + File.separator + str2)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return arrayList
-    }
-
     private fun helpScreen() {
         startActivity(Intent(this, HelpActivity::class.java))
     }
@@ -163,48 +162,35 @@ class ImageListActivity : AppCompatActivity() {
     override fun onActivityResult(i: Int, i2: Int, data: Intent?) {
         super.onActivityResult(i, i2, intent)
         if (i2 == -1) {
-            selectedImagePath = AppConstant.getRealPathFromURI_API19(this, intent.data)
-            if (AppConstant.selected_id == AppConstant.TraceDirect) {
-                actionName = AppConstant.TraceDirect
+
+            val selectedImagePath = AppConstant.getRealPathFromURI_API19(this, intent.data)
+
+            if (isTrace) {
+                traceDrawingScreen(selectedImagePath)
             } else {
-                actionName = AppConstant.TracePaper
-            }
-            if (AppConstant.selected_id == AppConstant.TraceDirect) {
-                traceDrawingScreen()
-            } else {
-                tracePaperScreen()
+                sketchDrawingScreen(selectedImagePath)
             }
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        actionName = back
-        backScreen()
-    }
-
-    private fun backScreen() {
-        finish()
-        AppConstants.overridePendingTransitionExit(this)
-    }
-
-    private fun tracePaperScreen() {
+    private fun traceDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@ImageListActivity, TracePaperActivity::class.java)
-                intent.putExtra("ImagePath", selectedImagePath)
+                val intent = Intent(this@ImageListActivity, CameraTraceActivity::class.java)
+                intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }
         })
     }
 
-    private fun traceDrawingScreen() {
+    private fun sketchDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@ImageListActivity, CameraActivity::class.java)
-                intent.putExtra("ImagePath", selectedImagePath)
+                val intent = Intent(this@ImageListActivity, SketchActivity::class.java)
+                intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }
         })
     }
+
 }

@@ -8,7 +8,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.med.drawing.util.DataManager
+import com.med.drawing.core.data.DataManager
 
 
 object RewardedManager {

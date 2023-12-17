@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.med.drawing.core.data.remote.AppDataApi
-import com.med.drawing.image_list.data.remote.ImagesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

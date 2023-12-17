@@ -1,26 +1,46 @@
 package com.med.drawing.image_list.data.mapper
 
+import com.med.drawing.image_list.data.remote.respond.images.ImageCategoryListDto
 import com.med.drawing.image_list.data.remote.respond.images.ImageDto
-import com.med.drawing.image_list.data.remote.respond.images.ImageListDto
 import com.med.drawing.image_list.domain.model.images.Image
-import com.med.drawing.image_list.domain.model.images.ImageList
+import com.med.drawing.image_list.domain.model.images.ImageCategory
 
 /**
  * @author Ahmed Guedmioui
  */
-fun ImageDto.toImage(): Image {
+
+fun ImageCategoryListDto.toImageCategoryList(): List<ImageCategory> {
+    var currentCategoryId = 1 // Start category ID from 1
+    return category_list?.map { categoryDto ->
+        ImageCategory(
+            categoryId = currentCategoryId,
+            imageCategoryName = categoryDto.category_name.orEmpty(),
+            imageList = categoryDto.images?.map { it.toImage(currentCategoryId) } ?: emptyList()
+        ).also { currentCategoryId++ }
+    } ?: emptyList()
+}
+
+fun ImageDto.toImage(currentCategoryId: Int): Image {
     return Image(
-        category_name ?: "",
-        id ?: 0,
-        image ?: "",
-        locked ?: false
+        prefsId = "${currentCategoryId}_${id}",
+        id = id ?: 0,
+        image = image.orEmpty(),
+        locked = locked ?: false
     )
 }
 
-fun ImageListDto.toImageList(): ImageList {
-    return ImageList(
-        images = images?.map { imageDtoList ->
-            imageDtoList.map { it.toImage() }
-        } ?: emptyList()
-    )
+object Index {
+    private var currentCategoryId = -1
+    val categoryId: Int
+        get() = currentCategoryId++
 }
+
+
+
+
+
+
+
+
+
+

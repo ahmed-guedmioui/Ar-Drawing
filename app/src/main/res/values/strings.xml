@@ -81,4 +81,7 @@
     <string name="how_to_sketch_1">Put your phone on a cup so that it is parallel to the table</string>
     <string name="how_to_sketch_2">The image form the phone will be inverted, and you can draw it form there</string>
     <string name="_2">2</string>
+    <string name="view_all">View All</string>
+    <string name="explore_categories">Explore Categories</string>
+    <string name="watch_the_entire_ad_to_unlock">Watch the entire ad to unlock</string>
 </resources>

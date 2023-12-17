@@ -22,7 +22,6 @@ import com.med.drawing.R
 import com.med.drawing.main.presentaion.home.adapter.HelperPagerAdapter
 import com.med.drawing.main.presentaion.settings.SettingsActivity
 import com.med.drawing.databinding.ActivityHomeBinding
-import com.med.drawing.other.AppConstant
 import com.med.drawing.image_list.presentation.ImageListActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
@@ -89,14 +88,12 @@ class HomeActivity : AppCompatActivity() {
 
         binding.trace.setOnClickListener {
             it.startAnimation(pushAnimation)
-            AppConstant.selected_id = AppConstant.TraceDirect
-            drawingListScreen()
+            drawingListScreen(true)
         }
 
         binding.sketch.setOnClickListener {
             it.startAnimation(pushAnimation)
-            AppConstant.selected_id = AppConstant.TracePaper
-            drawingListScreen()
+            drawingListScreen(false)
         }
 
         binding.creation.setOnClickListener {
@@ -179,10 +176,12 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun drawingListScreen() {
+    private fun drawingListScreen(isTrace: Boolean) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                startActivity(Intent(this@HomeActivity, ImageListActivity::class.java))
+                val intent = Intent(this@HomeActivity, ImageListActivity::class.java)
+                intent.putExtra("isTrace", isTrace)
+                startActivity(intent)
             }
         })
     }
@@ -191,14 +190,10 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.onEvent(HomeUiEvent.BackPressed)
         lifecycleScope.launch {
             homeViewModel.closeChannel.collectLatest { close ->
-                if (close) {
-                    super.onBackPressed()
-                }
+                if (close) { super.onBackPressed() }
             }
         }
-
     }
-
 }
 
 

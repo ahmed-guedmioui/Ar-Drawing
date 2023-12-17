@@ -3,7 +3,7 @@ package com.med.drawing.core.presentation.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.med.drawing.core.domain.repository.AppDataRepository
-import com.med.drawing.image_list.domain.repository.ImagesRepository
+import com.med.drawing.image_list.domain.repository.ImageCategoriesRepository
 import com.med.drawing.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val appDataRepository: AppDataRepository,
-    private val imagesRepository: ImagesRepository
+    private val imageCategoriesRepository: ImageCategoriesRepository
 ) : ViewModel() {
 
     private val _splashState = MutableStateFlow(SplashState())
@@ -60,6 +60,7 @@ class SplashViewModel @Inject constructor(
                             it.copy(isAppDataLoaded = true)
                         }
                         if (splashState.value.areImagesLoaded) {
+                            imageCategoriesRepository.setNativeItems()
                             _areBothImagesAndDataLoadedChannel.send(true)
                         }
                     }
@@ -70,7 +71,7 @@ class SplashViewModel @Inject constructor(
 
     private fun getImages() {
         viewModelScope.launch {
-            imagesRepository.getImages().collect { imagesResult ->
+            imageCategoriesRepository.getImageCategoryList().collect { imagesResult ->
                 when (imagesResult) {
                     is Resource.Error -> {
                         _areBothImagesAndDataLoadedChannel.send(false)
@@ -84,6 +85,7 @@ class SplashViewModel @Inject constructor(
                             it.copy(areImagesLoaded = true)
                         }
                         if (splashState.value.isAppDataLoaded) {
+                            imageCategoriesRepository.setNativeItems()
                             _areBothImagesAndDataLoadedChannel.send(true)
                         }
                     }

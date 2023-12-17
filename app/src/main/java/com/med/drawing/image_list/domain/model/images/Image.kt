@@ -1,8 +1,8 @@
 package com.med.drawing.image_list.domain.model.images
 
 data class Image(
-    val category_name: String,
+    val prefsId: String,
     val id: Int,
     val image: String,
-    val locked: Boolean
+    var locked: Boolean
 )

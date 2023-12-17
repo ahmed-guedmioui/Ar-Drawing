@@ -1,10 +1,6 @@
 package com.med.drawing.image_list.di
 
-import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import com.med.drawing.core.data.remote.AppDataApi
-import com.med.drawing.image_list.data.remote.ImagesApi
+import com.med.drawing.image_list.data.remote.ImageCategoryApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,13 +29,13 @@ object ImagesModule {
 
     @Provides
     @Singleton
-    fun providesImagesApi() : ImagesApi {
+    fun providesImagesApi() : ImageCategoryApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(ImagesApi.IMAGES_BASE_URL)
+            .baseUrl(ImageCategoryApi.IMAGES_BASE_URL)
             .client(client)
             .build()
-            .create(ImagesApi::class.java)
+            .create(ImageCategoryApi::class.java)
     }
 
 }

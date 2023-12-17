@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.med.drawing.core.data.mapper.toAppData
 import com.med.drawing.core.data.remote.AppDataApi
 import com.med.drawing.core.domain.repository.AppDataRepository
-import com.med.drawing.util.DataManager
+import com.med.drawing.core.data.DataManager
 import com.med.drawing.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

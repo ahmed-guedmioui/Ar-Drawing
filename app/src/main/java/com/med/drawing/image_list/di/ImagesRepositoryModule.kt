@@ -1,7 +1,7 @@
 package com.med.drawing.image_list.di
 
-import com.med.drawing.image_list.data.repository.ImagesRepositoryImpl
-import com.med.drawing.image_list.domain.repository.ImagesRepository
+import com.med.drawing.image_list.data.repository.ImageCategoriesRepositoryImpl
+import com.med.drawing.image_list.domain.repository.ImageCategoriesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,8 +18,8 @@ abstract class ImagesRepositoryModule {
     @Binds
     @Singleton
     abstract fun bindImagesRepository(
-        imagesRepositoryImpl: ImagesRepositoryImpl
-    ): ImagesRepository
+        imageCategoriesRepositoryImpl: ImageCategoriesRepositoryImpl
+    ): ImageCategoriesRepository
 
 }
 
