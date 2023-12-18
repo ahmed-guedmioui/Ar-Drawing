@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.med.drawing.R
 import com.med.drawing.core.data.DataManager
 import com.med.drawing.image_list.data.ImagesManager
+import com.med.drawing.util.ads.NativeManager
 
 /**
  * @author Ahmed Guedmioui
@@ -19,16 +20,30 @@ class CategoriesAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(i: Int): Int {
-        return i
+        return if (ImagesManager.imageCategoryList[i].imageCategoryName == "native") {
+            0
+        } else {
+            1
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view: View = LayoutInflater.from(activity)
-            .inflate(R.layout.item_category, parent, false)
-        return CategoriesViewHolder(view, activity)
+        if (viewType == 0) {
+            val view: View = LayoutInflater.from(activity)
+                .inflate(R.layout.include_native, parent, false)
+            return NativeViewHolder(view, activity)
+        } else {
+            val view: View = LayoutInflater.from(activity)
+                .inflate(R.layout.item_category, parent, false)
+            return CategoriesViewHolder(view, activity)
+        }
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, categoryPosition: Int) {
+
+        if (ImagesManager.imageCategoryList[categoryPosition].imageCategoryName == "native") {
+            return
+        }
         val holder = viewHolder as CategoriesViewHolder
 
         val categoryAdapter = CategoryAdapter(
@@ -41,6 +56,8 @@ class CategoriesAdapter(
             }
 
         })
+        holder.categoryName.text =
+            ImagesManager.imageCategoryList[categoryPosition].imageCategoryName
 
         holder.categoryRecyclerView.adapter = categoryAdapter
         ImagesManager.imageCategoryList[categoryPosition].adapter = categoryAdapter
@@ -70,6 +87,17 @@ class CategoriesAdapter(
                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
             categoryRecyclerView.hasFixedSize()
+        }
+    }
+
+    private class NativeViewHolder(itemView: View, activity: Activity) :
+        RecyclerView.ViewHolder(itemView) {
+        init {
+            NativeManager.loadNative(
+                itemView.findViewById(R.id.native_frame),
+                itemView.findViewById(R.id.native_temp),
+                activity, false
+            )
         }
     }
 

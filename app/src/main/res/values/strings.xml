@@ -84,4 +84,11 @@
     <string name="view_all">View All</string>
     <string name="explore_categories">Explore Categories</string>
     <string name="watch_the_entire_ad_to_unlock">Watch the entire ad to unlock</string>
+    <string name="some_issue_with_this_image_try_another_one">Some issue with this image try another one.</string>
+    <string name="color">color</string>
+    <string name="screen_brightness">screen_brightness</string>
+    <string name="convert_bitmap">Convert Bitmap</string>
+    <string name="can_t_convert_this_image_try_with_another">Can\'t Convert this image, try with another</string>
+    <string name="permission_not_granted">Permission not granted</string>
+    <string name="switch_camera_failed_does_your_device_have_a_front_camera">Switch Camera Failed. Does your device have a front camera?</string>
 </resources>

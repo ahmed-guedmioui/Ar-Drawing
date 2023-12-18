@@ -19,8 +19,8 @@ import com.med.drawing.image_list.presentation.adapter.CategoriesAdapter
 import com.med.drawing.other.AppConstant
 import com.med.drawing.other.HelpActivity
 import com.med.drawing.other.HelpActivity2
-import com.med.drawing.sketch.presentation.SketchActivity
 import com.med.drawing.image_list.data.ImagesManager
+import com.med.drawing.sketch.presentation.SketchActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.RewardedManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,8 +53,15 @@ class ImageListActivity : AppCompatActivity() {
         val bundle = intent.extras
         if (bundle != null) {
             isTrace = bundle.getBoolean("isTrace", true)
+            if (isTrace) {
+                binding.title.text = getString(R.string.trace)
+            } else {
+                binding.title.text = getString(R.string.sketch)
+            }
+
         }
 
+        binding.back.setOnClickListener { onBackPressed() }
 
         pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
 

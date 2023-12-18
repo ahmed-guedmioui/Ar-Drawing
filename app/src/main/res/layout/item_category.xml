@@ -2,33 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingBottom="5dp">
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="5dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="12dp"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:padding="5dp">
 
         <View
             android:layout_width="3dp"
-            android:background="@color/primary"
+            android:layout_height="30dp"
             android:layout_marginEnd="8dp"
-            android:layout_height="30dp"/>
+            android:background="@color/primary" />
 
         <TextView
             android:id="@+id/category_name"
             android:layout_width="0dp"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/app_name"
             android:fontFamily="@font/font"
+            android:text="@string/app_name"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@color/text"
             android:textStyle="bold" />
@@ -37,25 +36,19 @@
             android:id="@+id/view_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/view_all"
-            android:textStyle="bold"
-            android:fontFamily="@font/font"
             android:layout_gravity="center"
+            android:fontFamily="@font/font"
+            android:text="@string/view_all"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="@color/primary" />
+            android:textColor="@color/primary"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <RelativeLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/category_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
 
 </LinearLayout>

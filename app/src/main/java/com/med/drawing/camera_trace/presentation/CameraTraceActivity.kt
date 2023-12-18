@@ -50,7 +50,7 @@ class CameraTraceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
 
     private lateinit var pushanim: Animation
-    private lateinit var ringProgressDialog: ProgressDialog
+    private var ringProgressDialog: ProgressDialog? = null
     private lateinit var bmOriginal: Bitmap
     private var isFlashSupported = false
     private var isTorchOn = false
@@ -98,8 +98,6 @@ class CameraTraceActivity : AppCompatActivity() {
 
                     override fun onLoadCleared(placeholder: Drawable?) {}
                 })
-
-
         }
 
         binding.animationView.visibility = View.VISIBLE
@@ -161,7 +159,7 @@ class CameraTraceActivity : AppCompatActivity() {
 
     private fun convertBorderBitmap() {
         val gPUImage = GPUImage(this)
-        val show = ProgressDialog.show(this, "", "Convert Bitmap", true)
+        val show = ProgressDialog.show(this, "", getString(R.string.convert_bitmap), true)
         ringProgressDialog = show
         show.setCancelable(false)
         Thread {
@@ -175,7 +173,7 @@ class CameraTraceActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this,
-                            "Can't Convert this image, try with another",
+                            getString(R.string.can_t_convert_this_image_try_with_another),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -183,9 +181,9 @@ class CameraTraceActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            ringProgressDialog.dismiss()
+            ringProgressDialog?.dismiss()
         }.start()
-        ringProgressDialog.setOnDismissListener {
+        ringProgressDialog?.setOnDismissListener {
             if (!isEditSketch) {
                 if (convertedBitmap != null) {
                     isEditSketch = true
@@ -290,7 +288,8 @@ class CameraTraceActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == PERMISSION_CODE_CAMERA && (grantResults.isEmpty() || grantResults[0] != 0)) {
-            Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permission_not_granted), Toast.LENGTH_SHORT)
+                .show()
             finish()
         }
         if (requestCode != PERMISSION_CODE_CAMERA) {
@@ -301,11 +300,12 @@ class CameraTraceActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         binding.cameraView.stop()
-        val progressDialog = ringProgressDialog
-        if (!progressDialog.isShowing) {
-            return
+        if (ringProgressDialog != null) {
+            if (ringProgressDialog?.isShowing == true) {
+                ringProgressDialog?.dismiss()
+            }
         }
-        ringProgressDialog.dismiss()
+
     }
 
     private fun setupCameraCallbacks() {
@@ -318,7 +318,7 @@ class CameraTraceActivity : AppCompatActivity() {
         binding.cameraView.setOnTurnCameraFailListener {
             Toast.makeText(
                 this@CameraTraceActivity,
-                "Switch Camera Failed. Does your device have a front camera?",
+                getString(R.string.switch_camera_failed_does_your_device_have_a_front_camera),
                 Toast.LENGTH_SHORT
             ).show()
         }
