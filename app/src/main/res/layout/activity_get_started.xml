@@ -5,74 +5,88 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/tip_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/tip_image_1" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tip_image"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/font"
-        android:text="@string/get_started_title"
-        android:textColor="@color/text"
-        android:textSize="19sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tip_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tip_title"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/font"
-        android:text="@string/get_started_desc"
-        android:textColor="@color/text"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/get_started"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_above="@id/privacy"
-        android:layout_marginHorizontal="26dp"
-        android:backgroundTint="@color/primary"
-        android:fontFamily="@font/font"
-        android:text="@string/get_started"
-        android:textColor="@color/white"
-        android:textSize="17sp" />
-
-    <TextView
-        android:id="@+id/privacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/ntv"
-        android:layout_marginHorizontal="26dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/font"
-        android:gravity="center"
-        android:text="@string/privacy_notice"
-        android:textColor="@color/text"
-        android:textSize="16sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-    <RelativeLayout
-        android:id="@+id/ntv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="8dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/tip_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/tip_image_1" />
 
-        <include layout="@layout/include_native_button_top" />
+            <TextView
+                android:id="@+id/tip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tip_image"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/font"
+                android:text="@string/get_started_title"
+                android:textColor="@color/text"
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tip_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_below="@id/tip_title"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/font"
+                android:text="@string/get_started_desc"
+                android:textColor="@color/text"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/get_started"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/tip_desc"
+                android:layout_marginHorizontal="26dp"
+                android:backgroundTint="@color/primary"
+                android:fontFamily="@font/font"
+                android:text="@string/get_started"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/privacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/get_started"
+                android:layout_marginHorizontal="26dp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="@string/privacy_notice"
+                android:textColor="@color/text"
+                android:textSize="16sp" />
+
+
+            <RelativeLayout
+                android:id="@+id/ntv"
+                android:layout_width="match_parent"
+                android:layout_below="@id/privacy"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp">
+
+                <include layout="@layout/include_native_button_top" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>

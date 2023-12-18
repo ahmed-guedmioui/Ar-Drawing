@@ -1,7 +1,7 @@
 package com.med.drawing.image_list.domain.model.images
 
 import androidx.recyclerview.widget.RecyclerView
-import com.med.drawing.image_list.presentation.adapter.CategoryAdapter
+import com.med.drawing.image_list.presentation.category.CategoryAdapter
 
 data class ImageCategory(
     val imageCategoryName: String,

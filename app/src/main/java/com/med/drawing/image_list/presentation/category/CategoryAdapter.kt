@@ -1,4 +1,4 @@
-package com.med.drawing.image_list.presentation.adapter
+package com.med.drawing.image_list.presentation.category
 
 import android.app.Activity
 import android.graphics.drawable.Drawable

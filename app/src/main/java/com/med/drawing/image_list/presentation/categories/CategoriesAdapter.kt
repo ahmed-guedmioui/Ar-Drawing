@@ -1,4 +1,4 @@
-package com.med.drawing.image_list.presentation.adapter
+package com.med.drawing.image_list.presentation.categories
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.med.drawing.R
-import com.med.drawing.core.data.DataManager
 import com.med.drawing.image_list.data.ImagesManager
+import com.med.drawing.image_list.presentation.category.CategoryAdapter
 import com.med.drawing.util.ads.NativeManager
 
 /**
@@ -107,7 +107,7 @@ class CategoriesAdapter(
     }
 
     interface ViewMoreClickListener {
-        fun oClick(position: Int)
+        fun oClick(categoryPosition: Int)
     }
 
 

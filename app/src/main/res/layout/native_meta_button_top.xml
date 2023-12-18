@@ -18,19 +18,6 @@
         android:textColor="@color/white"
         android:fontFamily="@font/font"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ad_tag_bg"
-        android:paddingVertical="2dp"
-        android:paddingHorizontal="4dp"
-        android:text="@string/ad"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/white"
-        android:fontFamily="@font/font" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +29,6 @@
             android:id="@+id/native_ad_icon"
             android:layout_width="35dp"
             android:layout_height="35dp" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +39,7 @@
             <TextView
                 android:id="@+id/native_ad_title"
                 android:layout_width="wrap_content"
+                android:text="@string/app_name"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
@@ -64,6 +51,7 @@
                 android:id="@+id/native_ad_sponsored_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/app_name"
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/text"

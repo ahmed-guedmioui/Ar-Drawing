@@ -1,4 +1,4 @@
-package com.med.drawing.image_list.presentation
+package com.med.drawing.image_list.presentation.categories
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
 import com.med.drawing.camera_trace.presentation.CameraTraceActivity
-import com.med.drawing.databinding.ActivityImageListBinding
+import com.med.drawing.databinding.ActivityCategoriesBinding
 import com.med.drawing.image_list.domain.model.images.Image
-import com.med.drawing.image_list.presentation.adapter.CategoriesAdapter
 import com.med.drawing.other.AppConstant
 import com.med.drawing.other.HelpActivity
 import com.med.drawing.other.HelpActivity2
 import com.med.drawing.image_list.data.ImagesManager
+import com.med.drawing.image_list.presentation.category.CategoryActivity
 import com.med.drawing.sketch.presentation.SketchActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.RewardedManager
@@ -30,23 +30,21 @@ import javax.inject.Inject
  * @author Ahmed Guedmioui
  */
 @AndroidEntryPoint
-class ImageListActivity : AppCompatActivity() {
+class CategoriesActivity : AppCompatActivity() {
 
     private var isTrace = false
     private var storagePermissionRequestCode = 12
-
-    private lateinit var drawingAdapter: CategoriesAdapter
 
     private lateinit var pushAnimation: Animation
 
     @Inject
     lateinit var prefs: SharedPreferences
 
-    private lateinit var binding: ActivityImageListBinding
+    private lateinit var binding: ActivityCategoriesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityImageListBinding.inflate(layoutInflater)
+        binding = ActivityCategoriesBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
 
@@ -66,8 +64,7 @@ class ImageListActivity : AppCompatActivity() {
         pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
 
         binding.recyclerView.setHasFixedSize(true)
-        val gridLayoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = gridLayoutManager
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.relHelp.setOnClickListener {
             it.startAnimation(pushAnimation)
@@ -102,7 +99,24 @@ class ImageListActivity : AppCompatActivity() {
             }
         })
 
-        drawingAdapter = categoriesAdapter
+        categoriesAdapter.setViewMoreClickListener(object :
+            CategoriesAdapter.ViewMoreClickListener {
+            override fun oClick(categoryPosition: Int) {
+                InterManager.showInterstitial(
+                    this@CategoriesActivity,
+                    object : InterManager.OnAdClosedListener {
+                        override fun onAdClosed() {
+                            val intent = Intent(
+                                this@CategoriesActivity, CategoryActivity::class.java
+                            )
+                            intent.putExtra("categoryPosition", categoryPosition)
+                            intent.putExtra("isTrace", isTrace)
+                            startActivity(intent)
+                        }
+                    })
+            }
+        })
+
         binding.recyclerView.adapter = categoriesAdapter
     }
 
@@ -155,7 +169,7 @@ class ImageListActivity : AppCompatActivity() {
         if (grantResults.isNotEmpty() && grantResults[0] == 0 && grantResults[1] == 0) {
             finish()
         }
-        ImagePicker.with(this@ImageListActivity).galleryOnly().start()
+        ImagePicker.with(this@CategoriesActivity).galleryOnly().start()
     }
 
     private fun helpScreen() {
@@ -183,7 +197,7 @@ class ImageListActivity : AppCompatActivity() {
     private fun traceDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@ImageListActivity, CameraTraceActivity::class.java)
+                val intent = Intent(this@CategoriesActivity, CameraTraceActivity::class.java)
                 intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }
@@ -193,7 +207,7 @@ class ImageListActivity : AppCompatActivity() {
     private fun sketchDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@ImageListActivity, SketchActivity::class.java)
+                val intent = Intent(this@CategoriesActivity, SketchActivity::class.java)
                 intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }

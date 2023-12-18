@@ -7,19 +7,6 @@
     android:paddingHorizontal="8dp"
     android:paddingTop="8dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ad_tag_bg"
-        android:fontFamily="@font/font"
-        android:paddingHorizontal="4dp"
-        android:paddingVertical="2dp"
-        android:text="@string/ad"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/white" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

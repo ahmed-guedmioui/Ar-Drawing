@@ -22,7 +22,7 @@ import com.med.drawing.R
 import com.med.drawing.main.presentaion.home.adapter.HelperPagerAdapter
 import com.med.drawing.main.presentaion.settings.SettingsActivity
 import com.med.drawing.databinding.ActivityHomeBinding
-import com.med.drawing.image_list.presentation.ImageListActivity
+import com.med.drawing.image_list.presentation.categories.CategoriesActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.rateApp
@@ -179,7 +179,7 @@ class HomeActivity : AppCompatActivity() {
     private fun drawingListScreen(isTrace: Boolean) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@HomeActivity, ImageListActivity::class.java)
+                val intent = Intent(this@HomeActivity, CategoriesActivity::class.java)
                 intent.putExtra("isTrace", isTrace)
                 startActivity(intent)
             }

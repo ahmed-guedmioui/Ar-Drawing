@@ -5,81 +5,94 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <RelativeLayout
-        android:id="@+id/tip_parent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/tip_image"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/tip_image_1"
-            app:shapeAppearanceOverlay="@style/ImageView.Corner" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tip_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tip_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/font"
-            android:text="@string/tip_title_1"
-            android:textColor="@color/text"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/tip_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tip_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tip_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:fontFamily="@font/font"
-            android:text="@string/tip_desc_1"
-            android:textColor="@color/text" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/tip_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/tip_image_1"
+                    app:shapeAppearanceOverlay="@style/ImageView.Corner" />
 
+                <TextView
+                    android:id="@+id/tip_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tip_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/font"
+                    android:text="@string/tip_title_1"
+                    android:textColor="@color/text"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/ntv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp">
-
-        <include layout="@layout/four_dots_indicator" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/next_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/ntv"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="30dp"
-        android:fontFamily="@font/font"
-        android:text="@string/next"
-        android:textColor="@color/text" />
+                <TextView
+                    android:id="@+id/tip_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tip_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/font"
+                    android:text="@string/tip_desc_1"
+                    android:textColor="@color/text"
+                    android:textSize="16sp" />
 
 
-    <RelativeLayout
-        android:id="@+id/ntv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="8dp">
+            </RelativeLayout>
 
-        <include layout="@layout/include_native_button_top" />
+            <RelativeLayout
+                android:id="@+id/dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/tip_parent">
 
-    </RelativeLayout>
+                <include layout="@layout/four_dots_indicator" />
 
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/next_start"
+                android:layout_below="@id/dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/font"
+                android:text="@string/next"
+                android:textColor="@color/text" />
+
+
+            <RelativeLayout
+                android:id="@+id/ntv"
+                android:layout_below="@id/next_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp">
+
+                <include layout="@layout/include_native_button_top" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

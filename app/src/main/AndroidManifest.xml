@@ -97,7 +97,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.image_list.presentation.ImageListActivity"
+            android:name="com.med.drawing.image_list.presentation.categories.CategoriesActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.med.drawing.image_list.presentation.category.CategoryActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
