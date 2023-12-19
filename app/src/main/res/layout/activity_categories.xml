@@ -56,22 +56,6 @@
         android:orientation="vertical"
         android:layout_below="@+id/title_layout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/explore_categories"
-            android:layout_marginHorizontal="16dp"
-            android:fontFamily="@font/font"
-            android:textColor="@color/text"
-            android:textSize="18sp" />
-
-        <View
-            android:layout_width="200dp"
-            android:background="@color/text"
-            android:layout_marginBottom="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_height="2.5dp"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

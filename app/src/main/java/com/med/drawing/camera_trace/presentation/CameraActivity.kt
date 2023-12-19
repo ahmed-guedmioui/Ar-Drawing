@@ -45,7 +45,7 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFi
 /**
  * @author Ahmed Guedmioui
  */
-class CameraTraceActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCameraBinding
 
@@ -317,14 +317,14 @@ class CameraTraceActivity : AppCompatActivity() {
 
         binding.cameraView.setOnTurnCameraFailListener {
             Toast.makeText(
-                this@CameraTraceActivity,
+                this@CameraActivity,
                 getString(R.string.switch_camera_failed_does_your_device_have_a_front_camera),
                 Toast.LENGTH_SHORT
             ).show()
         }
 
         binding.cameraView.setOnCameraErrorListener {
-            Toast.makeText(this@CameraTraceActivity, it.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CameraActivity, it.message, Toast.LENGTH_SHORT).show()
         }
 
         binding.cameraView.setOnFrameListener { data, _, _, _ ->

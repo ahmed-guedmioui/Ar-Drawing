@@ -1,8 +1,8 @@
-package com.med.drawing.core.presentation.splash
+package com.med.drawing.splash.presentation.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.med.drawing.core.domain.repository.AppDataRepository
+import com.med.drawing.splash.domain.repository.AppDataRepository
 import com.med.drawing.image_list.domain.repository.ImageCategoriesRepository
 import com.med.drawing.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,7 +60,7 @@ class SplashViewModel @Inject constructor(
                             it.copy(isAppDataLoaded = true)
                         }
                         if (splashState.value.areImagesLoaded) {
-                            imageCategoriesRepository.setNativeItems()
+                            imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
                             _areBothImagesAndDataLoadedChannel.send(true)
                         }
                     }
@@ -85,7 +85,7 @@ class SplashViewModel @Inject constructor(
                             it.copy(areImagesLoaded = true)
                         }
                         if (splashState.value.isAppDataLoaded) {
-                            imageCategoriesRepository.setNativeItems()
+                            imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
                             _areBothImagesAndDataLoadedChannel.send(true)
                         }
                     }

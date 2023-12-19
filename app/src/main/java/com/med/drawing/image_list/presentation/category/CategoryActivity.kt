@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.med.drawing.R
-import com.med.drawing.camera_trace.presentation.CameraTraceActivity
+import com.med.drawing.camera_trace.presentation.CameraActivity
 import com.med.drawing.databinding.ActivityCategoryBinding
 import com.med.drawing.image_list.domain.model.images.Image
 import com.med.drawing.image_list.data.ImagesManager
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class CategoryActivity : AppCompatActivity() {
 
     private var isTrace = false
-
+    private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var pushAnimation: Animation
 
     @Inject
@@ -66,7 +67,7 @@ class CategoryActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = gridLayoutManager
 
 
-        val categoryAdapter = CategoryAdapter(
+        categoryAdapter = CategoryAdapter(
             this, ImagesManager.imageCategoryList[categoryPosition], 2
         )
 
@@ -100,10 +101,18 @@ class CategoryActivity : AppCompatActivity() {
         RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
             override fun onRewClosed() {}
 
+            override fun onRewFailedToShow() {
+                Toast.makeText(
+                    this@CategoryActivity,
+                    getString(R.string.ad_is_not_loaded_yet),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             override fun onRewComplete() {
-                imageItem.locked = false
                 ImagesManager.imageCategoryList[categoryPosition]
-                    .adapter?.notifyItemChanged(imagePosition)
+                    .imageList[imagePosition].locked = false
+                categoryAdapter.notifyItemChanged(imagePosition)
                 prefs.edit().putBoolean(imageItem.prefsId, false).apply()
             }
 
@@ -113,7 +122,7 @@ class CategoryActivity : AppCompatActivity() {
     private fun traceDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@CategoryActivity, CameraTraceActivity::class.java)
+                val intent = Intent(this@CategoryActivity, CameraActivity::class.java)
                 intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }

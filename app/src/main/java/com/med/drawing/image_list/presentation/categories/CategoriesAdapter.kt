@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.med.drawing.R
@@ -22,8 +23,12 @@ class CategoriesAdapter(
     override fun getItemViewType(i: Int): Int {
         return if (ImagesManager.imageCategoryList[i].imageCategoryName == "native") {
             0
-        } else {
+        } else if (ImagesManager.imageCategoryList[i].imageCategoryName == "gallery and camera") {
             1
+        } else if (ImagesManager.imageCategoryList[i].imageCategoryName == "explore") {
+            2
+        } else {
+            3
         }
     }
 
@@ -32,11 +37,24 @@ class CategoriesAdapter(
             val view: View = LayoutInflater.from(activity)
                 .inflate(R.layout.include_native, parent, false)
             return NativeViewHolder(view, activity)
-        } else {
-            val view: View = LayoutInflater.from(activity)
-                .inflate(R.layout.item_category, parent, false)
-            return CategoriesViewHolder(view, activity)
         }
+
+        if (viewType == 1) {
+            val view: View = LayoutInflater.from(activity)
+                .inflate(R.layout.item_from_gallery_camera, parent, false)
+            return GalleryAndCameraViewHolder(view)
+        }
+
+        if (viewType == 2) {
+            val view: View = LayoutInflater.from(activity)
+                .inflate(R.layout.item_explore, parent, false)
+            return ExploreViewHolder(view)
+        }
+
+        val view: View = LayoutInflater.from(activity)
+            .inflate(R.layout.item_category, parent, false)
+        return CategoriesViewHolder(view, activity)
+
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, categoryPosition: Int) {
@@ -44,6 +62,23 @@ class CategoriesAdapter(
         if (ImagesManager.imageCategoryList[categoryPosition].imageCategoryName == "native") {
             return
         }
+
+
+        if (ImagesManager.imageCategoryList[categoryPosition].imageCategoryName == "gallery and camera") {
+            val holder = viewHolder as GalleryAndCameraViewHolder
+            holder.gallery.setOnClickListener {
+                galleryAndCameraClickListener.oClick(true)
+            }
+            holder.camera.setOnClickListener {
+                galleryAndCameraClickListener.oClick(false)
+            }
+            return
+        }
+
+        if (ImagesManager.imageCategoryList[categoryPosition].imageCategoryName == "explore") {
+            return
+        }
+
         val holder = viewHolder as CategoriesViewHolder
 
         val categoryAdapter = CategoryAdapter(
@@ -101,6 +136,22 @@ class CategoriesAdapter(
         }
     }
 
+    private class GalleryAndCameraViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+
+        var gallery: CardView
+        var camera: CardView
+
+        init {
+            gallery = itemView.findViewById(R.id.gallery)
+            camera = itemView.findViewById(R.id.camera)
+        }
+    }
+
+    private class ExploreViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+    }
+
     private lateinit var viewMoreClickListener: ViewMoreClickListener
     fun setViewMoreClickListener(viewMoreClickListener: ViewMoreClickListener) {
         this.viewMoreClickListener = viewMoreClickListener
@@ -118,6 +169,18 @@ class CategoriesAdapter(
 
     interface ClickListener {
         fun oClick(categoryPosition: Int, imagePosition: Int)
+    }
+
+
+    private lateinit var galleryAndCameraClickListener: GalleryAndCameraClickListener
+    fun setGalleryAndCameraClickListener(
+        galleryAndCameraClickListener: GalleryAndCameraClickListener
+    ) {
+        this.galleryAndCameraClickListener = galleryAndCameraClickListener
+    }
+
+    interface GalleryAndCameraClickListener {
+        fun oClick(isGallery: Boolean)
     }
 
 }

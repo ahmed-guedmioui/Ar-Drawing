@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.med.drawing.R;
-import com.med.drawing.core.data.DataManager;
+import com.med.drawing.splash.data.DataManager;
 
 public class RecommendedAppsAdapter extends RecyclerView.Adapter<RecommendedAppsAdapter.ListHolder> {
     private final Activity activity;

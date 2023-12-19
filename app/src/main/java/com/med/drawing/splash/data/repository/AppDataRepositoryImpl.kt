@@ -1,10 +1,10 @@
-package com.med.drawing.core.data.repository
+package com.med.drawing.splash.data.repository
 
 import android.content.SharedPreferences
-import com.med.drawing.core.data.mapper.toAppData
-import com.med.drawing.core.data.remote.AppDataApi
-import com.med.drawing.core.domain.repository.AppDataRepository
-import com.med.drawing.core.data.DataManager
+import com.med.drawing.splash.data.mapper.toAppData
+import com.med.drawing.splash.data.remote.AppDataApi
+import com.med.drawing.splash.domain.repository.AppDataRepository
+import com.med.drawing.splash.data.DataManager
 import com.med.drawing.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

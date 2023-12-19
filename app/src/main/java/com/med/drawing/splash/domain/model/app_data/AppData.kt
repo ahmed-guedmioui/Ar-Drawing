@@ -1,4 +1,4 @@
-package com.med.drawing.core.domain.model.app_data
+package com.med.drawing.splash.domain.model.app_data
 
 data class AppData(
     val interstitial: String,

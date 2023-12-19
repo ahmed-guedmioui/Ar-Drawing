@@ -9,7 +9,7 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.med.drawing.core.data.DataManager
+import com.med.drawing.splash.data.DataManager
 
 object InterManager {
 

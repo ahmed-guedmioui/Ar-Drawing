@@ -1,4 +1,4 @@
-package com.med.drawing.core.presentation.splash
+package com.med.drawing.splash.presentation.splash
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -16,7 +16,6 @@ import com.med.drawing.main.presentaion.home.HomeActivity
 import com.med.drawing.main.presentaion.tips.TipsActivity
 import com.med.drawing.databinding.ActivitySplashBinding
 import com.med.drawing.util.AppAnimation
-import com.med.drawing.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

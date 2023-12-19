@@ -21,7 +21,7 @@ import com.med.drawing.R
 import com.med.drawing.main.presentaion.follow.FollowActivity
 import com.med.drawing.main.presentaion.settings.adapter.RecommendedAppsAdapter
 import com.med.drawing.databinding.ActivitySettingsBinding
-import com.med.drawing.core.data.DataManager
+import com.med.drawing.splash.data.DataManager
 import com.med.drawing.util.openDeveloper
 import com.med.drawing.util.rateApp
 import com.med.drawing.util.shareApp

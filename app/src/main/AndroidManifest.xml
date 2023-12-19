@@ -68,7 +68,7 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name="com.med.drawing.core.presentation.splash.SplashActivity"
+            android:name="com.med.drawing.splash.presentation.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -109,7 +109,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.camera_trace.presentation.CameraTraceActivity"
+            android:name="com.med.drawing.camera_trace.presentation.CameraActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

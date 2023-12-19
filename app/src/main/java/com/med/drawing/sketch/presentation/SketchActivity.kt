@@ -14,13 +14,11 @@ import android.os.Looper
 import android.provider.Settings
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -52,15 +50,6 @@ class SketchActivity : AppCompatActivity() {
 
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
         cResolver = contentResolver
-
-        binding.mainLayout.setBackgroundColor(ViewCompat.MEASURED_STATE_MASK)
-
-//        window = getWindow()
-//        window.setFlags(
-//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-//        )
-//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
 
@@ -139,7 +128,6 @@ class SketchActivity : AppCompatActivity() {
         val imagePath = intent.extras?.getString("imagePath")
 
         isblack = true
-        binding.mainLayout.setBackgroundColor(ViewCompat.MEASURED_STATE_MASK)
         window = getWindow()
         window.attributes = window.attributes
         cResolver = contentResolver
@@ -254,18 +242,10 @@ class SketchActivity : AppCompatActivity() {
             .setOutlineWidth(2)
             .setFixedColumnCount(4)
             .setOnColorSelectedListener { _, i ->
-                if (true) {
-                    binding.mainLayout.setBackgroundColor(i)
-                }
+                binding.mainLayout.setBackgroundColor(i)
             }
             .build()
             .show(supportFragmentManager, getString(R.string.color))
-    }
-
-    private fun openAndroidPermissionsMenu() {
-        val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
-        intent.data = Uri.parse("package:$packageName")
-        startActivity(intent)
     }
 
     private fun flip(bitmap: Bitmap?, i: Int): Bitmap? {

@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ImageCategoriesRepository {
     suspend fun getImageCategoryList(): Flow<Resource<Unit>>
-    suspend fun setNativeItems()
+    suspend fun setGalleryAndCameraAndNativeItems()
 
 }

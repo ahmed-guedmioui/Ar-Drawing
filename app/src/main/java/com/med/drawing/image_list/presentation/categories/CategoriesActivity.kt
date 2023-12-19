@@ -1,30 +1,38 @@
 package com.med.drawing.image_list.presentation.categories
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
-import com.med.drawing.camera_trace.presentation.CameraTraceActivity
+import com.med.drawing.camera_trace.presentation.CameraActivity
 import com.med.drawing.databinding.ActivityCategoriesBinding
+import com.med.drawing.image_list.data.ImagesManager
 import com.med.drawing.image_list.domain.model.images.Image
+import com.med.drawing.image_list.presentation.category.CategoryActivity
 import com.med.drawing.other.AppConstant
+import com.med.drawing.other.FileUtils
 import com.med.drawing.other.HelpActivity
 import com.med.drawing.other.HelpActivity2
-import com.med.drawing.image_list.data.ImagesManager
-import com.med.drawing.image_list.presentation.category.CategoryActivity
 import com.med.drawing.sketch.presentation.SketchActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.RewardedManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 /**
  * @author Ahmed Guedmioui
@@ -33,6 +41,7 @@ import javax.inject.Inject
 class CategoriesActivity : AppCompatActivity() {
 
     private var isTrace = false
+    private var isGallery = false
     private var storagePermissionRequestCode = 12
 
     private lateinit var pushAnimation: Animation
@@ -91,11 +100,33 @@ class CategoriesActivity : AppCompatActivity() {
                         sketchDrawingScreen(imageItem.image)
                     }
                 }
+            }
+        })
 
-                // Gallery click
-//                 if (isWriteStoragePermissionGranted()) {
-//                    ImagePicker.with(this@ImageListActivity).galleryOnly().start()
-//                }
+        categoriesAdapter.setGalleryAndCameraClickListener(object :
+            CategoriesAdapter.GalleryAndCameraClickListener {
+            override fun oClick(isGallery: Boolean) {
+                if (isWriteStoragePermissionGranted()) {
+                    this@CategoriesActivity.isGallery = isGallery
+                    if (isGallery) {
+                        Log.d("tag_per", "isGallery: ImagePicker")
+                        ImagePicker.with(this@CategoriesActivity)
+                            .galleryOnly()
+                            .createIntent { intent ->
+                                startForProfileImageResult.launch(intent)
+                            }
+                    } else {
+                        Log.d("tag_per", "isCamera: ImagePicker")
+                        getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+                            ImagePicker.with(this@CategoriesActivity)
+                                .cameraOnly()
+                                .saveDir(it1)
+                                .createIntent { intent ->
+                                    startForProfileImageResult.launch(intent)
+                                }
+                        }
+                    }
+                }
             }
         })
 
@@ -128,6 +159,14 @@ class CategoriesActivity : AppCompatActivity() {
         RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
             override fun onRewClosed() {}
 
+            override fun onRewFailedToShow() {
+                Toast.makeText(
+                    this@CategoriesActivity,
+                    getString(R.string.ad_is_not_loaded_yet),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             override fun onRewComplete() {
                 imageItem.locked = false
                 ImagesManager.imageCategoryList[categoryPosition]
@@ -139,12 +178,17 @@ class CategoriesActivity : AppCompatActivity() {
     }
 
     private fun isWriteStoragePermissionGranted(): Boolean {
-        if (checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED &&
+
+        if (
+            checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission("android.permission.READ_MEDIA_IMAGES") == PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED
         ) {
+            Log.d("tag_per", "isWriteStoragePermissionGranted: true")
             return true
         }
+
+        Log.d("tag_per", "isWriteStoragePermissionGranted: requestPermissions")
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -158,9 +202,7 @@ class CategoriesActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode != storagePermissionRequestCode) {
@@ -169,7 +211,23 @@ class CategoriesActivity : AppCompatActivity() {
         if (grantResults.isNotEmpty() && grantResults[0] == 0 && grantResults[1] == 0) {
             finish()
         }
-        ImagePicker.with(this@CategoriesActivity).galleryOnly().start()
+        Log.d("tag_per", "onRequestPermissionsResult: ImagePicker")
+        if (isGallery) {
+            ImagePicker.with(this)
+                .galleryOnly()
+                .createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }
+        } else {
+            getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+                ImagePicker.with(this@CategoriesActivity)
+                    .cameraOnly()
+                    .saveDir(it1)
+                    .createIntent { intent ->
+                        startForProfileImageResult.launch(intent)
+                    }
+            }
+        }
     }
 
     private fun helpScreen() {
@@ -180,24 +238,35 @@ class CategoriesActivity : AppCompatActivity() {
         startActivity(Intent(this, HelpActivity2::class.java))
     }
 
-    override fun onActivityResult(i: Int, i2: Int, data: Intent?) {
-        super.onActivityResult(i, i2, intent)
-        if (i2 == -1) {
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
 
-            val selectedImagePath = AppConstant.getRealPathFromURI_API19(this, intent.data)
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val fileUri = result.data?.data!!
 
-            if (isTrace) {
-                traceDrawingScreen(selectedImagePath)
+                Log.d("tag_per", "registerForActivityResult: data = null ${result.data == null}")
+                val selectedImagePath = if (isGallery) {
+                    AppConstant.getRealPathFromURI_API19(this, fileUri)
+                } else {
+                    FileUtils.getPath(fileUri)
+                }
+
+                if (isTrace) {
+                    traceDrawingScreen(selectedImagePath)
+                } else {
+                    sketchDrawingScreen(selectedImagePath)
+                }
             } else {
-                sketchDrawingScreen(selectedImagePath)
+                Toast.makeText(this, "Error picking image", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
     private fun traceDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@CategoriesActivity, CameraTraceActivity::class.java)
+                val intent = Intent(this@CategoriesActivity, CameraActivity::class.java)
                 intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }

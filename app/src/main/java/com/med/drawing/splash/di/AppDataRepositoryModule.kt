@@ -1,7 +1,7 @@
-package com.med.drawing.core.di
+package com.med.drawing.splash.di
 
-import com.med.drawing.core.data.repository.AppDataRepositoryImpl
-import com.med.drawing.core.domain.repository.AppDataRepository
+import com.med.drawing.splash.data.repository.AppDataRepositoryImpl
+import com.med.drawing.splash.domain.repository.AppDataRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

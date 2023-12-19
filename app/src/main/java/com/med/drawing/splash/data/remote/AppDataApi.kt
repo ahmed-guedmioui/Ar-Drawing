@@ -1,7 +1,7 @@
-package com.med.drawing.core.data.remote
+package com.med.drawing.splash.data.remote
 
 import com.med.drawing.BuildConfig
-import com.med.drawing.core.data.remote.respnod.app_data.AppDataDto
+import com.med.drawing.splash.data.remote.respnod.app_data.AppDataDto
 import retrofit2.http.GET
 
 /**

@@ -1,6 +1,5 @@
 package com.med.drawing.image_list.data
 
-import com.med.drawing.core.domain.model.app_data.AppData
 import com.med.drawing.image_list.domain.model.images.ImageCategory
 
 /**

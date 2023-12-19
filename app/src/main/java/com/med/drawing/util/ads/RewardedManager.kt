@@ -8,8 +8,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.med.drawing.core.data.DataManager
-
+import com.med.drawing.splash.data.DataManager
 
 object RewardedManager {
 
@@ -35,7 +34,7 @@ object RewardedManager {
         when (DataManager.appData.rewarded) {
             AdType.admob -> showAdmobRewarded(activity)
             AdType.facebook -> showFacebookRewarded(activity)
-            else -> onAdClosedListener.onRewClosed()
+            else -> onAdClosedListener.onRewFailedToShow()
         }
     }
 
@@ -87,7 +86,7 @@ object RewardedManager {
             }
         } else {
             loadRewarded(activity)
-            onAdClosedListener.onRewClosed()
+            onAdClosedListener.onRewFailedToShow()
         }
     }
 
@@ -135,12 +134,13 @@ object RewardedManager {
             facebookRewardedAd.show()
         } else {
             loadRewarded(activity)
-            onAdClosedListener.onRewClosed()
+            onAdClosedListener.onRewFailedToShow()
         }
     }
 
     interface OnAdClosedListener {
         fun onRewClosed()
+        fun onRewFailedToShow()
         fun onRewComplete()
     }
 }

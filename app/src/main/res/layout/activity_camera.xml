@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/top_layer"
@@ -25,9 +25,9 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/round_gray"
                 android:padding="@dimen/_8sdp"
-                app:srcCompat="@drawable/lock" />
+                app:srcCompat="@drawable/lock"
+                app:tint="@color/primary" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -39,6 +39,7 @@
             <ImageView
                 android:id="@+id/ic_flash"
                 android:layout_width="@dimen/_35sdp"
+                app:tint="@color/primary"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_3sdp"
@@ -54,6 +55,7 @@
             <ImageView
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
+                app:tint="@color/primary"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_3sdp"
                 android:src="@drawable/flip" />
@@ -62,21 +64,22 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@drawable/oval_gray">
+            android:layout_weight="2">
 
             <RelativeLayout
                 android:id="@+id/rel_camera"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_centerInParent="true"
                     android:padding="@dimen/_3sdp"
-                    android:src="@drawable/camera" />
+                    android:src="@drawable/camera"
+                    app:tint="@color/primary" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -87,6 +90,7 @@
 
                 <ImageView
                     android:layout_width="@dimen/_35sdp"
+                    app:tint="@color/primary"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_centerInParent="true"
                     android:padding="@dimen/_3sdp"
@@ -105,16 +109,15 @@
             android:id="@+id/rel_opacity_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_3sdp"
-            android:layout_toLeftOf="@+id/rel_edit_round"
-            android:layout_toRightOf="@+id/rel_lock">
+            android:layout_marginStart="@dimen/_3sdp">
 
             <ImageView
                 android:id="@+id/ic_opacity"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
+                app:tint="@color/primary"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
                 android:src="@drawable/opacity" />
 
             <SeekBar
@@ -122,8 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/rel_edit_round"
-                android:layout_toRightOf="@+id/ic_opacity"
+                android:layout_toStartOf="@+id/rel_edit_round"
+                android:layout_toEndOf="@+id/ic_opacity"
                 android:max="10"
                 android:maxHeight="@dimen/_12sdp"
                 android:minHeight="@dimen/_12sdp"
@@ -136,13 +139,14 @@
                 android:id="@+id/rel_edit_round"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/_15sdp">
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_15sdp">
 
                 <ImageView
                     android:id="@+id/img_outline"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
+                    app:tint="@color/primary"
                     android:layout_centerInParent="true"
                     android:padding="@dimen/_3sdp"
                     android:src="@drawable/outline" />
@@ -178,8 +182,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:alpha="50"
-            android:scaleType="matrix"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="matrix" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"

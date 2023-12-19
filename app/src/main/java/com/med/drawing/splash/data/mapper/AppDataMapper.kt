@@ -1,9 +1,9 @@
-package com.med.drawing.core.data.mapper
+package com.med.drawing.splash.data.mapper
 
-import com.med.drawing.core.data.remote.respnod.app_data.AppDataDto
-import com.med.drawing.core.data.remote.respnod.app_data.RecommendedAppDto
-import com.med.drawing.core.domain.model.app_data.AppData
-import com.med.drawing.core.domain.model.app_data.RecommendedApp
+import com.med.drawing.splash.data.remote.respnod.app_data.AppDataDto
+import com.med.drawing.splash.data.remote.respnod.app_data.RecommendedAppDto
+import com.med.drawing.splash.domain.model.app_data.AppData
+import com.med.drawing.splash.domain.model.app_data.RecommendedApp
 
 /**
  * @author Ahmed Guedmioui

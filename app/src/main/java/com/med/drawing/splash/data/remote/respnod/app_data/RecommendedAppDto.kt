@@ -1,4 +1,4 @@
-package com.med.drawing.core.data.remote.respnod.app_data
+package com.med.drawing.splash.data.remote.respnod.app_data
 
 data class RecommendedAppDto(
     val icon: String?,

@@ -1,7 +1,7 @@
 package com.med.drawing.main.presentaion.settings
 
 import androidx.lifecycle.ViewModel
-import com.med.drawing.core.domain.repository.AppDataRepository
+import com.med.drawing.splash.domain.repository.AppDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

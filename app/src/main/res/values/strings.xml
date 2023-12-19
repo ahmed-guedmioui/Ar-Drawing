@@ -91,4 +91,7 @@
     <string name="can_t_convert_this_image_try_with_another">Can\'t Convert this image, try with another</string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="switch_camera_failed_does_your_device_have_a_front_camera">Switch Camera Failed. Does your device have a front camera?</string>
+    <string name="ad_is_not_loaded_yet">Ad is not loaded yet</string>
+    <string name="from_gallery">From Gallery</string>
+    <string name="from_camera">From Camera</string>
 </resources>

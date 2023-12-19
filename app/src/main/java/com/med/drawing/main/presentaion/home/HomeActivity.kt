@@ -25,6 +25,7 @@ import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.image_list.presentation.categories.CategoriesActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
+import com.med.drawing.util.ads.RewardedManager
 import com.med.drawing.util.rateApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -46,6 +47,8 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
+
+        RewardedManager.loadRewarded(this)
 
         lifecycleScope.launch {
             homeViewModel.homeState.collect {

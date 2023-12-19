@@ -1,12 +1,11 @@
 package com.med.drawing.image_list.data.repository
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.med.drawing.image_list.data.mapper.toImageCategoryList
 import com.med.drawing.image_list.data.remote.ImageCategoryApi
 import com.med.drawing.image_list.domain.model.images.ImageCategory
 import com.med.drawing.image_list.domain.repository.ImageCategoriesRepository
-import com.med.drawing.core.data.DataManager
+import com.med.drawing.splash.data.DataManager
 import com.med.drawing.image_list.data.ImagesManager
 import com.med.drawing.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -46,15 +45,8 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
 
             ImagesManager.imageCategoryList = categoryListDto.toImageCategoryList().toMutableList()
 
-            ImagesManager.imageCategoryList.forEach {imageCategory ->
-                imageCategory.imageList.forEach {
-                    Log.d("tag_images", "id: ${it.id} | prefsId: ${it.prefsId}")
-                }
-
-                Log.d("tag_images", " ")
-            }
-
             setUnlockedImages()
+
 
             emit(Resource.Success())
 
@@ -79,7 +71,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setNativeItems() {
+    override suspend fun setGalleryAndCameraAndNativeItems() {
 
         val nativeItem = ImageCategory(
             imageCategoryName = "native",
@@ -88,11 +80,28 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         )
 
         var index = DataManager.appData.nativeRate
-
         while (index < ImagesManager.imageCategoryList.size) {
             ImagesManager.imageCategoryList.add(index, nativeItem)
             index += DataManager.appData.nativeRate + 1
         }
+
+        ImagesManager.imageCategoryList.add(
+            0,
+            ImageCategory(
+                imageCategoryName = "gallery and camera",
+                categoryId = -1,
+                imageList = emptyList(),
+            )
+        )
+
+        ImagesManager.imageCategoryList.add(
+            1,
+            ImageCategory(
+                imageCategoryName = "explore",
+                categoryId = -1,
+                imageList = emptyList(),
+            )
+        )
     }
 }
 

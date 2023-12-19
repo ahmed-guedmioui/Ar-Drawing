@@ -1,4 +1,4 @@
-package com.med.drawing.core.presentation.splash
+package com.med.drawing.splash.presentation.splash
 
 /**
  * @author Ahmed Guedmioui

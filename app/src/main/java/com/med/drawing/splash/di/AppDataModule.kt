@@ -1,9 +1,9 @@
-package com.med.drawing.core.di
+package com.med.drawing.splash.di
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.med.drawing.core.data.remote.AppDataApi
+import com.med.drawing.splash.data.remote.AppDataApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

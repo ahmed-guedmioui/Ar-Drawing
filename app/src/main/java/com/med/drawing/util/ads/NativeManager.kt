@@ -22,7 +22,7 @@ import com.google.android.gms.ads.VideoController.VideoLifecycleCallbacks
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.med.drawing.R
-import com.med.drawing.core.data.DataManager
+import com.med.drawing.splash.data.DataManager
 
 object NativeManager {
 
