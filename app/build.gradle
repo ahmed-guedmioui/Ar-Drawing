@@ -68,6 +68,8 @@ dependencies {
     implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.4'
     implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.0-RC1'
 
+    implementation 'com.otaliastudios:cameraview:2.7.1'
+
     implementation project(":spectrum")
 
     implementation "androidx.fragment:fragment-ktx:1.6.2"

@@ -2,50 +2,66 @@ package com.med.drawing.camera_trace.presentation
 
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
+import android.media.MediaScannerConnection
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Environment.getExternalStoragePublicDirectory
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import android.provider.MediaStore
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.cameraview.CameraView
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityCameraBinding
 import com.med.drawing.other.AppConstant
 import com.med.drawing.other.FileUtils
 import com.med.drawing.other.MultiTouch
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.med.drawing.util.ads.NativeManager
+import com.otaliastudios.cameraview.CameraListener
+import com.otaliastudios.cameraview.VideoResult
+import com.otaliastudios.cameraview.controls.Flash
+import com.otaliastudios.cameraview.controls.Mode
+import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
-
+import java.io.File
+import java.io.IOException
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import javax.inject.Inject
 
 /**
  * @author Ahmed Guedmioui
  */
+@AndroidEntryPoint
 class CameraActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivityCameraBinding
 
@@ -56,7 +72,7 @@ class CameraActivity : AppCompatActivity() {
     private var isTorchOn = false
     private var isLock = false
     private var isEditSketch = false
-    private var frameIsProcessing = false
+    private var elapsedTimeMillis: Long = 0
     private var convertedBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +80,17 @@ class CameraActivity : AppCompatActivity() {
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        handler = Handler(Looper.getMainLooper())
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
+        binding.close.setOnClickListener {
+            binding.nativeParent.visibility = View.GONE
+        }
+
+        NativeManager.loadNative(
+            findViewById(R.id.native_frame),
+            findViewById(R.id.native_temp),
+            this, true
+        )
 
         setupFlashButton()
 
@@ -213,11 +239,11 @@ class CameraActivity : AppCompatActivity() {
             if (isTorchOn) {
                 isTorchOn = false
                 binding.icFlash.setImageResource(R.drawable.ic_flash_off)
-                binding.cameraView.flash = CameraView.FLASH_OFF
+                binding.cameraView.flash = Flash.OFF
             } else {
                 isTorchOn = true
                 binding.icFlash.setImageResource(R.drawable.ic_flash_on)
-                binding.cameraView.flash = CameraView.FLASH_TORCH
+                binding.cameraView.flash = Flash.TORCH
             }
         } catch (e: CameraAccessException) {
             e.printStackTrace()
@@ -270,7 +296,7 @@ class CameraActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (PermissionUtils.isCameraGranted(this)) {
-            binding.cameraView.start()
+            binding.cameraView.open()
             binding.cameraView.clearFocus()
             setupCameraCallbacks()
         } else if (!PermissionUtils.isCameraGranted(this)) {
@@ -299,7 +325,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        binding.cameraView.stop()
+        binding.cameraView.close()
         if (ringProgressDialog != null) {
             if (ringProgressDialog?.isShowing == true) {
                 ringProgressDialog?.dismiss()
@@ -308,47 +334,196 @@ class CameraActivity : AppCompatActivity() {
 
     }
 
+
+    private var isRecording = false
+    private lateinit var handler: Handler
+    private lateinit var timestamp: String
     private fun setupCameraCallbacks() {
-        binding.cameraView.setOnPictureTakenListener { _, _ -> }
-
-        binding.cameraView.setOnFocusLockedListener {
-            // Callback for focus locked
-        }
-
-        binding.cameraView.setOnTurnCameraFailListener {
-            Toast.makeText(
-                this@CameraActivity,
-                getString(R.string.switch_camera_failed_does_your_device_have_a_front_camera),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        binding.cameraView.setOnCameraErrorListener {
-            Toast.makeText(this@CameraActivity, it.message, Toast.LENGTH_SHORT).show()
-        }
-
-        binding.cameraView.setOnFrameListener { data, _, _, _ ->
-            if (!frameIsProcessing) {
-                frameIsProcessing = true
-                Observable.fromCallable {
-                    BitmapFactory.decodeByteArray(data, 0, data.size)
-                }.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : Observer<Bitmap> {
-                        override fun onNext(bitmap: Bitmap) {
-                            Log.i("onFrame", "${bitmap.width}, ${bitmap.height}")
-                        }
-
-                        override fun onError(e: Throwable) {}
-
-                        override fun onComplete() {
-                            frameIsProcessing = false
-                        }
-
-                        override fun onSubscribe(d: Disposable) {}
-                    })
+        binding.cameraView.mode = Mode.VIDEO
+        binding.recordVideo.setOnClickListener {
+            if (isRecording) {
+                stopVideo()
+            } else {
+                takeVideo()
             }
         }
+
+        binding.cameraView.addCameraListener(object : CameraListener() {
+            override fun onVideoTaken(result: VideoResult) {
+                Toast.makeText(
+                    this@CameraActivity,
+                    getString(R.string.video_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
+                stopVideo()
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    saveRecordedVideo(result.file)
+                } else {
+                    notifyMediaScanner(result.file)
+                }
+            }
+        })
+    }
+
+    private fun saveRecordedVideo(file: File) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, generateFileName())
+            put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MOVIES)
+        }
+
+        val contentResolver = contentResolver
+        var outputStream: OutputStream? = null
+        val contentUri: Uri?
+
+        try {
+            // Insert the video details into the MediaStore
+            contentUri =
+                contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+            // Open an OutputStream for the content Uri
+            contentUri?.let {
+                outputStream = contentResolver.openOutputStream(it)
+                outputStream?.write(file.readBytes())
+            }
+        } finally {
+            outputStream?.close()
+        }
+
+    }
+
+    private fun notifyMediaScanner(file: File) {
+        // Use MediaScannerConnection to notify the media scanner
+        MediaScannerConnection.scanFile(
+            this,
+            arrayOf(file.path),
+            arrayOf("video/mp4")
+        ) { _, uri ->
+            // Optionally, you can broadcast an intent to notify the gallery
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri)
+            sendBroadcast(mediaScanIntent)
+        }
+    }
+
+    private fun stopVideo() {
+        isRecording = false
+        handler.removeCallbacks(timerRunnable)
+        binding.recordVideo.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this@CameraActivity, R.drawable.rec_button
+            )
+        )
+
+        elapsedTimeMillis = 0
+        binding.temp.visibility = View.GONE
+        binding.temp.text = getString(R.string._00_00)
+    }
+
+    private fun takeVideo() {
+        try {
+
+            timestamp = SimpleDateFormat(
+                "yyyyMMdd_HHmmss", Locale.getDefault()
+            ).format(Date())
+            val videoFile = File(
+                getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
+                "VIDEO_$timestamp.mp4"
+            )
+
+            binding.cameraView.takeVideo(videoFile)
+            isRecording = true
+            binding.recordVideo.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    this, R.drawable.record
+                )
+            )
+
+
+            binding.temp.visibility = View.VISIBLE
+            handler.postDelayed(timerRunnable, 1000)
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+
+            Toast.makeText(
+                this,
+                getString(R.string.error_recording_the_video),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            stopVideo()
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            Toast.makeText(
+                this,
+                getString(R.string.error_recording_the_video),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            stopVideo()
+        }
+
+    }
+
+    private val timerRunnable = object : Runnable {
+        override fun run() {
+            // Update the elapsed time
+            elapsedTimeMillis += 1000
+            updateTimerText()
+
+            // Schedule the next update after 1 second
+            handler.postDelayed(this, 1000)
+        }
+    }
+
+    private fun updateTimerText() {
+        val seconds = elapsedTimeMillis / 1000
+        val minutes = seconds / 60
+        val remainingSeconds = seconds % 60
+        val timerText = String.format("%02d:%02d", minutes, remainingSeconds)
+
+        // Update your TextView with the timerText
+        binding.temp.text = timerText
+    }
+
+    private fun saveRecordedVideo(videoData: ByteArray) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, generateFileName())
+            put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MOVIES)
+        }
+
+        val contentResolver = contentResolver
+        var outputStream: OutputStream? = null
+        val contentUri: Uri?
+
+        try {
+            // Insert the video details into the MediaStore
+            contentUri =
+                contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+            // Open an OutputStream for the content Uri
+            contentUri?.let {
+                outputStream = contentResolver.openOutputStream(it)
+                outputStream?.write(videoData)
+            }
+        } finally {
+            outputStream?.close()
+        }
+
+    }
+
+    private fun generateFileName(): String {
+        val timestamp =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "VIDEO_$timestamp.mp4"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(timerRunnable)
     }
 
     companion object {
@@ -385,4 +560,5 @@ class CameraActivity : AppCompatActivity() {
             return copy
         }
     }
+
 }

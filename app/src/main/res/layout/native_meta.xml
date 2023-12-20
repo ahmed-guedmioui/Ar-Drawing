@@ -20,30 +20,51 @@
             android:layout_height="35dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
 
-            <TextView
-                android:id="@+id/native_ad_title"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:textColor="@color/text"
-                android:fontFamily="@font/font"
-                android:textSize="15sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ad_tag_bg"
+                    android:fontFamily="@font/font"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="1dp"
+                    android:text="@string/ad"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/native_ad_title"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/font"
+                    android:lines="1"
+                    android:textColor="@color/text"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/native_ad_sponsored_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:fontFamily="@font/font"
                 android:lines="1"
                 android:textColor="@color/text"
-                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -81,9 +102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:fontFamily="@font/font"
                 android:lines="1"
                 android:textColor="@color/text"
-                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
             <TextView
@@ -91,10 +112,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:fontFamily="@font/font"
                 android:gravity="center_vertical"
                 android:lines="2"
                 android:textColor="@color/text"
-                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -107,10 +128,10 @@
             android:layout_marginBottom="1dp"
             android:layout_weight="1"
             android:backgroundTint="@color/primary"
+            android:fontFamily="@font/font"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:textColor="@color/white"
-            android:fontFamily="@font/font"
             android:textSize="12sp" />
 
     </LinearLayout>

@@ -106,8 +106,9 @@ class CategoriesActivity : AppCompatActivity() {
         categoriesAdapter.setGalleryAndCameraClickListener(object :
             CategoriesAdapter.GalleryAndCameraClickListener {
             override fun oClick(isGallery: Boolean) {
+                this@CategoriesActivity.isGallery = isGallery
+
                 if (isWriteStoragePermissionGranted()) {
-                    this@CategoriesActivity.isGallery = isGallery
                     if (isGallery) {
                         Log.d("tag_per", "isGallery: ImagePicker")
                         ImagePicker.with(this@CategoriesActivity)
@@ -126,6 +127,7 @@ class CategoriesActivity : AppCompatActivity() {
                                 }
                         }
                     }
+
                 }
             }
         })
