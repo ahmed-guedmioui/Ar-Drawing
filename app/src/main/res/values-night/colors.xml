@@ -3,10 +3,6 @@
 
 
 
-
-    <color name="background">#0C0C0C</color>
-    <color name="text">#FFFFFF</color>
-
     <color name="primary">#C683D7</color>
     <color name="primary_2">#ED9ED6</color>
     <color name="primary_3">#9293CE</color>
@@ -22,25 +18,29 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <color name="gray">#1A1A1A</color>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <color name="background">#0C0C0C</color>
+    <color name="text">#FFFFFF</color>
     <color name="rate_btn">#17ECECEC</color>
     <color name="trans">#11ECECEC</color>
+    <color name="half_trans">#7E000000</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

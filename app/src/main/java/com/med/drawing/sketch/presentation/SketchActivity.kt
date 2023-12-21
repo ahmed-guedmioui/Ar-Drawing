@@ -268,27 +268,42 @@ class SketchActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
-            val dataUri: Uri? = data?.data
-            when (requestCode) {
-                102 -> {
-                    val realPathFromURI_API19: String? =
-                        AppConstant.getRealPathFromURI_API19(this, dataUri)
-                    val bitmap: Bitmap? = AppConstant.getBitmap(realPathFromURI_API19)
-                    bmOriginal = bitmap
-                    bitmap?.let {
-                        binding.objImage.setImageBitmap(it)
-                    }
-                    isEditSketch = false
-                }
+            val dataUri = data?.data
 
-                103 -> {
-                    val bitmap: Bitmap? = AppConstant.getBitmap(FileUtils.getPath(dataUri))
-                    bmOriginal = bitmap
-                    bitmap?.let {
-                        binding.objImage.setImageBitmap(it)
-                    }
-                    isEditSketch = false
-                }
+            if (dataUri != null) {
+
+                val i = Resources.getSystem().displayMetrics.widthPixels
+                Glide.with(this)
+                    .asBitmap()
+                    .load(dataUri.toString())
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            bmOriginal = resource
+                            val imageView = binding.objImage
+                            val d = i.toDouble()
+                            imageView.setOnTouchListener(
+                                MultiTouch(
+                                    imageView, 1.0f, 1.0f, (d / 3.5).toInt().toFloat(), 600.0f
+                                )
+                            )
+                            val bitmap = bmOriginal
+                            if (bitmap != null) {
+                                binding.objImage.setImageBitmap(bitmap)
+                                isEditSketch = false
+                            } else {
+                                Toast.makeText(
+                                    this@SketchActivity,
+                                    getString(R.string.some_issue_with_this_image_try_another_one),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
             }
         }
     }

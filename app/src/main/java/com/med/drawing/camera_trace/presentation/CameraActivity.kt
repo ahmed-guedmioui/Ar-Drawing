@@ -253,22 +253,38 @@ class CameraActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            val realPathFromURI_API19: String?
+
             val uri = data?.data
-            if (requestCode != GALLERY_IMAGE_REQ_CODE) {
-                if (requestCode != CAMERA_IMAGE_REQ_CODE) {
-                    return
-                }
-                val bitmap = AppConstant.getBitmap(FileUtils.getPath(uri))
-                bmOriginal = bitmap
-                binding.objImage.setImageBitmap(bitmap)
-                isEditSketch = false
-            } else {
-                realPathFromURI_API19 = AppConstant.getRealPathFromURI_API19(this, uri)
-                val bitmap = AppConstant.getBitmap(realPathFromURI_API19)
-                bmOriginal = bitmap
-                binding.objImage.setImageBitmap(bitmap)
-                isEditSketch = false
+
+            if (uri != null) {
+                Glide.with(this)
+                    .asBitmap()
+                    .load(uri.toString())
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            bmOriginal = resource
+                            binding.objImage.apply {
+                                val i = Resources.getSystem().displayMetrics.widthPixels
+                                setOnTouchListener(
+                                    MultiTouch(
+                                        this, 1.0f, 1.0f,
+                                        (i / 3.5).toInt().toFloat(), 600.0f
+                                    )
+                                )
+
+                                setImageBitmap(bmOriginal)
+                                isEditSketch = false
+                                binding.imgOutline.setImageResource(R.drawable.outline)
+                                alpha = 0.6f
+                                binding.alphaSeek.progress = 4
+                            }
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
             }
         }
     }
@@ -409,7 +425,7 @@ class CameraActivity : AppCompatActivity() {
     private fun stopVideo() {
         isRecording = false
         handler.removeCallbacks(timerRunnable)
-        binding.recordVideo.setImageDrawable(
+        binding.recordVideoImage.setImageDrawable(
             AppCompatResources.getDrawable(
                 this@CameraActivity, R.drawable.rec_button
             )
@@ -433,7 +449,7 @@ class CameraActivity : AppCompatActivity() {
 
             binding.cameraView.takeVideo(videoFile)
             isRecording = true
-            binding.recordVideo.setImageDrawable(
+            binding.recordVideoImage.setImageDrawable(
                 AppCompatResources.getDrawable(
                     this, R.drawable.record
                 )
