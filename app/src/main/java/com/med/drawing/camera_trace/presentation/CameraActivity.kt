@@ -1,6 +1,7 @@
 package com.med.drawing.camera_trace.presentation
 
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
@@ -8,7 +9,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
@@ -17,15 +20,21 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Environment
 import android.os.Environment.getExternalStoragePublicDirectory
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -33,12 +42,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.med.drawing.App
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityCameraBinding
-import com.med.drawing.other.AppConstant
-import com.med.drawing.other.FileUtils
+import com.med.drawing.image_list.data.ImagesManager
+import com.med.drawing.image_list.domain.model.images.Image
+import com.med.drawing.main.presentaion.get_started.GetStartedUiEvent
 import com.med.drawing.other.MultiTouch
 import com.med.drawing.util.ads.NativeManager
+import com.med.drawing.util.ads.RewardedManager
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Flash
@@ -72,13 +84,22 @@ class CameraActivity : AppCompatActivity() {
     private var isTorchOn = false
     private var isLock = false
     private var isEditSketch = false
-    private var elapsedTimeMillis: Long = 0
     private var convertedBitmap: Bitmap? = null
+
+    private var elapsedTimeMillis: Long = 0
+    private var isRecording = false
+    private lateinit var handler: Handler
+    private lateinit var timestamp: String
+
+    private lateinit var countDownTimer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        updateMainTimerText("03:00")
+        countDown()
 
         handler = Handler(Looper.getMainLooper())
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
@@ -351,9 +372,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
-    private var isRecording = false
-    private lateinit var handler: Handler
-    private lateinit var timestamp: String
     private fun setupCameraCallbacks() {
         binding.cameraView.mode = Mode.VIDEO
         binding.recordVideo.setOnClickListener {
@@ -406,8 +424,14 @@ class CameraActivity : AppCompatActivity() {
         } finally {
             outputStream?.close()
         }
-
     }
+
+    private fun generateFileName(): String {
+        val timestamp =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "VIDEO_$timestamp.mp4"
+    }
+
 
     private fun notifyMediaScanner(file: File) {
         // Use MediaScannerConnection to notify the media scanner
@@ -427,7 +451,7 @@ class CameraActivity : AppCompatActivity() {
         handler.removeCallbacks(timerRunnable)
         binding.recordVideoImage.setImageDrawable(
             AppCompatResources.getDrawable(
-                this@CameraActivity, R.drawable.rec_button
+                this@CameraActivity, R.drawable.rec
             )
         )
 
@@ -451,7 +475,7 @@ class CameraActivity : AppCompatActivity() {
             isRecording = true
             binding.recordVideoImage.setImageDrawable(
                 AppCompatResources.getDrawable(
-                    this, R.drawable.record
+                    this, R.drawable.rec_stop
                 )
             )
 
@@ -504,38 +528,78 @@ class CameraActivity : AppCompatActivity() {
         binding.temp.text = timerText
     }
 
-    private fun saveRecordedVideo(videoData: ByteArray) {
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, generateFileName())
-            put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MOVIES)
-        }
+    private fun countDown() {
+        // Set the countdown duration in milliseconds (e.g., 5 minutes)
+        val countdownDurationMillis: Long = 3 * 60 * 1000
 
-        val contentResolver = contentResolver
-        var outputStream: OutputStream? = null
-        val contentUri: Uri?
+        // Set the countdown interval (e.g., 1 second)
+        val countdownIntervalMillis: Long = 1000
 
-        try {
-            // Insert the video details into the MediaStore
-            contentUri =
-                contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
+        countDownTimer = object : CountDownTimer(countdownDurationMillis, countdownIntervalMillis) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = (millisUntilFinished / 1000) / 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                val formattedTime = "%02d:%02d".format(minutes, seconds)
 
-            // Open an OutputStream for the content Uri
-            contentUri?.let {
-                outputStream = contentResolver.openOutputStream(it)
-                outputStream?.write(videoData)
+                updateMainTimerText(formattedTime)
             }
-        } finally {
-            outputStream?.close()
+
+            override fun onFinish() {
+                updateMainTimerText("00:00")
+                timeDialog()
+            }
         }
 
+        // Start the countdown timer
+        countDownTimer.start()
     }
 
-    private fun generateFileName(): String {
-        val timestamp =
-            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        return "VIDEO_$timestamp.mp4"
+    private fun updateMainTimerText(timerText: String) {
+        // Update your TextView with the timerText
+        binding.mainTemp.text = timerText
+
+        if (timerText == "01:30") {
+            binding.theDrawingIsReadyBtn.visibility = View.VISIBLE
+        }
     }
+
+    private fun timeDialog() {
+        val timeDialog = Dialog(this)
+        timeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        timeDialog.setCancelable(false)
+        timeDialog.setContentView(R.layout.dialog_time)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(timeDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        timeDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        timeDialog.window!!.attributes = layoutParams
+
+        timeDialog.findViewById<Button>(R.id.watch).setOnClickListener {
+            rewarded()
+            timeDialog.dismiss()
+        }
+
+        timeDialog.show()
+    }
+
+    private fun rewarded() {
+        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
+            override fun onRewClosed() {}
+
+            override fun onRewFailedToShow() {
+               countDown()
+            }
+
+            override fun onRewComplete() {
+                countDown()
+            }
+        })
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

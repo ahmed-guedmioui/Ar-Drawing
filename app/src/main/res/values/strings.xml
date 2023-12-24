@@ -96,6 +96,10 @@
     <string name="from_camera">From Camera</string>
     <string name="error_recording_the_video">Error recording the video</string>
     <string name="video_saved">Video Saved</string>
-    <string name="_00_00">00.00</string>
+    <string name="_00_00">00:00</string>
     <string name="advanced">Advanced</string>
+    <string name="the_drawing_is_ready">The Drawing is ready</string>
+    <string name="time_is_up">Time is up</string>
+    <string name="you_need_to_watch_an_add_to_continue_drawing">You need to watch an add to reset the timer and continue drawing.</string>
+    <string name="watch">Watch</string>
 </resources>

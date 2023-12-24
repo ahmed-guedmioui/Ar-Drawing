@@ -40,22 +40,21 @@
             android:textSize="17sp" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             app:cardBackgroundColor="@color/primary_4"
-            app:cardCornerRadius="6dp">
+            app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/main_temp"
                 android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
                 android:fontFamily="@font/font"
-                android:text="00.00"
+                android:text="@string/_00_00"
                 android:textColor="@color/black" />
 
         </androidx.cardview.widget.CardView>
@@ -125,7 +124,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/rec_button" />
+                    android:src="@drawable/rec" />
 
             </androidx.cardview.widget.CardView>
 
@@ -135,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:text="00.00"
+                android:text="@string/_00_00"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="4dp"
                 android:fontFamily="@font/font"
@@ -182,7 +181,20 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/the_drawing_is_ready_btn"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/primary"
+        android:layout_above="@id/progress"
+        android:layout_centerHorizontal="true"
+        android:text="@string/the_drawing_is_ready"
+        android:layout_height="wrap_content"/>
+
     <RelativeLayout
+        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_above="@id/bottom_bar"
