@@ -11,6 +11,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.hardware.camera2.CameraAccessException
@@ -33,21 +34,20 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.med.drawing.App
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityCameraBinding
-import com.med.drawing.image_list.data.ImagesManager
-import com.med.drawing.image_list.domain.model.images.Image
-import com.med.drawing.main.presentaion.get_started.GetStartedUiEvent
 import com.med.drawing.other.MultiTouch
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
@@ -58,6 +58,7 @@ import com.otaliastudios.cameraview.controls.Mode
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
@@ -93,12 +94,16 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var countDownTimer: CountDownTimer
 
+    private var isDialogShowing = false
+    private var isTimeIsUp = false
+    private var isTimeIsUpDialogShowing = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        updateMainTimerText("03:00")
+        updateMainTimerText("03:00", 300000)
         countDown()
 
         handler = Handler(Looper.getMainLooper())
@@ -114,6 +119,10 @@ class CameraActivity : AppCompatActivity() {
         )
 
         setupFlashButton()
+
+        binding.theDrawingIsReadyBtn.setOnClickListener {
+            takePhotoDialog()
+        }
 
         val imagePath = intent?.extras?.getString("imagePath")
         if (imagePath != null) {
@@ -158,7 +167,9 @@ class CameraActivity : AppCompatActivity() {
                 ImagePicker.with(this)
                     .cameraOnly()
                     .saveDir(it1)
-                    .start(CAMERA_IMAGE_REQ_CODE)
+                    .createIntent { intent ->
+                        startForGetPhotoResult.launch(intent)
+                    }
             }
         }
 
@@ -271,13 +282,14 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+    private val startForGetPhotoResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
 
-            val uri = data?.data
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val uri = result.data?.data!!
 
-            if (uri != null) {
                 Glide.with(this)
                     .asBitmap()
                     .load(uri.toString())
@@ -306,9 +318,37 @@ class CameraActivity : AppCompatActivity() {
 
                         override fun onLoadCleared(placeholder: Drawable?) {}
                     })
+            } else {
+                Toast.makeText(this, "Error taking image", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+
+
+    private val startForTakeAndSaveDrawingPhotoResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val uri = result.data?.data!!
+
+                Glide.with(this)
+                    .asBitmap()
+                    .load(uri.toString())
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            savePhotoDialog(resource)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            } else {
+                Toast.makeText(this, "Error taking photo", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     private fun setupFlashButton() {
         try {
@@ -529,9 +569,10 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun countDown() {
-        // Set the countdown duration in milliseconds (e.g., 5 minutes)
-        val countdownDurationMillis: Long = 3 * 60 * 1000
+        isTimeIsUp = false
+        binding.theDrawingIsReadyBtn.visibility = View.GONE
 
+        val countdownDurationMillis: Long = 1 * 60 * 1000
         // Set the countdown interval (e.g., 1 second)
         val countdownIntervalMillis: Long = 1000
 
@@ -541,12 +582,15 @@ class CameraActivity : AppCompatActivity() {
                 val seconds = (millisUntilFinished / 1000) % 60
                 val formattedTime = "%02d:%02d".format(minutes, seconds)
 
-                updateMainTimerText(formattedTime)
+                updateMainTimerText(formattedTime, millisUntilFinished)
             }
 
             override fun onFinish() {
-                updateMainTimerText("00:00")
-                timeDialog()
+                isTimeIsUp = true
+                updateMainTimerText("00:00", 0)
+                if (!isDialogShowing && !isTimeIsUpDialogShowing) {
+                    timeDialog()
+                }
             }
         }
 
@@ -554,16 +598,18 @@ class CameraActivity : AppCompatActivity() {
         countDownTimer.start()
     }
 
-    private fun updateMainTimerText(timerText: String) {
+    private fun updateMainTimerText(timerText: String, millisUntilFinished: Long) {
         // Update your TextView with the timerText
         binding.mainTemp.text = timerText
 
-        if (timerText == "01:30") {
+        // Check if the remaining time is less than 50 seconds
+        if (millisUntilFinished <= 50000) {
             binding.theDrawingIsReadyBtn.visibility = View.VISIBLE
         }
     }
 
     private fun timeDialog() {
+        isTimeIsUpDialogShowing = true
         val timeDialog = Dialog(this)
         timeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         timeDialog.setCancelable(false)
@@ -580,6 +626,7 @@ class CameraActivity : AppCompatActivity() {
 
         timeDialog.findViewById<Button>(R.id.watch).setOnClickListener {
             rewarded()
+            isTimeIsUpDialogShowing = false
             timeDialog.dismiss()
         }
 
@@ -591,7 +638,7 @@ class CameraActivity : AppCompatActivity() {
             override fun onRewClosed() {}
 
             override fun onRewFailedToShow() {
-               countDown()
+                countDown()
             }
 
             override fun onRewComplete() {
@@ -607,11 +654,10 @@ class CameraActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val CAMERA_IMAGE_REQ_CODE = 103
-        const val FLIP_HORIZONTAL = 2
         const val GALLERY_IMAGE_REQ_CODE = 102
-        const val PERMISSION_CODE_CAMERA = 3002
+        const val FLIP_HORIZONTAL = 2
         private const val FLIP_VERTICAL = 1
+        const val PERMISSION_CODE_CAMERA = 3002
 
         fun flip(bitmap: Bitmap?, type: Int): Bitmap? {
             if (bitmap != null) {
@@ -639,6 +685,153 @@ class CameraActivity : AppCompatActivity() {
             }
             return copy
         }
+    }
+
+    private fun takePhotoDialog() {
+        isDialogShowing = true
+
+        val takePhotoDialog = Dialog(this)
+        takePhotoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        takePhotoDialog.setCancelable(true)
+        takePhotoDialog.setContentView(R.layout.dialog_take_photo)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(takePhotoDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        takePhotoDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        takePhotoDialog.window!!.attributes = layoutParams
+
+        val itsNotFinished = takePhotoDialog.findViewById<TextView>(R.id.its_not_finished)
+        itsNotFinished.paintFlags =
+            itsNotFinished.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
+        takePhotoDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            isDialogShowing = false
+            takePhotoDialog.dismiss()
+
+            if (isTimeIsUp && !isTimeIsUpDialogShowing) {
+                timeDialog()
+            }
+        }
+
+        itsNotFinished.setOnClickListener {
+            isDialogShowing = false
+            takePhotoDialog.dismiss()
+
+            if (isTimeIsUp && !isTimeIsUpDialogShowing) {
+                timeDialog()
+            }
+        }
+
+        takePhotoDialog.findViewById<Button>(R.id.take_photo).setOnClickListener {
+            isDialogShowing = false
+            takePhotoDialog.dismiss()
+            takePhoto()
+        }
+
+        takePhotoDialog.show()
+    }
+
+    private fun savePhotoDialog(bitmap: Bitmap) {
+        isDialogShowing = true
+        val savePhotoDialog = Dialog(this)
+        savePhotoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        savePhotoDialog.setCancelable(true)
+        savePhotoDialog.setContentView(R.layout.dialog_save_photo)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(savePhotoDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        savePhotoDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        savePhotoDialog.window!!.attributes = layoutParams
+
+        val takeAnotherPhoto = savePhotoDialog.findViewById<TextView>(R.id.take_another_photo)
+        takeAnotherPhoto.paintFlags =
+            takeAnotherPhoto.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
+        savePhotoDialog.findViewById<ImageView>(R.id.photo).setImageBitmap(bitmap)
+
+        savePhotoDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            isDialogShowing = false
+            savePhotoDialog.dismiss()
+
+            if (isTimeIsUp && !isTimeIsUpDialogShowing) {
+                timeDialog()
+            }
+        }
+
+        takeAnotherPhoto.setOnClickListener {
+            isDialogShowing = false
+            savePhotoDialog.dismiss()
+            takePhoto()
+        }
+
+        savePhotoDialog.findViewById<Button>(R.id.save_photo).setOnClickListener {
+            isDialogShowing = false
+            savePhotoDialog.dismiss()
+            saveImage(bitmap)
+
+            if (isTimeIsUp && !isTimeIsUpDialogShowing) {
+                timeDialog()
+            }
+        }
+
+        savePhotoDialog.show()
+    }
+
+    private fun takePhoto() {
+        getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+            ImagePicker.with(this)
+                .cameraOnly()
+                .saveDir(it1)
+                .createIntent { intent ->
+                    startForTakeAndSaveDrawingPhotoResult.launch(intent)
+                }
+        }
+    }
+
+    private fun saveImage(bitmap: Bitmap) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, generatePhotoFileName())
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+        }
+
+        val contentResolver = contentResolver
+        var outputStream: OutputStream? = null
+        val contentUri: Uri?
+
+        try {
+            // Insert the image details into the MediaStore
+            contentUri =
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+            // Open an OutputStream for the content Uri
+            contentUri?.let {
+                outputStream = contentResolver.openOutputStream(it)
+
+                // Convert Bitmap to ByteArray and write to OutputStream
+                val byteArray = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray)
+                outputStream?.write(byteArray.toByteArray())
+            }
+        } finally {
+            outputStream?.close()
+            Toast.makeText(
+                this, getString(R.string.photo_saved), Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun generatePhotoFileName(): String {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "IMAGE_$timestamp.png"
     }
 
 }
