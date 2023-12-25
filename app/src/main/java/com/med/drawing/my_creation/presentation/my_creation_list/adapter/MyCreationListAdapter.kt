@@ -1,10 +1,7 @@
-package com.med.drawing.my_creation.presentation.adapter
+package com.med.drawing.my_creation.presentation.my_creation_list.adapter
 
 import android.app.Activity
 import android.media.MediaMetadataRetriever
-import android.media.ThumbnailUtils
-import android.net.Uri
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +14,7 @@ import com.med.drawing.my_creation.domian.model.Creation
 /**
  * @author Ahmed Guedmioui
  */
-class MyCreationAdapter(
+class MyCreationListAdapter(
     val activity: Activity,
     private val creationList: List<Creation>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

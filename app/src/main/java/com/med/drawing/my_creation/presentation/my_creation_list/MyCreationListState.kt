@@ -1,4 +1,4 @@
-package com.med.drawing.my_creation.presentation
+package com.med.drawing.my_creation.presentation.my_creation_list
 
 import com.med.drawing.my_creation.domian.model.Creation
 
@@ -6,6 +6,6 @@ import com.med.drawing.my_creation.domian.model.Creation
 /**
  * @author Ahmed Guedmioui
  */
-data class MyCreationState(
+data class MyCreationListState(
     val creationList: List<Creation> = emptyList()
 )

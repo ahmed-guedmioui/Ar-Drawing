@@ -1,4 +1,4 @@
-package com.med.drawing.my_creation.presentation
+package com.med.drawing.my_creation.presentation.my_creation_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,17 +14,17 @@ import javax.inject.Inject
  * @author Ahmed Guedmioui
  */
 @HiltViewModel
-class MyCreationViewModel @Inject constructor(
+class MyCreationListViewModel @Inject constructor(
     creationRepository: CreationRepository
 ) : ViewModel() {
 
-    private val _myCreationState = MutableStateFlow(MyCreationState())
-    val myCreationState = _myCreationState.asStateFlow()
+    private val _myCreationListState = MutableStateFlow(MyCreationListState())
+    val myCreationState = _myCreationListState.asStateFlow()
 
     init {
         viewModelScope.launch {
             creationRepository.getCreationList().collect { creationList ->
-                _myCreationState.update {
+                _myCreationListState.update {
                     it.copy(creationList = creationList)
                 }
             }

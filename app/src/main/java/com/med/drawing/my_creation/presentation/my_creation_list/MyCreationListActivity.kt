@@ -1,4 +1,4 @@
-package com.med.drawing.my_creation.presentation
+package com.med.drawing.my_creation.presentation.my_creation_list
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.med.drawing.databinding.ActivityMyCreationBinding
-import com.med.drawing.my_creation.presentation.adapter.MyCreationAdapter
+import com.med.drawing.my_creation.presentation.my_creation_list.adapter.MyCreationListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,11 +17,11 @@ import javax.inject.Inject
  * @author Ahmed Guedmioui
  */
 @AndroidEntryPoint
-class MyCreationActivity : AppCompatActivity() {
+class MyCreationListActivity : AppCompatActivity() {
 
-    private val myCreationViewModel: MyCreationViewModel by viewModels()
+    private val myCreationListViewModel: MyCreationListViewModel by viewModels()
 
-    private lateinit var myCreationState: MyCreationState
+    private lateinit var myCreationListState: MyCreationListState
     private lateinit var binding: ActivityMyCreationBinding
 
     @Inject
@@ -35,22 +35,22 @@ class MyCreationActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            myCreationViewModel.myCreationState.collect {
-                myCreationState = it
+            myCreationListViewModel.myCreationState.collect {
+                myCreationListState = it
 
-                if (myCreationState.creationList.isNotEmpty()) {
-                    val myCreationAdapter = MyCreationAdapter(
-                        this@MyCreationActivity, myCreationState.creationList
+                if (myCreationListState.creationList.isNotEmpty()) {
+                    val myCreationListAdapter = MyCreationListAdapter(
+                        this@MyCreationListActivity, myCreationListState.creationList
                     )
-                    myCreationAdapter.setClickListener(object : MyCreationAdapter.ClickListener {
+                    myCreationListAdapter.setClickListener(object : MyCreationListAdapter.ClickListener {
                         override fun oClick(imagePosition: Int) {
 
                         }
                     })
 
                     binding.recyclerView.layoutManager =
-                        GridLayoutManager(this@MyCreationActivity, 2)
-                    binding.recyclerView.adapter = myCreationAdapter
+                        GridLayoutManager(this@MyCreationListActivity, 2)
+                    binding.recyclerView.adapter = myCreationListAdapter
                 }
             }
         }

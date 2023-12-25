@@ -126,7 +126,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".my_creation.presentation.MyCreationActivity"
+            android:name=".my_creation.presentation.my_creation_list.MyCreationListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"  />
         <activity
