@@ -23,6 +23,7 @@ import com.med.drawing.main.presentaion.home.adapter.HelperPagerAdapter
 import com.med.drawing.main.presentaion.settings.SettingsActivity
 import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.image_list.presentation.categories.CategoriesActivity
+import com.med.drawing.my_creation.presentation.MyCreationActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
@@ -101,6 +102,7 @@ class HomeActivity : AppCompatActivity() {
 
         binding.creation.setOnClickListener {
             it.startAnimation(pushAnimation)
+            startActivity(Intent(this, MyCreationActivity::class.java))
         }
 
         binding.rate.setOnClickListener {

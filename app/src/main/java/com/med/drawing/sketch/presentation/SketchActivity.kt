@@ -6,7 +6,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -25,9 +24,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivitySketchBinding
-import com.med.drawing.other.AppConstant
-import com.med.drawing.other.FileUtils
-import com.med.drawing.other.MultiTouch
+import com.med.drawing.util.other.MultiTouch
 import com.thebluealliance.spectrum.SpectrumDialog
 
 class SketchActivity : AppCompatActivity() {

@@ -42,13 +42,16 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityCameraBinding
-import com.med.drawing.other.MultiTouch
+import com.med.drawing.my_creation.domian.model.Creation
+import com.med.drawing.my_creation.domian.repository.CreationRepository
+import com.med.drawing.util.other.MultiTouch
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
 import com.otaliastudios.cameraview.CameraListener
@@ -58,8 +61,10 @@ import com.otaliastudios.cameraview.controls.Mode
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -75,6 +80,9 @@ class CameraActivity : AppCompatActivity() {
 
     @Inject
     lateinit var prefs: SharedPreferences
+
+    @Inject
+    lateinit var creationRepository: CreationRepository
 
     private lateinit var binding: ActivityCameraBinding
 
@@ -424,11 +432,6 @@ class CameraActivity : AppCompatActivity() {
 
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onVideoTaken(result: VideoResult) {
-                Toast.makeText(
-                    this@CameraActivity,
-                    getString(R.string.video_saved),
-                    Toast.LENGTH_SHORT
-                ).show()
                 stopVideo()
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -436,42 +439,20 @@ class CameraActivity : AppCompatActivity() {
                 } else {
                     notifyMediaScanner(result.file)
                 }
+
+                Toast.makeText(
+                    this@CameraActivity, getString(R.string.video_saved), Toast.LENGTH_SHORT
+                ).show()
+
             }
         })
     }
 
     private fun saveRecordedVideo(file: File) {
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, generateFileName())
-            put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MOVIES)
-        }
-
-        val contentResolver = contentResolver
-        var outputStream: OutputStream? = null
-        val contentUri: Uri?
-
-        try {
-            // Insert the video details into the MediaStore
-            contentUri =
-                contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-            // Open an OutputStream for the content Uri
-            contentUri?.let {
-                outputStream = contentResolver.openOutputStream(it)
-                outputStream?.write(file.readBytes())
-            }
-        } finally {
-            outputStream?.close()
+        lifecycleScope.launch {
+            creationRepository.insertVideoCreation(file)
         }
     }
-
-    private fun generateFileName(): String {
-        val timestamp =
-            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        return "VIDEO_$timestamp.mp4"
-    }
-
 
     private fun notifyMediaScanner(file: File) {
         // Use MediaScannerConnection to notify the media scanner
@@ -651,6 +632,7 @@ class CameraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(timerRunnable)
+        countDownTimer.cancel()
     }
 
     companion object {
@@ -776,6 +758,9 @@ class CameraActivity : AppCompatActivity() {
             isDialogShowing = false
             savePhotoDialog.dismiss()
             saveImage(bitmap)
+            Toast.makeText(
+                this@CameraActivity, getString(R.string.photo_saved), Toast.LENGTH_SHORT
+            ).show()
 
             if (isTimeIsUp && !isTimeIsUpDialogShowing) {
                 timeDialog()
@@ -797,41 +782,9 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun saveImage(bitmap: Bitmap) {
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, generatePhotoFileName())
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+        lifecycleScope.launch {
+            creationRepository.insertPhotoCreation(bitmap)
         }
-
-        val contentResolver = contentResolver
-        var outputStream: OutputStream? = null
-        val contentUri: Uri?
-
-        try {
-            // Insert the image details into the MediaStore
-            contentUri =
-                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-            // Open an OutputStream for the content Uri
-            contentUri?.let {
-                outputStream = contentResolver.openOutputStream(it)
-
-                // Convert Bitmap to ByteArray and write to OutputStream
-                val byteArray = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray)
-                outputStream?.write(byteArray.toByteArray())
-            }
-        } finally {
-            outputStream?.close()
-            Toast.makeText(
-                this, getString(R.string.photo_saved), Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    private fun generatePhotoFileName(): String {
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        return "IMAGE_$timestamp.png"
     }
 
 }

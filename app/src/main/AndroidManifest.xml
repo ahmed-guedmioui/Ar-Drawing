@@ -39,6 +39,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -113,18 +114,21 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.other.HelpActivity"
+            android:name="com.med.drawing.util.other.HelpActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.other.HelpActivity2"
+            android:name="com.med.drawing.util.other.HelpActivity2"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.med.drawing.other.PrivacyPolicyActivity"
+            android:name="com.med.drawing.util.other.PrivacyPolicyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".my_creation.presentation.MyCreationActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"  />
         <activity
             android:name="com.github.dhaval2404.imagepicker.ImagePickerActivity"
             android:screenOrientation="unspecified"

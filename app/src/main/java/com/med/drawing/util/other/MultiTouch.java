@@ -1,4 +1,4 @@
-package com.med.drawing.other;
+package com.med.drawing.util.other;
 
 import android.graphics.Matrix;
 import android.graphics.PointF;

@@ -23,10 +23,10 @@ import com.med.drawing.databinding.ActivityCategoriesBinding
 import com.med.drawing.image_list.data.ImagesManager
 import com.med.drawing.image_list.domain.model.images.Image
 import com.med.drawing.image_list.presentation.category.CategoryActivity
-import com.med.drawing.other.AppConstant
-import com.med.drawing.other.FileUtils
-import com.med.drawing.other.HelpActivity
-import com.med.drawing.other.HelpActivity2
+import com.med.drawing.util.other.AppConstant
+import com.med.drawing.util.other.FileUtils
+import com.med.drawing.util.other.HelpActivity
+import com.med.drawing.util.other.HelpActivity2
 import com.med.drawing.sketch.presentation.SketchActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.RewardedManager
