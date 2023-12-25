@@ -110,4 +110,5 @@
     <string name="take_another_photo">Take another photo</string>
     <string name="save_and_exit">Save And Exit</string>
     <string name="photo_saved">Photo saved</string>
+    <string name="preview">Preview</string>
 </resources>

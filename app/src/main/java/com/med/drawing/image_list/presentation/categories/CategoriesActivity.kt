@@ -75,6 +75,10 @@ class CategoriesActivity : AppCompatActivity() {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.relHelp.setOnClickListener {
             it.startAnimation(pushAnimation)
             if (AppConstant.selected_id == AppConstant.TraceDirect) {

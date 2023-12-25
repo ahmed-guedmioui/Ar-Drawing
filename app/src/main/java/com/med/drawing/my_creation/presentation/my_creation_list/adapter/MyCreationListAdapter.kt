@@ -39,15 +39,14 @@ class MyCreationListAdapter(
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
 
         val holder: CreationViewHolder = viewHolder as CreationViewHolder
+        val uri = creationList[position].uri
 
         if (creationList[position].isVideo) {
-
-            val videoUri = creationList[position].uri
 
             try {
                 val contentResolver = activity.contentResolver
                 val fileDescriptor = contentResolver
-                    .openFileDescriptor(videoUri, "r")?.fileDescriptor ?: return
+                    .openFileDescriptor(uri, "r")?.fileDescriptor ?: return
 
                 val retriever = MediaMetadataRetriever()
                 retriever.setDataSource(fileDescriptor)
@@ -61,18 +60,18 @@ class MyCreationListAdapter(
             }
 
             holder.image.setOnClickListener {
-                clickListener.oClick(position)
+                clickListener.oClick(uri.toString(), true)
             }
             return
         }
 
         Glide.with(activity)
-            .load(creationList[position].uri)
+            .load(uri)
             .thumbnail(0.25f)
             .into(holder.image)
 
         holder.image.setOnClickListener {
-            clickListener.oClick(position)
+            clickListener.oClick(uri.toString(), false)
         }
     }
 
@@ -97,7 +96,7 @@ class MyCreationListAdapter(
     }
 
     interface ClickListener {
-        fun oClick(imagePosition: Int)
+        fun oClick(uri: String, isVideo: Boolean)
     }
 
 }

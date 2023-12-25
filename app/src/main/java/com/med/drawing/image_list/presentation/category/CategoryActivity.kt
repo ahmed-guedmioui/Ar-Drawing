@@ -58,8 +58,9 @@ class CategoryActivity : AppCompatActivity() {
             this
         )
 
-        binding.back.setOnClickListener { onBackPressed() }
-
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
         pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
 
         binding.recyclerView.setHasFixedSize(true)

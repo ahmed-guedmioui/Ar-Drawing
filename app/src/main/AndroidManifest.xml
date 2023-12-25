@@ -130,6 +130,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"  />
         <activity
+            android:name=".my_creation.presentation.my_creation_details.MyCreationDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"  />
+        <activity
             android:name="com.github.dhaval2404.imagepicker.ImagePickerActivity"
             android:screenOrientation="unspecified"
             android:theme="@style/Theme.Transparent.ImagePicker" />

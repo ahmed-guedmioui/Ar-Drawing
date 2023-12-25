@@ -762,9 +762,7 @@ class CameraActivity : AppCompatActivity() {
                 this@CameraActivity, getString(R.string.photo_saved), Toast.LENGTH_SHORT
             ).show()
 
-            if (isTimeIsUp && !isTimeIsUpDialogShowing) {
-                timeDialog()
-            }
+            onBackPressed()
         }
 
         savePhotoDialog.show()
