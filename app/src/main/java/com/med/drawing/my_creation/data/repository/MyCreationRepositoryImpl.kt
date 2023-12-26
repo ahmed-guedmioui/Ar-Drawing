@@ -78,6 +78,19 @@ class MyCreationRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteCreation(uri: String): Boolean {
+        val file = Uri.parse(uri).path?.let { File(it) }
+
+        if (file != null) {
+            if (file.exists()) {
+                file.delete()
+                return true
+            }
+        }
+
+        return false
+    }
+
     override suspend fun getCreationList(): Flow<List<Creation>> {
 
         return flow {

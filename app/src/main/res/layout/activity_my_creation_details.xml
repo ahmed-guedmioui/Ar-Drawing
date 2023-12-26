@@ -32,6 +32,16 @@
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="16dp"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/text" />
+
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView

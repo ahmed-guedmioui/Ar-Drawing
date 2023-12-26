@@ -111,4 +111,8 @@
     <string name="save_and_exit">Save And Exit</string>
     <string name="photo_saved">Photo saved</string>
     <string name="preview">Preview</string>
+    <string name="creation_deleted">Creation deleted</string>
+    <string name="are_you_sure_you_want_to_delete_this_creation">Are you sure you want to delete this creation</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

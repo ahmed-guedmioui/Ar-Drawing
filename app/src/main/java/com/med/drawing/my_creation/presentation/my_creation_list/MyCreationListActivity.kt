@@ -26,9 +26,6 @@ class MyCreationListActivity : AppCompatActivity() {
     private lateinit var myCreationListState: MyCreationListState
     private lateinit var binding: ActivityMyCreationLsitBinding
 
-    @Inject
-    lateinit var prefs: SharedPreferences
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyCreationLsitBinding.inflate(layoutInflater)
@@ -58,6 +55,7 @@ class MyCreationListActivity : AppCompatActivity() {
                                 intent.putExtra("uri", uri)
                                 intent.putExtra("isVideo", isVideo)
                                 startActivity(intent)
+                                finish()
                             }
 
                         }

@@ -13,6 +13,8 @@ interface CreationRepository {
     suspend fun insertPhotoCreation(bitmap: Bitmap)
     suspend fun insertVideoCreation(file: File)
 
+    suspend fun deleteCreation(uri: String): Boolean
+
     suspend fun getCreationList(): Flow<List<Creation>>
 
 }
