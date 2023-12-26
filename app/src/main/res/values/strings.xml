@@ -115,4 +115,9 @@
     <string name="are_you_sure_you_want_to_delete_this_creation">Are you sure you want to delete this creation</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="edge">Edge</string>
+    <string name="contrast">Contrast</string>
+    <string name="noise">Noise</string>
+    <string name="sharpness">Sharpness</string>
+    <string name="apply">Apply</string>
 </resources>

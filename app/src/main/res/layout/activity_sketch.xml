@@ -133,7 +133,7 @@
                 android:maxHeight="@dimen/_12sdp"
                 android:minHeight="@dimen/_12sdp"
                 android:progress="5"
-                android:progressDrawable="@drawable/progressdrawable"
+                android:progressDrawable="@drawable/progress_drawable"
                 android:thumb="@drawable/thumb"
                 android:thumbOffset="-5dp" />
         </RelativeLayout>
@@ -165,7 +165,7 @@
                 android:max="255"
                 android:maxHeight="@dimen/_12sdp"
                 android:minHeight="@dimen/_12sdp"
-                android:progressDrawable="@drawable/progressdrawable"
+                android:progressDrawable="@drawable/progress_drawable"
                 android:thumb="@drawable/thumb"
                 android:thumbOffset="-5dp" />
         </RelativeLayout>

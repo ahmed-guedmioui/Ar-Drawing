@@ -8,6 +8,7 @@
     <color name="primary_3">#9293CE</color>
     <color name="primary_4">#FFC7C7</color>
     <color name="primary_dark">#D68FE8</color>
+    <color name="primary_selected">#6B4276</color>
     <color name="variant_background">#2E1B33</color>
 
     <color name="dark_button_start">#7C51EF</color>
@@ -36,7 +37,7 @@
 
 
     <color name="gold">#EFAC00</color>
-    <color name="gray">#1A1A1A</color>
+    <color name="gray">#000000</color>
     <color name="background">#0C0C0C</color>
     <color name="text">#FFFFFF</color>
     <color name="rate_btn">#17ECECEC</color>

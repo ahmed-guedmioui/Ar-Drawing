@@ -105,10 +105,10 @@ class SketchActivity : AppCompatActivity() {
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    if (progress <= 20) {
-                        brightness = 20
+                    brightness = if (progress <= 20) {
+                        20
                     } else {
-                        brightness = progress
+                        progress
                     }
                     val attributes = window.attributes
                     attributes.screenBrightness = brightness / 255.0f

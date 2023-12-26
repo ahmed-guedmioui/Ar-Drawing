@@ -3,7 +3,6 @@ package com.med.drawing.camera_trace.presentation
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -18,7 +17,6 @@ import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -26,7 +24,6 @@ import android.os.Environment
 import android.os.Environment.getExternalStoragePublicDirectory
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -48,9 +45,11 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
+import com.med.drawing.advanced_editing.presentation.AdvancedEditingActivity
 import com.med.drawing.databinding.ActivityCameraBinding
-import com.med.drawing.my_creation.domian.model.Creation
 import com.med.drawing.my_creation.domian.repository.CreationRepository
+import com.med.drawing.util.Constants
+import com.med.drawing.util.PermissionUtils
 import com.med.drawing.util.other.MultiTouch
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
@@ -62,11 +61,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -79,16 +75,12 @@ import javax.inject.Inject
 class CameraActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var prefs: SharedPreferences
-
-    @Inject
     lateinit var creationRepository: CreationRepository
 
     private lateinit var binding: ActivityCameraBinding
 
     private lateinit var pushanim: Animation
     private var ringProgressDialog: ProgressDialog? = null
-    private lateinit var bmOriginal: Bitmap
     private var isFlashSupported = false
     private var isTorchOn = false
     private var isLock = false
@@ -142,7 +134,7 @@ class CameraActivity : AppCompatActivity() {
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
-                        bmOriginal = resource
+                        Constants.bitmap = resource
                         binding.objImage.apply {
                             val i = Resources.getSystem().displayMetrics.widthPixels
                             setOnTouchListener(
@@ -152,7 +144,7 @@ class CameraActivity : AppCompatActivity() {
                                 )
                             )
 
-                            setImageBitmap(bmOriginal)
+                            setImageBitmap(Constants.bitmap)
                             isEditSketch = false
                             binding.imgOutline.setImageResource(R.drawable.outline)
                             alpha = 0.6f
@@ -188,12 +180,18 @@ class CameraActivity : AppCompatActivity() {
 
         binding.relFlip.setOnClickListener {
             it.startAnimation(pushanim)
-            bmOriginal = flip(bmOriginal, FLIP_HORIZONTAL) ?: return@setOnClickListener
-            binding.objImage.setImageBitmap(bmOriginal)
+            Constants.bitmap = flip(Constants.bitmap, FLIP_HORIZONTAL) ?: return@setOnClickListener
+            binding.objImage.setImageBitmap(Constants.bitmap)
         }
 
         binding.relEditRound.setOnClickListener {
             convertBorderBitmap()
+        }
+
+        binding.advanced.setOnClickListener {
+            startActivity(
+                Intent(this, AdvancedEditingActivity::class.java)
+            )
         }
 
         binding.relLock.setOnClickListener {
@@ -228,17 +226,18 @@ class CameraActivity : AppCompatActivity() {
         val show = ProgressDialog.show(this, "", getString(R.string.convert_bitmap), true)
         ringProgressDialog = show
         show.setCancelable(false)
-        Thread {
+
+        lifecycleScope.launch {
             try {
                 if (!isEditSketch) {
-                    gPUImage.setImage(bmOriginal)
+                    gPUImage.setImage(Constants.bitmap)
                     gPUImage.setFilter(GPUImageThresholdEdgeDetectionFilter())
                     val bitmapWithFilterApplied = gPUImage.bitmapWithFilterApplied
                     if (bitmapWithFilterApplied != null) {
                         convertedBitmap = getBitmapWithTransparentBG(bitmapWithFilterApplied, -1)
                     } else {
                         Toast.makeText(
-                            this,
+                            this@CameraActivity,
                             getString(R.string.can_t_convert_this_image_try_with_another),
                             Toast.LENGTH_SHORT
                         ).show()
@@ -248,7 +247,11 @@ class CameraActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
             ringProgressDialog?.dismiss()
-        }.start()
+        }
+
+//        Thread {
+//
+//        }.start()
         ringProgressDialog?.setOnDismissListener {
             if (!isEditSketch) {
                 if (convertedBitmap != null) {
@@ -264,7 +267,7 @@ class CameraActivity : AppCompatActivity() {
                 }
             } else {
                 isEditSketch = false
-                binding.objImage.setImageBitmap(bmOriginal)
+                binding.objImage.setImageBitmap(Constants.bitmap)
                 binding.imgOutline.setImageResource(R.drawable.outline)
             }
         }
@@ -306,7 +309,7 @@ class CameraActivity : AppCompatActivity() {
                             resource: Bitmap,
                             transition: Transition<in Bitmap>?
                         ) {
-                            bmOriginal = resource
+                            Constants.bitmap = resource
                             binding.objImage.apply {
                                 val i = Resources.getSystem().displayMetrics.widthPixels
                                 setOnTouchListener(
@@ -316,7 +319,7 @@ class CameraActivity : AppCompatActivity() {
                                     )
                                 )
 
-                                setImageBitmap(bmOriginal)
+                                setImageBitmap(Constants.bitmap)
                                 isEditSketch = false
                                 binding.imgOutline.setImageResource(R.drawable.outline)
                                 alpha = 0.6f
@@ -390,6 +393,10 @@ class CameraActivity : AppCompatActivity() {
                 "android.permission.CAMERA",
                 PERMISSION_CODE_CAMERA
             )
+        }
+
+        if (Constants.bitmap != null) {
+            binding.objImage.setImageBitmap(Constants.bitmap)
         }
     }
 

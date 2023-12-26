@@ -8,6 +8,7 @@
     <color name="primary_3">#7071E8</color>
     <color name="primary_4">#FFC7C7</color>
     <color name="primary_dark">#A566B5</color>
+    <color name="primary_selected">#FFCFF3</color>
     <color name="variant_background">#FFF7FD</color>
 
     <color name="dark_button_start">#7C51EF</color>

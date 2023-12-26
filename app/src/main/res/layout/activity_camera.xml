@@ -220,7 +220,7 @@
             android:maxHeight="@dimen/_12sdp"
             android:minHeight="@dimen/_12sdp"
             android:progress="5"
-            android:progressDrawable="@drawable/progressdrawable"
+            android:progressDrawable="@drawable/progress_drawable"
             android:thumb="@drawable/thumb"
             android:thumbOffset="-5dp" />
 
@@ -232,15 +232,14 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/variant_background"
-        android:gravity="center"
-        android:paddingHorizontal="12dp">
+        android:gravity="center">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/rel_flash"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="5dp"
             app:cardBackgroundColor="@color/gray"
             app:cardCornerRadius="10dp">
 
@@ -259,7 +258,7 @@
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="5dp"
             app:cardBackgroundColor="@color/gray"
             app:cardCornerRadius="10dp">
 
@@ -278,7 +277,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="5dp"
             app:cardBackgroundColor="@color/gray"
             app:cardCornerRadius="10dp">
 
@@ -297,7 +296,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="5dp"
             app:cardBackgroundColor="@color/gray"
             app:cardCornerRadius="10dp">
 
@@ -315,8 +314,8 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            app:cardBackgroundColor="@color/primary_2"
+            android:layout_marginStart="5dp"
+            app:cardBackgroundColor="@color/primary_3"
             app:cardCornerRadius="10dp">
 
             <LinearLayout
@@ -327,8 +326,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:src="@drawable/magic"
                     app:tint="@color/white" />
