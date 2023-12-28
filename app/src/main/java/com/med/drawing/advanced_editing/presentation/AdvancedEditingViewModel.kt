@@ -1,17 +1,10 @@
 package com.med.drawing.advanced_editing.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.med.drawing.splash.domain.repository.AppDataRepository
-import com.med.drawing.image_list.domain.repository.ImageCategoriesRepository
-import com.med.drawing.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -43,7 +36,8 @@ class AdvancedEditingViewModel @Inject constructor() : ViewModel() {
             is AdvancedEditingUiEvent.SetContrast -> {
                 _advancedEditingState.update {
                     it.copy(
-                        contrast = advancedEditingUiEvent.contrast
+                        contrast = advancedEditingUiEvent.contrast,
+                        isContrast = true
                     )
                 }
             }
@@ -51,7 +45,8 @@ class AdvancedEditingViewModel @Inject constructor() : ViewModel() {
             is AdvancedEditingUiEvent.SetEdge -> {
                 _advancedEditingState.update {
                     it.copy(
-                        edge = advancedEditingUiEvent.edge
+                        edge = advancedEditingUiEvent.edge,
+                        isEdged = true
                     )
                 }
             }
@@ -59,7 +54,8 @@ class AdvancedEditingViewModel @Inject constructor() : ViewModel() {
             is AdvancedEditingUiEvent.SetNoise -> {
                 _advancedEditingState.update {
                     it.copy(
-                        noise = advancedEditingUiEvent.noise
+                        noise = advancedEditingUiEvent.noise,
+                        isNoise = true
                     )
                 }
             }
@@ -67,7 +63,8 @@ class AdvancedEditingViewModel @Inject constructor() : ViewModel() {
             is AdvancedEditingUiEvent.SetSharpness -> {
                 _advancedEditingState.update {
                     it.copy(
-                        sharpness = advancedEditingUiEvent.sharpness
+                        sharpness = advancedEditingUiEvent.sharpness,
+                        isSharpened = true
                     )
                 }
             }

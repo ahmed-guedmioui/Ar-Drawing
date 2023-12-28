@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,21 +7,23 @@
     android:background="@drawable/background">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/advanced"
+        android:id="@+id/apply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         app:cardBackgroundColor="@color/primary"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginVertical="3dp"
             android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="3dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -50,34 +52,96 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/objImage"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:layout_marginHorizontal="16dp" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintTop_toBottomOf="@+id/apply"
+        tools:layout_editor_absoluteX="16dp" />
 
     <SeekBar
-        android:id="@+id/editing_seek"
+        android:id="@+id/edge_seek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom_bar"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
-        android:max="100"
+        android:max="10"
         android:maxHeight="@dimen/_12sdp"
         android:minHeight="@dimen/_12sdp"
         android:progress="0"
         android:progressDrawable="@drawable/progress_editing"
         android:thumb="@drawable/thumb"
-        android:thumbOffset="-5dp"
-        android:visibility="gone" />
+        android:thumbOffset="-2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <SeekBar
+        android:id="@+id/contrast_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_bar"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:max="10"
+        android:maxHeight="@dimen/_12sdp"
+        android:minHeight="@dimen/_12sdp"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_editing"
+        android:thumb="@drawable/thumb"
+        android:thumbOffset="-2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <SeekBar
+        android:id="@+id/noise_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_bar"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:max="10"
+        android:maxHeight="@dimen/_12sdp"
+        android:minHeight="@dimen/_12sdp"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_editing"
+        android:thumb="@drawable/thumb"
+        android:thumbOffset="-2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <SeekBar
+        android:id="@+id/sharpness_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_bar"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:max="10"
+        android:maxHeight="@dimen/_12sdp"
+        android:minHeight="@dimen/_12sdp"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_editing"
+        android:thumb="@drawable/thumb"
+        android:thumbOffset="-2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        tools:layout_editor_absoluteX="16dp" />
 
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingTop="4dp"
         android:background="@color/variant_background"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/edge"
@@ -225,4 +289,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

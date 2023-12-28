@@ -7,4 +7,5 @@ import android.graphics.Bitmap
  */
 object Constants {
     var bitmap: Bitmap? = null
+    var convertedBitmap: Bitmap? = null
 }

@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -50,9 +49,9 @@ import com.med.drawing.databinding.ActivityCameraBinding
 import com.med.drawing.my_creation.domian.repository.CreationRepository
 import com.med.drawing.util.Constants
 import com.med.drawing.util.PermissionUtils
-import com.med.drawing.util.other.MultiTouch
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
+import com.med.drawing.util.other.MultiTouch
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Flash
@@ -226,8 +225,7 @@ class CameraActivity : AppCompatActivity() {
         val show = ProgressDialog.show(this, "", getString(R.string.convert_bitmap), true)
         ringProgressDialog = show
         show.setCancelable(false)
-
-        lifecycleScope.launch {
+        Thread {
             try {
                 if (!isEditSketch) {
                     gPUImage.setImage(Constants.bitmap)
@@ -247,11 +245,7 @@ class CameraActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
             ringProgressDialog?.dismiss()
-        }
-
-//        Thread {
-//
-//        }.start()
+        }.start()
         ringProgressDialog?.setOnDismissListener {
             if (!isEditSketch) {
                 if (convertedBitmap != null) {
@@ -261,7 +255,7 @@ class CameraActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         this,
-                        "Can't Convert this image, try with another",
+                        getString(R.string.can_t_convert_this_image_try_with_another),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -560,7 +554,7 @@ class CameraActivity : AppCompatActivity() {
         isTimeIsUp = false
         binding.theDrawingIsReadyBtn.visibility = View.GONE
 
-        val countdownDurationMillis: Long = 1 * 60 * 1000
+        val countdownDurationMillis: Long = 3 * 60 * 1000
         // Set the countdown interval (e.g., 1 second)
         val countdownIntervalMillis: Long = 1000
 
@@ -591,7 +585,7 @@ class CameraActivity : AppCompatActivity() {
         binding.mainTemp.text = timerText
 
         // Check if the remaining time is less than 50 seconds
-        if (millisUntilFinished <= 50000) {
+        if (millisUntilFinished <= 150000) {
             binding.theDrawingIsReadyBtn.visibility = View.VISIBLE
         }
     }

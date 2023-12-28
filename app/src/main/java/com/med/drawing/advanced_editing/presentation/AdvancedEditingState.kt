@@ -7,8 +7,13 @@ package com.med.drawing.advanced_editing.presentation
 data class AdvancedEditingState(
     var selected: Int = 0,
 
-    var edge: Float = 0f,
-    var contrast: Float = 0f,
-    var noise: Float = 0f,
-    var sharpness: Float = 0f,
+    var edge: Int = 0,
+    var contrast: Int = 0,
+    var noise: Int = 0,
+    var sharpness: Int = 0,
+
+    var isEdged: Boolean = false,
+    var isContrast: Boolean = false,
+    var isNoise: Boolean = false,
+    var isSharpened: Boolean = false
 )

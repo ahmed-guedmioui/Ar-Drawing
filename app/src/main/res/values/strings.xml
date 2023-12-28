@@ -120,4 +120,8 @@
     <string name="noise">Noise</string>
     <string name="sharpness">Sharpness</string>
     <string name="apply">Apply</string>
+    <string name="applied">Applied  ✅</string>
+    <string name="do_you_want_to_apply_the_editing">Do you want to apply the editing?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
