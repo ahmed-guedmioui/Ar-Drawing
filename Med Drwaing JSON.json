@@ -1,0 +1,69 @@
+{
+
+  "admob_interstitial": "ca-app-pub-3940256099942544/1033173712",
+  "admob_native": "ca-app-pub-3940256099942544/2247696110",
+  "admob_rewarded": "ca-app-pub-3940256099942544/5224354917",
+  "admob_open_app": "ca-app-pub-3940256099942544/9257395921",
+  
+  "facebook_interstitial": "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
+  "facebook_rewarded": "CAROUSEL_IMG_SQUARE_APP_INSTALL#YOUR_PLACEMENT_ID",
+  "facebook_native": "VID_HD_16_9_15S_APP_INSTALL#YOUR_PLACEMENT_ID",
+ 
+  
+  "Ads Explanation": " admob | facebook ",
+
+  "Interstitial": "admob",
+  "Native": "facebook",
+  "Rewarded": "admob",
+  "OpenAppAd": "admob",
+  
+  "onesignal_id": "xxxxxxx",
+  
+  "clicks_to_show_inter": 2,
+  "native_rate": 2,
+  
+  "is_app_suspended": false,
+  "suspended_title": "A new update for this app is available.",
+  "suspended_message": "Update this app because this version has some issues.",
+  "suspended_URL": "xxxx",
+  
+  "app_latest_version": 2,
+
+  "are_ads_for_only_white_list_countries": false,
+  "countries_white_list": [
+    "ma",
+    "usa",
+    "fr"
+  ],
+
+  "show_recommended_apps": true,
+  "recommended_apps": [
+    {
+      "name": "Clash Royale",
+      "url_or_package": "com.supercell.clashroyale",
+      "shortDescription": "Play this buttle game for endless fun Now!",
+
+      "icon": "https://play-lh.googleusercontent.com/rIvZQ_H3hfmexC8vurmLczLtMNBFtxCEdmb2NwkSPz2ZuJJ5nRPD0HbSJ7YTyFGdADQ=s180",
+      "image": "https://play-lh.googleusercontent.com/3aKKWjPyFtqhRY3Uocx0s4gQ96-0mbJBQOE2WUlxK-gIZmkfXSGWAiPCjcN8YHypnls=w720-h310"
+      
+    },
+    {
+      "name": "Snapchat",
+      "url_or_package": "com.snapchat.android",
+      "shortDescription": "share the moment with your friends",
+
+      "icon": "https://play-lh.googleusercontent.com/KxeSAjPTKliCErbivNiXrd6cTwfbqUJcbSRPe_IBVK_YmwckfMRS1VIHz-5cgT09yMo=s180",
+      "image": "https://play-lh.googleusercontent.com/IuPVg4_aIUEYcKGSU0qr05QvWprOXaOEu_W2SGsEWEBC7jCQQ-OBOgWBqB3rR6xmDnU=w720-h310"
+     
+    },
+    {
+      "name": "Subway Surfers",
+      "url_or_package": "com.kiloo.subwaysurf",
+      "shortDescription": "Help Jake, Tricky & Fresh escape from the grumpy",
+
+      "icon": "https://play-lh.googleusercontent.com/SbutsgLRDbQ6kGLzA_0sG8BtPx48ipXXNQQ2HJSFbKF0EysUIE1QM42HuYF5P6UYRfo=s180",
+      "image": "https://play-lh.googleusercontent.com/i4h0nob9adP_bV7obHFJ0FSK2AwK2nGwSvml1Cudh0ni2U-Sb69wYuDzzCHFv6U3RX7T=w720-h310"
+   
+    }
+  ]
+}

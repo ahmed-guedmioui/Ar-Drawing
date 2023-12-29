@@ -1,0 +1,148 @@
+{
+  "category_list": [
+    {
+      "category_name": "Fruits",
+      "category_id": 1,
+      "images": [
+        {
+          "id": 1,
+          "image": "https://static.vecteezy.com/system/resources/thumbnails/004/318/787/small/apple-coloring-book-line-art-of-fruit-with-a-leaf-black-and-white-free-vector.jpg",
+          "locked": false
+        },
+        {
+          "id": 2,
+          "image": "https://drukowanka.pl/wp-content/uploads/2021/10/czerwone-owoce-696x696.jpg",
+          "locked": true
+        },
+        {
+          "id": 3,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPOWHo7nYTtnp1iRrgy3qZSYDLMz9CJFOMPLf6pWxjDMRMVNRtmCGzax8pfBsRqqGFqyM&usqp=CAU",
+          "locked": false
+        },
+        {
+          "id": 4,
+          "image": "https://st2.depositphotos.com/3627983/7709/v/950/depositphotos_77091375-stock-illustration-coloring-book-fruits-and-vegetables.jpg",
+          "locked": true
+        },
+        {
+          "id": 5,
+          "image": "https://i.pinimg.com/originals/2e/d1/ec/2ed1ecfddb61145844925fa36b2b117d.jpg",
+          "locked": false
+        },
+        {
+          "id": 6,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYed5f5es2qlMilWmEo1S_SktbMxZXm1VYpmWDc5tOhB-RvKLiFzktLsX1HIofidli2vY&usqp=CAU",
+          "locked": true
+        }
+      ]
+    },
+    {
+      "category_name": "Animals",
+      "category_id": 2,
+      "images": [
+        {
+          "id": 1,
+          "image": "https://static.vecteezy.com/system/resources/previews/010/002/447/original/snail-animal-coloring-page-for-kids-free-vector.jpg",
+          "locked": false
+        },
+        {
+          "id": 2,
+          "image": "https://media.istockphoto.com/id/1198530491/vector/vector-illustration-of-turtle-isolated-on-white-background-for-kids-coloring-book.jpg?s=612x612&w=0&k=20&c=enegV4wp_zqUWECn2wh--LF2Rpug5-2uy3T6LrRfHxQ=",
+          "locked": true
+        },
+        {
+          "id": 3,
+          "image": "https://static.vecteezy.com/system/resources/previews/007/072/229/original/animals-coloring-book-alphabet-isolated-on-white-background-cartoon-hippopotamus-free-vector.jpg",
+          "locked": false
+        },
+        {
+          "id": 4,
+          "image": "https://img.freepik.com/premium-vector/coloring-pages-tiger-beetle-bush-wild-animals-smiling-wild-african-beast-educational_456865-1582.jpg?w=360",
+          "locked": true
+        },
+        {
+          "id": 5,
+          "image": "https://i2.wp.com/i.pinimg.com/originals/e5/2b/64/e52b647ff3efc5b5d833f455ecefe342.jpg",
+          "locked": false
+        },
+        {
+          "id": 6,
+          "image": "https://img.freepik.com/premium-vector/cute-horse-farm-animal-coloring-book-page-kids_78007-7340.jpg",
+          "locked": true
+        }
+      ]
+    },
+    {
+      "category_name": "Girls",
+      "category_id": 3,
+      "images": [
+        {
+          "id": 1,
+          "image": "https://media.istockphoto.com/id/1306231101/vector/little-cute-ballerina-in-pointe-shoes-dress-and-crown-isolated-vector-illustration.jpg?s=612x612&w=0&k=20&c=CATzD76yEQecsGDjWzGV6kK5GufpK0D87KV6DLqfshw=",
+          "locked": false
+        },
+        {
+          "id": 2,
+          "image": "https://cdn.shopify.com/s/files/1/0436/9409/6549/products/Kitsune-chibi-girl-coloring-page_a9dfa51d-5b44-43f8-9a67-48d7cb77d393_1200x1200.jpg?v=1649429981",
+          "locked": true
+        },
+        {
+          "id": 3,
+          "image": "https://coloringhome.com/coloring/4ib/4py/4ib4pyyKT.jpg",
+          "locked": false
+        },
+        {
+          "id": 4,
+          "image": "https://coloringhome.com/coloring/LTK/r7X/LTKr7Xb5c.jpg",
+          "locked": true
+        },
+        {
+          "id": 5,
+          "image": "https://cdn2.vectorstock.com/i/1000x1000/93/71/pattern-for-coloring-book-beautiful-girl-vector-10239371.jpg",
+          "locked": false
+        },
+        {
+          "id": 6,
+          "image": "https://en.pimg.jp/065/363/110/1/65363110.jpg",
+          "locked": true
+        }
+      ]
+    },
+    {
+      "category_name": "Boys",
+      "category_id": 4,
+      "images": [
+        {
+          "id": 1,
+          "image": "https://www.cool2bkids.com/wp-content/uploads/2022/12/Free-Boy-Coloring-Pages-212x300.webp",
+          "locked": false
+        },
+        {
+          "id": 2,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmBprnNK2AiWpqDW7l28PEc4syWdICRsNBKit3NTpH06bBfpvQ7HQ8alTPdmsi4CaPWzs&usqp=CAU",
+          "locked": true
+        },
+        {
+          "id": 3,
+          "image": "https://thumbs.dreamstime.com/b/coloring-page-outline-cartoon-boy-satchel-little-student-schooler-school-book-kids-231850222.jpg",
+          "locked": false
+        },
+        {
+          "id": 4,
+          "image": "https://i.pinimg.com/736x/98/29/28/9829281015ee433fc816c44ac8670637.jpg",
+          "locked": true
+        },
+        {
+          "id": 5,
+          "image": "https://iheartcraftythings.com/wp-content/uploads/2021/05/ForBoys_28.jpg",
+          "locked": false
+        },
+        {
+          "id": 6,
+          "image": "https://i.etsystatic.com/30011265/r/il/591902/3125248670/il_1080xN.3125248670_fpgh.jpg",
+          "locked": true
+        }
+      ]
+    }
+  ]
+}
