@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import com.arthenica.ffmpegkit.FFmpegKit
 import com.med.drawing.my_creation.domian.model.Creation
 import com.med.drawing.my_creation.domian.repository.CreationRepository
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,6 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -38,7 +38,8 @@ class MyCreationRepositoryImpl @Inject constructor(
 
         try {
             outputStream = application.openFileOutput(
-                fileName, Context.MODE_PRIVATE)
+                fileName, Context.MODE_PRIVATE
+            )
 
             val byteArray = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray)
@@ -58,8 +59,11 @@ class MyCreationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertVideoCreation(file: File) {
+
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val fileName = "VIDEO_$timestamp.mp4"
+
+//        val speedUpVideo = speedUpVideo(file)
 
         var outputStream: FileOutputStream? = null
 
@@ -76,6 +80,32 @@ class MyCreationRepositoryImpl @Inject constructor(
                 outputStream?.close()
             }
         }
+    }
+
+    private suspend fun speedUpVideo(inputFile: File, speedFactor: Float = 1.5f): File {
+        val outputFile = withContext(Dispatchers.IO) {
+            File.createTempFile("sped_up_video", ".mp4")
+        }
+
+        val command =
+            "ffmpeg -i ${inputFile.absolutePath} -filter_complex \"[0:v]setpts=0.5*PTS[v];[0:a]atempo=${speedFactor}[a]\" -map \"[v]\" -map \"[a]\" ${outputFile.absolutePath}"
+
+
+        withContext(Dispatchers.IO) {
+            FFmpegKit.execute(command)
+        }
+
+//        try {
+//            withContext(Dispatchers.IO) {
+//                FFmpegKit.execute(command)
+//                return@withContext outputFile
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+        return outputFile
+
     }
 
     override suspend fun deleteCreation(uri: String): Boolean {

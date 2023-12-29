@@ -92,12 +92,12 @@ class HomeActivity : AppCompatActivity() {
 
         binding.trace.setOnClickListener {
             it.startAnimation(pushAnimation)
-            drawingListScreen(true)
+            drawingListScreen(false)
         }
 
         binding.sketch.setOnClickListener {
             it.startAnimation(pushAnimation)
-            drawingListScreen(false)
+            drawingListScreen(true)
         }
 
         binding.creation.setOnClickListener {

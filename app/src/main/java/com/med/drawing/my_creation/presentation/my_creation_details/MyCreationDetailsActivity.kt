@@ -92,11 +92,7 @@ class MyCreationDetailsActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
 
-        Intent(
-            this@MyCreationDetailsActivity,
-            MyCreationListActivity::class.java
-        ).also { startActivity(it) }
-        finish()
+      onBackPressed()
 
     }
 
@@ -182,6 +178,14 @@ class MyCreationDetailsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Intent(
+            this, MyCreationListActivity::class.java
+        ).also { startActivity(it) }
+        finish()
     }
 }
 

@@ -15,7 +15,7 @@ import java.util.Locale
 /**
  * @author Ahmed Guedmioui
  */
-class MyCountryChecker(
+class CountryChecker(
     private val application: Application,
     checkerType: CheckerType
 ) {

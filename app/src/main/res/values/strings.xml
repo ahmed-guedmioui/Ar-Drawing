@@ -124,4 +124,5 @@
     <string name="do_you_want_to_apply_the_editing">Do you want to apply the editing?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="error_importing_photo">Error importing photo</string>
 </resources>

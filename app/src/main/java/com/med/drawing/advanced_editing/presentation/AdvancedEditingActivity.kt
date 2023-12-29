@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageHueFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageWhiteBalanceFilter
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -263,8 +265,10 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     }
 
     private fun edge() {
-        contrastJob?.cancel()
-        contrastJob = lifecycleScope.launch {
+        edgeJob?.cancel()
+        edgeJob = lifecycleScope.launch {
+            delay(300L)
+
             try {
                 val gPUImage = GPUImage(this@AdvancedEditingActivity)
                 gPUImage.setImage(Constants.convertedBitmap)
@@ -288,6 +292,8 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     private fun contrast() {
         contrastJob?.cancel()
         contrastJob = lifecycleScope.launch {
+            delay(300L)
+
             try {
                 val gPUImage = GPUImage(this@AdvancedEditingActivity)
                 gPUImage.setImage(Constants.convertedBitmap)
@@ -309,8 +315,10 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     }
 
     private fun noise() {
-        contrastJob?.cancel()
-        contrastJob = lifecycleScope.launch {
+        noiseJob?.cancel()
+        noiseJob = lifecycleScope.launch {
+            delay(300L)
+
             try {
                 val gPUImage = GPUImage(this@AdvancedEditingActivity)
                 gPUImage.setImage(Constants.convertedBitmap)
@@ -336,6 +344,8 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     private fun sharpen() {
         sharpnessJob?.cancel()
         sharpnessJob = lifecycleScope.launch {
+            delay(300L)
+
             try {
                 val gPUImage = GPUImage(this@AdvancedEditingActivity)
                 gPUImage.setImage(Constants.convertedBitmap)
@@ -357,7 +367,8 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     }
 
     private fun range(percentage: Int, start: Float, end: Float): Float {
-        return (end - start) * percentage.toFloat() / 100.0f + start
+        val finePercentage = percentage / 2
+        return (end - start) * finePercentage.toFloat() / 100.0f + start
     }
 
 }

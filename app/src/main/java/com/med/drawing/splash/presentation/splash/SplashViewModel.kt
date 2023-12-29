@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.med.drawing.splash.domain.repository.AppDataRepository
 import com.med.drawing.image_list.domain.repository.ImageCategoriesRepository
+import com.med.drawing.splash.domain.usecase.ShouldShowUpdateDialog
 import com.med.drawing.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -28,6 +29,10 @@ class SplashViewModel @Inject constructor(
 
     private val _areBothImagesAndDataLoadedChannel = Channel<Boolean>()
     val areBothImagesAndDataLoadedChannel = _areBothImagesAndDataLoadedChannel.receiveAsFlow()
+
+
+    private val _showUpdateDialogChannel = Channel<Boolean>()
+    val showUpdateDialogChannel = _showUpdateDialogChannel.receiveAsFlow()
 
     init {
         getData()
@@ -59,10 +64,25 @@ class SplashViewModel @Inject constructor(
                         _splashState.update {
                             it.copy(isAppDataLoaded = true)
                         }
-                        if (splashState.value.areImagesLoaded) {
-                            imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
-                            _areBothImagesAndDataLoadedChannel.send(true)
+
+                        val shouldShowUpdateDialog = ShouldShowUpdateDialog().invoke()
+
+                        if (shouldShowUpdateDialog) {
+                            _showUpdateDialogChannel.send(true)
+                            _splashState.update {
+                                it.copy(areBothLoadedChannelAlreadySent = true)
+                            }
+                        } else {
+                            if (splashState.value.areImagesLoaded && !splashState.value.areBothLoadedChannelAlreadySent) {
+                                imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
+                                _areBothImagesAndDataLoadedChannel.send(true)
+
+                                _splashState.update {
+                                    it.copy(areBothLoadedChannelAlreadySent = true)
+                                }
+                            }
                         }
+
                     }
                 }
             }
@@ -84,10 +104,21 @@ class SplashViewModel @Inject constructor(
                         _splashState.update {
                             it.copy(areImagesLoaded = true)
                         }
-                        if (splashState.value.isAppDataLoaded) {
-                            imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
-                            _areBothImagesAndDataLoadedChannel.send(true)
+
+                        if (splashState.value.isAppDataLoaded && !splashState.value.areBothLoadedChannelAlreadySent) {
+
+                            val shouldShowUpdateDialog = ShouldShowUpdateDialog().invoke()
+                            if (!shouldShowUpdateDialog) {
+                                imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
+                                _areBothImagesAndDataLoadedChannel.send(true)
+
+                                _splashState.update {
+                                    it.copy(areBothLoadedChannelAlreadySent = true)
+                                }
+                            }
+
                         }
+
                     }
                 }
             }

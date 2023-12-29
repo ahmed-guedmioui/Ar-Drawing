@@ -16,6 +16,7 @@ import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -59,6 +60,7 @@ import com.otaliastudios.cameraview.controls.Mode
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
@@ -175,7 +177,11 @@ class CameraActivity : AppCompatActivity() {
 
         binding.relGallery.setOnClickListener {
             it.startAnimation(pushanim)
-            ImagePicker.with(this).galleryOnly().start(GALLERY_IMAGE_REQ_CODE)
+            ImagePicker.with(this)
+                .galleryOnly()
+                .createIntent { intent ->
+                    startForGetPhotoResult.launch(intent)
+                }
         }
 
         binding.relFlip.setOnClickListener {
@@ -332,9 +338,8 @@ class CameraActivity : AppCompatActivity() {
 
     private val startForTakeAndSaveDrawingPhotoResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
 
-            if (resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == Activity.RESULT_OK) {
                 //Image Uri will not be null for RESULT_OK
                 val uri = result.data?.data!!
 
@@ -352,7 +357,9 @@ class CameraActivity : AppCompatActivity() {
                         override fun onLoadCleared(placeholder: Drawable?) {}
                     })
             } else {
-                Toast.makeText(this, "Error taking photo", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, getString(R.string.error_importing_photo), Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -402,8 +409,9 @@ class CameraActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == PERMISSION_CODE_CAMERA && (grantResults.isEmpty() || grantResults[0] != 0)) {
-            Toast.makeText(this, getString(R.string.permission_not_granted), Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(
+                this, getString(R.string.permission_not_granted), Toast.LENGTH_SHORT
+            ).show()
             finish()
         }
         if (requestCode != PERMISSION_CODE_CAMERA) {
@@ -437,42 +445,26 @@ class CameraActivity : AppCompatActivity() {
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onVideoTaken(result: VideoResult) {
 
-                val progressDialog = ProgressDialog(this@CameraActivity)
-                progressDialog.setCancelable(false)
-                progressDialog.setTitle("Saving Video...")
-                progressDialog.show()
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    saveRecordedVideo(result.file)
-                } else {
-                    notifyMediaScanner(result.file)
-                }
-
-                progressDialog.dismiss()
-                Toast.makeText(
-                    this@CameraActivity, getString(R.string.video_saved), Toast.LENGTH_SHORT
-                ).show()
+                saveRecordedVideo(result.file)
 
             }
         })
     }
 
     private fun saveRecordedVideo(file: File) {
-        lifecycleScope.launch {
-            creationRepository.insertVideoCreation(file)
-        }
-    }
 
-    private fun notifyMediaScanner(file: File) {
-        // Use MediaScannerConnection to notify the media scanner
-        MediaScannerConnection.scanFile(
-            this,
-            arrayOf(file.path),
-            arrayOf("video/mp4")
-        ) { _, uri ->
-            // Optionally, you can broadcast an intent to notify the gallery
-            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri)
-            sendBroadcast(mediaScanIntent)
+
+        lifecycleScope.launch {
+
+            creationRepository.insertVideoCreation(file)
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                creationRepository.deleteCreation(filePath)
+            }
+
+            Toast.makeText(
+                this@CameraActivity, getString(R.string.video_saved), Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -490,16 +482,16 @@ class CameraActivity : AppCompatActivity() {
         binding.temp.text = getString(R.string._00_00)
     }
 
+    private lateinit var filePath: String
     private fun takeVideo() {
         try {
 
             timestamp = SimpleDateFormat(
                 "yyyyMMdd_HHmmss", Locale.getDefault()
             ).format(Date())
-            val videoFile = File(
-                getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
-                "VIDEO_$timestamp.mp4"
-            )
+            val videoFile = File(filesDir, "VIDEO_$timestamp.mp4")
+
+            filePath = Uri.fromFile(videoFile).toString()
 
             binding.cameraView.takeVideo(videoFile)
             isRecording = true

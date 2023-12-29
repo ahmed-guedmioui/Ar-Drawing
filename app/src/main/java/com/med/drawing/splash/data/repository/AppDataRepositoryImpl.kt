@@ -6,8 +6,9 @@ import com.med.drawing.splash.data.DataManager
 import com.med.drawing.splash.data.mapper.toAppData
 import com.med.drawing.splash.data.remote.AppDataApi
 import com.med.drawing.splash.domain.repository.AppDataRepository
-import com.med.drawing.util.MyCountryChecker
-import com.med.drawing.util.MyCountryChecker.OnCheckerListener
+import com.med.drawing.splash.domain.usecase.ShouldShowAdsForUser
+import com.med.drawing.util.CountryChecker
+import com.med.drawing.util.CountryChecker.OnCheckerListener
 import com.med.drawing.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -54,11 +55,7 @@ class AppDataRepositoryImpl @Inject constructor(
                 .putString("admobOpenApp", appData.admobOpenApp)
                 .apply()
 
-            if (DataManager.appData.areAdsForOnlyWhiteListCountries) {
-                checkCountry()
-            } else {
-                DataManager.appData.showAdsForThisUser = true
-            }
+            ShouldShowAdsForUser(application).invoke()
 
             emit(Resource.Success())
 
@@ -68,24 +65,6 @@ class AppDataRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun checkCountry() {
-        val countryChecker = MyCountryChecker(application, MyCountryChecker.CheckerType.SpeedServer)
-        countryChecker.setOnCheckerListener(object : OnCheckerListener {
-            override fun onCheckerCountry(country: String?, userFromGG: Boolean) {
-                DataManager.appData.countriesWhiteList.forEach { countryInWhiteList ->
-                    if (countryInWhiteList == country) {
-                        DataManager.appData.showAdsForThisUser = true
-                    }
-                }
-            }
-
-            override fun onCheckerError(error: String?) {
-                if (!DataManager.appData.areAdsForOnlyWhiteListCountries) {
-                    DataManager.appData.showAdsForThisUser = true
-                }
-            }
-        })
-    }
 
 }
 
