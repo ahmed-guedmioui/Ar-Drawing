@@ -24,6 +24,7 @@ fun AppDataDto.toAppData(): AppData {
         facebookRewarded = facebook_rewarded ?: "",
         clicksToShowInter = clicks_to_show_inter ?: 0,
         nativeRate = native_rate ?: 0,
+        areAdsForOnlyWhiteListCountries = are_ads_for_only_white_list_countries ?: false,
         countriesWhiteList = countries_white_list ?: emptyList(),
         onesignalId = onesignal_id ?: "",
         appLatestVersion = app_latest_version ?: 0,

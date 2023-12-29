@@ -78,6 +78,8 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
         binding.apply.setOnClickListener {
             Constants.bitmap = Constants.convertedBitmap
+            Constants.convertedBitmap = null
+
             finish()
             Toast.makeText(
                 this, getString(R.string.applied), Toast.LENGTH_SHORT

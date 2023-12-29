@@ -24,6 +24,10 @@ object InterManager {
     private var counter = 1
 
     fun loadInterstitial(activity: Activity) {
+        if (!DataManager.appData.showAdsForThisUser) {
+            return
+        }
+
         when (DataManager.appData.interstitial) {
             AdType.admob -> loadAdmobInter(activity)
             AdType.facebook -> loadFacebookInter(activity)
@@ -32,6 +36,11 @@ object InterManager {
 
     fun showInterstitial(activity: Activity, adClosedListener: OnAdClosedListener) {
         onAdClosedListener = adClosedListener
+
+        if (!DataManager.appData.showAdsForThisUser) {
+            onAdClosedListener.onAdClosed()
+            return
+        }
 
         if (DataManager.appData.clicksToShowInter == counter) {
             counter = 1

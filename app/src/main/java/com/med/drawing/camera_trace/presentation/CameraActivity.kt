@@ -144,6 +144,7 @@ class CameraActivity : AppCompatActivity() {
                             )
 
                             setImageBitmap(Constants.bitmap)
+
                             isEditSketch = false
                             binding.imgOutline.setImageResource(R.drawable.outline)
                             alpha = 0.6f
@@ -394,6 +395,7 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -425,6 +427,7 @@ class CameraActivity : AppCompatActivity() {
         binding.cameraView.mode = Mode.VIDEO
         binding.recordVideo.setOnClickListener {
             if (isRecording) {
+                binding.cameraView.stopVideo()
                 stopVideo()
             } else {
                 takeVideo()
@@ -433,7 +436,11 @@ class CameraActivity : AppCompatActivity() {
 
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onVideoTaken(result: VideoResult) {
-                stopVideo()
+
+                val progressDialog = ProgressDialog(this@CameraActivity)
+                progressDialog.setCancelable(false)
+                progressDialog.setTitle("Saving Video...")
+                progressDialog.show()
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     saveRecordedVideo(result.file)
@@ -441,6 +448,7 @@ class CameraActivity : AppCompatActivity() {
                     notifyMediaScanner(result.file)
                 }
 
+                progressDialog.dismiss()
                 Toast.makeText(
                     this@CameraActivity, getString(R.string.video_saved), Toast.LENGTH_SHORT
                 ).show()
@@ -634,6 +642,8 @@ class CameraActivity : AppCompatActivity() {
         super.onDestroy()
         handler.removeCallbacks(timerRunnable)
         countDownTimer.cancel()
+        Constants.bitmap = null
+        Constants.convertedBitmap = null
     }
 
     companion object {
@@ -763,7 +773,7 @@ class CameraActivity : AppCompatActivity() {
                 this@CameraActivity, getString(R.string.photo_saved), Toast.LENGTH_SHORT
             ).show()
 
-            onBackPressed()
+            super.onBackPressed()
         }
 
         savePhotoDialog.show()

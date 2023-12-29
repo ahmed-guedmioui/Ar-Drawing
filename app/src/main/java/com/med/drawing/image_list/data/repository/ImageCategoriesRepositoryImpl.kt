@@ -61,9 +61,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         ImagesManager.imageCategoryList.forEach { categoryItem ->
             categoryItem.imageList.forEach { image ->
                 if (image.locked) {
-                    prefs.getBoolean(
-                        "${image.id}_${image.prefsId}", true
-                    ).let { locked ->
+                    prefs.getBoolean(image.prefsId, true).let { locked ->
                         image.locked = locked
                     }
                 }

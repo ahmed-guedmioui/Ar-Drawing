@@ -24,11 +24,18 @@ data class AppData(
 
     val appLatestVersion: Int,
 
+    val areAdsForOnlyWhiteListCountries: Boolean,
     val recommendedApps: List<RecommendedApp>,
+
     val showRecommendedApps: Boolean,
 
     val isAppSuspended: Boolean,
     val suspendedURL: String,
     val suspendedMessage: String,
-    val suspendedTitle: String
+    val suspendedTitle: String,
+
+
+    // this one is not gotten from json configuration, we assign a value to based on the user's
+    // country.
+    var showAdsForThisUser: Boolean = false
 )

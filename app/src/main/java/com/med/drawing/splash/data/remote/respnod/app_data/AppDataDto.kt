@@ -18,6 +18,7 @@ data class AppDataDto(
     val clicks_to_show_inter: Int?,
     val native_rate: Int?,
 
+    val are_ads_for_only_white_list_countries: Boolean?,
     val countries_white_list: List<String>?,
 
     val onesignal_id: String?,

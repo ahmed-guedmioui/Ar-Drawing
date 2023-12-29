@@ -22,6 +22,10 @@ object RewardedManager {
 
 
     fun loadRewarded(activity: Activity) {
+        if (!DataManager.appData.showAdsForThisUser) {
+            return
+        }
+
         when (DataManager.appData.rewarded) {
             AdType.admob -> loadAdmobRewarded(activity)
             AdType.facebook -> loadFacebookRewarded(activity)
@@ -30,6 +34,11 @@ object RewardedManager {
 
     fun showRewarded(activity: Activity, adClosedListener: OnAdClosedListener) {
         onAdClosedListener = adClosedListener
+
+        if (!DataManager.appData.showAdsForThisUser) {
+            onAdClosedListener.onRewComplete()
+            return
+        }
 
         when (DataManager.appData.rewarded) {
             AdType.admob -> showAdmobRewarded(activity)

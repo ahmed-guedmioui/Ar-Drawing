@@ -34,6 +34,11 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean = false
     ) {
+        if (!DataManager.appData.showAdsForThisUser) {
+            nativeTemp.visibility = View.GONE
+            return
+        }
+
         when (DataManager.appData.native) {
             AdType.admob -> loadAdmobNative(
                 nativeFrame, nativeTemp, activity, isButtonTop

@@ -16,6 +16,7 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
+import com.med.drawing.splash.data.DataManager
 import java.util.Date
 
 class AdmobAppOpenManager(
@@ -180,16 +181,23 @@ class AdmobAppOpenManager(
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
         if (!isSplash) {
-            Log.d(LOG_TAG, "onStart")
+            if (!DataManager.appData.showAdsForThisUser) {
+                return
+            }
+
             showAdIfAvailable {}
         }
     }
 
     fun showSplashAd(onAdClosed: () -> Unit) {
+        if (!DataManager.appData.showAdsForThisUser) {
+            onAdClosed()
+            return
+        }
+
         if (isSplash) {
             fetchAd {
                 onAdClosed()
-                Log.d(LOG_TAG, "onAdClosed()")
                 isSplash = false
             }
         }
