@@ -11,7 +11,9 @@ import java.io.File
 interface CreationRepository {
 
     suspend fun insertPhotoCreation(bitmap: Bitmap)
-    suspend fun insertVideoCreation(file: File)
+    suspend fun insertVideoCreation(
+        file: File, isFast: Boolean, onVideoFinished: () -> Unit
+    )
 
     suspend fun deleteCreation(uri: String): Boolean
 

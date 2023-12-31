@@ -4,9 +4,18 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import com.arthenica.ffmpegkit.FFmpegKit
+import android.util.Log
+import androidx.core.net.toUri
 import com.med.drawing.my_creation.domian.model.Creation
 import com.med.drawing.my_creation.domian.repository.CreationRepository
+import com.otaliastudios.transcoder.Transcoder
+import com.otaliastudios.transcoder.TranscoderListener
+import com.otaliastudios.transcoder.common.TrackStatus
+import com.otaliastudios.transcoder.internal.media.MediaFormatConstants
+import com.otaliastudios.transcoder.source.UriDataSource
+import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
+import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
+import com.otaliastudios.transcoder.validator.DefaultValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,6 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+
 
 /**
  * @author Ahmed Guedmioui
@@ -58,55 +68,90 @@ class MyCreationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertVideoCreation(file: File) {
+    override suspend fun insertVideoCreation(
+        file: File,
+        isFast: Boolean,
+        onVideoFinished: () -> Unit
+    ) {
 
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val fileName = "VIDEO_$timestamp.mp4"
+        val fileNameOutput = "VIDEO_$timestamp.mp4"
 
-//        val speedUpVideo = speedUpVideo(file)
+        withContext(Dispatchers.IO) {
+            val outputStream = application.openFileOutput(fileNameOutput, Context.MODE_PRIVATE)
 
-        var outputStream: FileOutputStream? = null
-
-        try {
-            outputStream = application.openFileOutput(fileName, Context.MODE_PRIVATE)
-            withContext(Dispatchers.IO) {
+            if (!isFast) {
                 outputStream.write(file.readBytes())
+                onVideoFinished()
+            } else {
+
+                speedUpVideo(file, fileNameOutput) { transcodeOutputFile ->
+                    outputStream.write(transcodeOutputFile?.readBytes())
+                    onVideoFinished()
+                }
             }
+        }
+
+    }
+
+    private fun speedUpVideo(
+        videoToSpeedUp: File,
+        fileNameOutput: String,
+        onVideoFinished: (transcodeOutputFile: File?) -> Unit
+    ) {
+        try {
+
+            val outputDir = File(application.getExternalFilesDir(null), "outputs")
+            outputDir.mkdir()
+            val transcodeOutputFile = File.createTempFile(fileNameOutput, ".mp4", outputDir)
+
+            val transcodeAudioStrategy = DefaultAudioStrategy.builder()
+                .channels(DefaultAudioStrategy.CHANNELS_AS_INPUT)
+                .sampleRate(DefaultAudioStrategy.SAMPLE_RATE_AS_INPUT)
+                .build()
+
+            val transcodeVideoStrategy = DefaultVideoStrategy.Builder().frameRate(30).build()
+
+            val builder = Transcoder.into(transcodeOutputFile.absolutePath)
+            val source = UriDataSource(application, videoToSpeedUp.toUri())
+
+            builder
+                .setListener(object : TranscoderListener {
+                    override fun onTranscodeProgress(progress: Double) {
+                        Log.d("tag_speed", "onTranscodeProgress: $progress")
+                    }
+
+                    override fun onTranscodeCompleted(successCode: Int) {
+                        onVideoFinished(transcodeOutputFile)
+                    }
+
+                    override fun onTranscodeCanceled() {
+                        onVideoFinished(null)
+                    }
+
+                    override fun onTranscodeFailed(exception: Throwable) {
+                        onVideoFinished(null)
+                    }
+                })
+                .addDataSource(source)
+                .setAudioTrackStrategy(transcodeAudioStrategy)
+                .setVideoTrackStrategy(transcodeVideoStrategy)
+                .setValidator(object : DefaultValidator() {
+                    override fun validate(
+                        videoStatus: TrackStatus, audioStatus: TrackStatus
+                    ): Boolean {
+                        return super.validate(videoStatus, audioStatus)
+                    }
+                })
+                .setSpeed(1.7f)
+                .transcode()
 
         } catch (e: Exception) {
             e.printStackTrace()
-        } finally {
-            withContext(Dispatchers.IO) {
-                outputStream?.close()
-            }
+            onVideoFinished(null)
         }
     }
 
-    private suspend fun speedUpVideo(inputFile: File, speedFactor: Float = 1.5f): File {
-        val outputFile = withContext(Dispatchers.IO) {
-            File.createTempFile("sped_up_video", ".mp4")
-        }
-
-        val command =
-            "ffmpeg -i ${inputFile.absolutePath} -filter_complex \"[0:v]setpts=0.5*PTS[v];[0:a]atempo=${speedFactor}[a]\" -map \"[v]\" -map \"[a]\" ${outputFile.absolutePath}"
-
-
-        withContext(Dispatchers.IO) {
-            FFmpegKit.execute(command)
-        }
-
-//        try {
-//            withContext(Dispatchers.IO) {
-//                FFmpegKit.execute(command)
-//                return@withContext outputFile
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-        return outputFile
-
-    }
 
     override suspend fun deleteCreation(uri: String): Boolean {
         val file = Uri.parse(uri).path?.let { File(it) }

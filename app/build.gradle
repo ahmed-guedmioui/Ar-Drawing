@@ -87,7 +87,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
-    implementation 'com.arthenica:ffmpeg-kit-full:4.5.1-1'
+    implementation 'com.arthenica:ffmpeg-kit-full:6.0-2'
+    implementation 'com.otaliastudios:transcoder:0.10.5'
 
     implementation "androidx.media3:media3-exoplayer:1.2.0"
     implementation "androidx.media3:media3-exoplayer-dash:1.2.0"

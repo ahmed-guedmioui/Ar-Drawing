@@ -11,6 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
         maven { url 'https://jitpack.io' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url 'https://artifacts.applovin.com/android' }
@@ -18,4 +19,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Med Drawing"
-include ':app',':library',':spectrum'
+include ':app', ':library', ':spectrum'

@@ -59,7 +59,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeNoActionbar"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <uses-library
             android:name="org.apache.http.legacy"
@@ -112,6 +112,7 @@
         <activity
             android:name="com.med.drawing.camera_trace.presentation.CameraActivity"
             android:launchMode="singleTask"
+            android:theme="@style/CameraActivityTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.med.drawing.util.other.HelpActivity"

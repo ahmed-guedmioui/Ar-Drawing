@@ -62,6 +62,8 @@ import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -453,18 +455,26 @@ class CameraActivity : AppCompatActivity() {
 
     private fun saveRecordedVideo(file: File) {
 
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Speeding up and saving video...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        progressDialog.setOnDismissListener {
+            Toast.makeText(
+                application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
+            ).show()
+        }
 
         lifecycleScope.launch {
 
-            creationRepository.insertVideoCreation(file)
+            creationRepository.insertVideoCreation(file, binding.fastVideoCheck.isChecked) {
+                runBlocking {
+                    creationRepository.deleteCreation(filePath)
+                }
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                creationRepository.deleteCreation(filePath)
+                progressDialog.dismiss()
             }
-
-            Toast.makeText(
-                this@CameraActivity, getString(R.string.video_saved), Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
@@ -479,6 +489,7 @@ class CameraActivity : AppCompatActivity() {
 
         elapsedTimeMillis = 0
         binding.temp.visibility = View.GONE
+        binding.fastVideoCheck.visibility = View.GONE
         binding.temp.text = getString(R.string._00_00)
     }
 
@@ -503,6 +514,7 @@ class CameraActivity : AppCompatActivity() {
 
 
             binding.temp.visibility = View.VISIBLE
+            binding.fastVideoCheck.visibility = View.VISIBLE
             handler.postDelayed(timerRunnable, 1000)
 
         } catch (e: IOException) {
@@ -585,7 +597,7 @@ class CameraActivity : AppCompatActivity() {
         binding.mainTemp.text = timerText
 
         // Check if the remaining time is less than 50 seconds
-        if (millisUntilFinished <= 150000) {
+        if (millisUntilFinished <= 90000) {
             binding.theDrawingIsReadyBtn.visibility = View.VISIBLE
         }
     }
@@ -639,7 +651,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val GALLERY_IMAGE_REQ_CODE = 102
         const val FLIP_HORIZONTAL = 2
         private const val FLIP_VERTICAL = 1
         const val PERMISSION_CODE_CAMERA = 3002
@@ -783,8 +794,15 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun saveImage(bitmap: Bitmap) {
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Saving photo...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
         lifecycleScope.launch {
             creationRepository.insertPhotoCreation(bitmap)
+
+            progressDialog.dismiss()
         }
     }
 

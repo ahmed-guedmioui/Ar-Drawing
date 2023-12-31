@@ -7,7 +7,7 @@
     android:elevation="3dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/primary_dark"
     app:cardCornerRadius="10dp">
 
     <ImageView
@@ -23,6 +23,6 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_play_circle"
         android:layout_centerInParent="true"
-        app:tint="@color/primary" />
+        app:tint="@color/white" />
 
 </androidx.cardview.widget.CardView>

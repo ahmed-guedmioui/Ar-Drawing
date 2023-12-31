@@ -112,7 +112,7 @@
     <string name="photo_saved">Photo saved</string>
     <string name="preview">Preview</string>
     <string name="creation_deleted">Creation deleted</string>
-    <string name="are_you_sure_you_want_to_delete_this_creation">Are you sure you want to delete this creation</string>
+    <string name="are_you_sure_you_want_to_delete_this_creation">Are you sure you want to delete this creation?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="edge">Edge</string>
@@ -125,4 +125,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error_importing_photo">Error importing photo</string>
+    <string name="saving_was_canceled">Saving was canceled</string>
+    <string name="saving_failed">Saving failed</string>
+    <string name="fast_video">Fast Video</string>
 </resources>
