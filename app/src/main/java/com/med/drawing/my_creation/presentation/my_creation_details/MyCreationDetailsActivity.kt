@@ -1,5 +1,6 @@
 package com.med.drawing.my_creation.presentation.my_creation_details
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -10,20 +11,25 @@ import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_READY
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultDataSourceFactory
 import androidx.media3.datasource.FileDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.extractor.DefaultExtractorsFactory
 import com.bumptech.glide.Glide
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityMyCreationDetailsBinding
 import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListActivity
 import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 /**
@@ -46,7 +52,10 @@ class MyCreationDetailsActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.back.setOnClickListener {
-            onBackPressed()
+            Intent(this, MyCreationListActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
         }
 
         val uri = intent.getStringExtra("uri")
@@ -87,13 +96,21 @@ class MyCreationDetailsActivity : AppCompatActivity() {
             MyCreationDetailsUiEvent.DeleteCreation(creationUri)
         )
         Toast.makeText(
-            this@MyCreationDetailsActivity,
-            getString(R.string.creation_deleted),
-            Toast.LENGTH_SHORT
+            this, getString(R.string.creation_deleted), Toast.LENGTH_SHORT
         ).show()
 
-      onBackPressed()
+        Intent(this, MyCreationListActivity::class.java).also {
+            startActivity(it)
+            finish()
+        }
 
+    }
+
+    override fun onBackPressed() {
+        Intent(this, MyCreationListActivity::class.java).also {
+            startActivity(it)
+            finish()
+        }
     }
 
     private fun initImage(photoUri: String) {
@@ -123,8 +140,9 @@ class MyCreationDetailsActivity : AppCompatActivity() {
 
     @OptIn(UnstableApi::class)
     private fun getProgressiveMediaSource(videoUri: String): MediaSource {
-        return ProgressiveMediaSource.Factory(FileDataSource.Factory())
-            .createMediaSource(MediaItem.fromUri(Uri.parse(videoUri)))
+
+        return ProgressiveMediaSource.Factory(DefaultDataSource.Factory(this))
+            .createMediaSource(MediaItem.fromUri(videoUri))
     }
 
     override fun onPause() {
@@ -180,13 +198,6 @@ class MyCreationDetailsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Intent(
-            this, MyCreationListActivity::class.java
-        ).also { startActivity(it) }
-        finish()
-    }
 }
 
 

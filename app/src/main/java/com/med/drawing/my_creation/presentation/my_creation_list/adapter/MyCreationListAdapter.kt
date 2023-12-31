@@ -2,6 +2,7 @@ package com.med.drawing.my_creation.presentation.my_creation_list.adapter
 
 import android.app.Activity
 import android.media.MediaMetadataRetriever
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

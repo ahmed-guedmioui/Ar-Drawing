@@ -15,13 +15,17 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MyCreationListViewModel @Inject constructor(
-    creationRepository: CreationRepository
+    private val creationRepository: CreationRepository
 ) : ViewModel() {
 
     private val _myCreationListState = MutableStateFlow(MyCreationListState())
     val myCreationState = _myCreationListState.asStateFlow()
 
     init {
+        getCreationList()
+    }
+
+    fun getCreationList() {
         viewModelScope.launch {
             creationRepository.getCreationList().collect { creationList ->
                 _myCreationListState.update {

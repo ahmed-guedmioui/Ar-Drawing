@@ -128,4 +128,5 @@
     <string name="saving_was_canceled">Saving was canceled</string>
     <string name="saving_failed">Saving failed</string>
     <string name="fast_video">Fast Video</string>
+    <string name="speeding_up_and_saving_video">Speeding up and saving video...</string>
 </resources>

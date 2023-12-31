@@ -456,24 +456,31 @@ class CameraActivity : AppCompatActivity() {
     private fun saveRecordedVideo(file: File) {
 
         val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Speeding up and saving video...")
+        progressDialog.setMessage(getString(R.string.speeding_up_and_saving_video))
         progressDialog.setCancelable(false)
-        progressDialog.show()
-
         progressDialog.setOnDismissListener {
             Toast.makeText(
                 application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
             ).show()
         }
 
-        lifecycleScope.launch {
+        if (binding.fastVideoCheck.isChecked) {
+            progressDialog.show()
+        } else {
+            Toast.makeText(
+                application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
+            ).show()
+        }
 
+        lifecycleScope.launch {
             creationRepository.insertVideoCreation(file, binding.fastVideoCheck.isChecked) {
                 runBlocking {
-                    creationRepository.deleteCreation(filePath)
+                    creationRepository.deleteTempCreation(filePath)
                 }
 
-                progressDialog.dismiss()
+                if (binding.fastVideoCheck.isChecked) {
+                    progressDialog.dismiss()
+                }
             }
         }
     }
@@ -596,8 +603,7 @@ class CameraActivity : AppCompatActivity() {
         // Update your TextView with the timerText
         binding.mainTemp.text = timerText
 
-        // Check if the remaining time is less than 50 seconds
-        if (millisUntilFinished <= 90000) {
+        if (millisUntilFinished <= 290000) {
             binding.theDrawingIsReadyBtn.visibility = View.VISIBLE
         }
     }
@@ -794,15 +800,10 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun saveImage(bitmap: Bitmap) {
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Saving photo...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
 
         lifecycleScope.launch {
             creationRepository.insertPhotoCreation(bitmap)
 
-            progressDialog.dismiss()
         }
     }
 

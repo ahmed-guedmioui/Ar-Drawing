@@ -1,17 +1,20 @@
 package com.med.drawing.my_creation.data.repository
 
 import android.app.Application
-import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import androidx.core.net.toUri
+import com.med.drawing.R
 import com.med.drawing.my_creation.domian.model.Creation
 import com.med.drawing.my_creation.domian.repository.CreationRepository
 import com.otaliastudios.transcoder.Transcoder
 import com.otaliastudios.transcoder.TranscoderListener
 import com.otaliastudios.transcoder.common.TrackStatus
-import com.otaliastudios.transcoder.internal.media.MediaFormatConstants
 import com.otaliastudios.transcoder.source.UriDataSource
 import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
@@ -36,35 +39,70 @@ class MyCreationRepositoryImpl @Inject constructor(
     private val application: Application
 ) : CreationRepository {
 
+    private fun notifyMediaScanner(file: File, isVideo: Boolean) {
+
+        if (isVideo) {
+            try {
+                MediaScannerConnection.scanFile(
+                    application,
+                    arrayOf(file.path),
+                    arrayOf("video/mp4")
+                ) { _, uri ->
+
+                    val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri)
+                    application.sendBroadcast(mediaScanIntent)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        } else {
+            try {
+                val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                val contentUri = Uri.fromFile(file)
+                mediaScanIntent.data = contentUri
+                Log.d("Tag_scan", contentUri.toString())
+                application.sendBroadcast(mediaScanIntent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+    }
 
     override suspend fun insertPhotoCreation(bitmap: Bitmap) {
 
         val timestamp = SimpleDateFormat(
             "yyyyMMdd_HHmmss", Locale.getDefault()
         ).format(Date())
-        val fileName = "creation_image_$timestamp.png"
+        val fileName = "image_$timestamp.png"
 
-        var outputStream: FileOutputStream? = null
 
         try {
-            outputStream = application.openFileOutput(
-                fileName, Context.MODE_PRIVATE
-            )
-
-            val byteArray = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray)
 
             withContext(Dispatchers.IO) {
-                outputStream.write(byteArray.toByteArray())
-                outputStream.close()
-            }
+                val picturesFolder = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                    application.getString(R.string.app_name) + " Photos"
+                )
 
+                if (!picturesFolder.exists()) {
+                    picturesFolder.mkdirs()
+                }
+
+                val photoFile = File(picturesFolder, fileName)
+
+                FileOutputStream(photoFile).use { fileOutputStream ->
+                    val byteArray = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray)
+                    fileOutputStream.write(byteArray.toByteArray())
+                    fileOutputStream.close()
+                }
+
+                notifyMediaScanner(photoFile, false)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-        } finally {
-            withContext(Dispatchers.IO) {
-                outputStream?.close()
-            }
         }
     }
 
@@ -74,24 +112,49 @@ class MyCreationRepositoryImpl @Inject constructor(
         onVideoFinished: () -> Unit
     ) {
 
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val fileNameOutput = "VIDEO_$timestamp.mp4"
+        val timestamp = SimpleDateFormat(
+            "yyyyMMdd_HHmmss", Locale.getDefault()
+        ).format(Date())
+        val fileNameOutput = "video_$timestamp.mp4"
 
         withContext(Dispatchers.IO) {
-            val outputStream = application.openFileOutput(fileNameOutput, Context.MODE_PRIVATE)
 
-            if (!isFast) {
-                outputStream.write(file.readBytes())
-                onVideoFinished()
-            } else {
+            try {
 
-                speedUpVideo(file, fileNameOutput) { transcodeOutputFile ->
-                    outputStream.write(transcodeOutputFile?.readBytes())
-                    onVideoFinished()
+
+                val appVideosDir = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
+                    application.getString(R.string.app_name) + " Videos"
+                )
+
+                if (!appVideosDir.exists()) {
+                    appVideosDir.mkdirs()
                 }
+
+                val outputFile = File(appVideosDir, fileNameOutput)
+                val outputStream = FileOutputStream(outputFile)
+
+                if (!isFast) {
+                    outputStream.write(file.readBytes())
+                    outputStream.close()
+                    notifyMediaScanner(outputFile, true)
+                    onVideoFinished()
+
+                } else {
+                    speedUpVideo(file, fileNameOutput) { transcodeOutputFile ->
+                        outputStream.write(transcodeOutputFile?.readBytes())
+                        outputStream.close()
+                        if (transcodeOutputFile != null) {
+                            notifyMediaScanner(outputFile, true)
+                        }
+                        onVideoFinished()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onVideoFinished()
             }
         }
-
     }
 
     private fun speedUpVideo(
@@ -153,7 +216,7 @@ class MyCreationRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun deleteCreation(uri: String): Boolean {
+    override suspend fun deleteTempCreation(uri: String): Boolean {
         val file = Uri.parse(uri).path?.let { File(it) }
 
         if (file != null) {
@@ -166,30 +229,106 @@ class MyCreationRepositoryImpl @Inject constructor(
         return false
     }
 
+    override suspend fun deleteCreation(uri: String) {
+        try {
+            val contentUri = Uri.parse(uri)
+            val contentResolver = application.contentResolver
+
+            // Delete the media file using the content resolver
+            contentResolver.delete(contentUri, null, null)
+
+            // Notify media scanner about the deletion
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            mediaScanIntent.data = contentUri
+            application.sendBroadcast(mediaScanIntent)
+
+            // Optional: Delete the physical file if needed
+            // Note: Deleting the file is optional because `MediaStore` already removes the entry
+            // from its database. You may choose to delete the physical file as well if necessary.
+
+            // Get the file path from the content URI
+            val filePath = getFilePathFromContentUri(contentUri)
+
+            // Check if the file path is not null and delete the file
+            if (filePath != null) {
+                val fileToDelete = File(filePath)
+                if (fileToDelete.exists()) {
+                    fileToDelete.delete()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getFilePathFromContentUri(contentUri: Uri): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = application.contentResolver.query(contentUri, projection, null, null, null)
+        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor?.moveToFirst()
+        val filePath = columnIndex?.let { cursor.getString(it) }
+        cursor?.close()
+        return filePath
+    }
+
     override suspend fun getCreationList(): Flow<List<Creation>> {
 
         return flow {
 
             val creationList = mutableListOf<Creation>()
-            val files = application.filesDir.listFiles()
 
-            files?.forEach { file ->
-                when {
-                    file.isFile && file.name.endsWith(".mp4") -> {
-                        val uri = Uri.fromFile(File(application.filesDir, file.name))
-                        creationList.add(
-                            Creation(uri = uri, isVideo = true)
-                        )
-                    }
+            // Retrieve URIs for saved images
+            val imagesCollection =
+                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            val imageProjection = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
+            val imageSelection = "${MediaStore.Images.Media.DATA} LIKE ?"
+            val imageSelectionArgs = arrayOf(
+                "%${application.getString(R.string.app_name)} Photos%"
+            )
 
-                    file.isFile && file.name.endsWith(".png") -> {
-                        val uri = Uri.fromFile(File(application.filesDir, file.name))
-                        creationList.add(
-                            Creation(uri = uri, isVideo = false)
+            application.contentResolver.query(
+                imagesCollection, imageProjection, imageSelection, imageSelectionArgs,
+                null
+            )?.use { imageCursor ->
+                val idColumn = imageCursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                while (imageCursor.moveToNext()) {
+                    val imageId = imageCursor.getLong(idColumn)
+                    val imageUri = Uri.withAppendedPath(imagesCollection, imageId.toString())
+
+                    creationList.add(
+                        Creation(
+                            uri = imageUri, isVideo = false
                         )
-                    }
+                    )
                 }
             }
+
+            // Retrieve URIs for saved videos
+            val videosCollection =
+                MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            val videoProjection = arrayOf(MediaStore.Video.Media._ID, MediaStore.Video.Media.DATA)
+            val videoSelection = "${MediaStore.Video.Media.DATA} LIKE ?"
+            val videoSelectionArgs = arrayOf(
+                "%${application.getString(R.string.app_name)} Videos%"
+            )
+
+            application.contentResolver.query(
+                videosCollection, videoProjection, videoSelection, videoSelectionArgs,
+                null
+            )?.use { videoCursor ->
+                val idColumn = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
+                while (videoCursor.moveToNext()) {
+                    val videoId = videoCursor.getLong(idColumn)
+                    val videoUri = Uri.withAppendedPath(videosCollection, videoId.toString())
+
+                    creationList.add(
+                        Creation(
+                            uri = videoUri, isVideo = true
+                        )
+                    )
+                }
+            }
+
 
             emit(creationList)
         }

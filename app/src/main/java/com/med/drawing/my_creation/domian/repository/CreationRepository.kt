@@ -15,7 +15,9 @@ interface CreationRepository {
         file: File, isFast: Boolean, onVideoFinished: () -> Unit
     )
 
-    suspend fun deleteCreation(uri: String): Boolean
+    suspend fun deleteCreation(uri: String)
+
+    suspend fun deleteTempCreation(uri: String): Boolean
 
     suspend fun getCreationList(): Flow<List<Creation>>
 
