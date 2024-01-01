@@ -1,8 +1,6 @@
 package com.med.drawing.my_creation.presentation.my_creation_details
 
-import android.app.ProgressDialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -11,26 +9,20 @@ import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_READY
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.DefaultDataSourceFactory
-import androidx.media3.datasource.FileDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.extractor.DefaultExtractorsFactory
 import com.bumptech.glide.Glide
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityMyCreationDetailsBinding
+import com.med.drawing.my_creation.domian.model.Creation
 import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListActivity
-import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-
 
 /**
  * @author Ahmed Guedmioui
@@ -71,6 +63,26 @@ class MyCreationDetailsActivity : AppCompatActivity() {
             binding.delete.setOnClickListener {
                 showDeleteAlertDialog(creationUri)
             }
+        }
+
+        val creation = Creation(
+            uri = Uri.parse(uri), isVideo = isVideo
+        )
+
+        binding.shareWhatsapp.setOnClickListener {
+            shareCreationOnPlatform(creation, 0)
+        }
+
+        binding.shareFacebook.setOnClickListener {
+            shareCreationOnPlatform(creation, 1)
+        }
+
+        binding.shareInstagram.setOnClickListener {
+            shareCreationOnPlatform(creation, 2)
+        }
+
+        binding.shareMore.setOnClickListener {
+            shareCreationOnPlatform(creation, 3)
         }
     }
 
@@ -184,8 +196,8 @@ class MyCreationDetailsActivity : AppCompatActivity() {
     private val playerListener = object : Player.Listener {
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
-            when (playbackState) {
 
+            when (playbackState) {
                 Player.STATE_ENDED -> {
                     restartPlayer()
                 }
@@ -194,6 +206,51 @@ class MyCreationDetailsActivity : AppCompatActivity() {
                     binding.playerView.player = player
                     play()
                 }
+
+                Player.STATE_BUFFERING -> {
+                }
+
+                Player.STATE_IDLE -> {
+                }
+            }
+        }
+    }
+
+    private fun shareCreationOnPlatform(creation: Creation, platform: Int) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = if (creation.isVideo) "video/*" else "image/*"
+        shareIntent.putExtra(Intent.EXTRA_STREAM, creation.uri)
+
+        // Specify the package name based on the selected platform
+        val packageName = when (platform) {
+            0 -> "com.whatsapp"
+            1 -> "com.facebook.katana"
+            2 -> "com.instagram.android"
+            else -> null // For global share or other custom logic
+        }
+
+        if (packageName != null) {
+            shareIntent.`package` = packageName
+
+            val chooserIntent = Intent.createChooser(shareIntent, "Share creation with:")
+            startActivity(chooserIntent)
+        } else {
+            // Handle global share or other custom logic
+            // You can implement additional sharing options here
+            when (platform) {
+                3 -> {
+                    // Global share logic
+                    val globalShareIntent = Intent(Intent.ACTION_SEND)
+                    globalShareIntent.type = if (creation.isVideo) "video/*" else "image/*"
+                    globalShareIntent.putExtra(Intent.EXTRA_STREAM, creation.uri)
+
+                    val globalChooserIntent = Intent.createChooser(
+                        globalShareIntent,
+                        "Share creation with:"
+                    )
+                    startActivity(globalChooserIntent)
+                }
+                // Add more cases for other custom logic
             }
         }
     }
