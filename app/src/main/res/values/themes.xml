@@ -27,4 +27,9 @@
         <item name="cornerSizeBottomRight">200dp</item>
         <item name="cornerFamily">rounded</item>
     </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/half_trans</item>
+        <item name="colorControlActivated">@color/gold</item>
+    </style>
 </resources>

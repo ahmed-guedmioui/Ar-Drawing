@@ -1,5 +1,6 @@
 package com.med.drawing.splash.presentation.splash
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.med.drawing.splash.domain.repository.AppDataRepository
@@ -27,12 +28,15 @@ class SplashViewModel @Inject constructor(
     private val _splashState = MutableStateFlow(SplashState())
     val splashState = _splashState.asStateFlow()
 
-    private val _areBothImagesAndDataLoadedChannel = Channel<Boolean>()
-    val areBothImagesAndDataLoadedChannel = _areBothImagesAndDataLoadedChannel.receiveAsFlow()
 
+    private val _continueAppChannel = Channel<Boolean>()
+    val continueAppChannel = _continueAppChannel.receiveAsFlow()
 
     private val _showUpdateDialogChannel = Channel<Boolean>()
     val showUpdateDialogChannel = _showUpdateDialogChannel.receiveAsFlow()
+
+    private val _showErrorToastChannel = Channel<Boolean>()
+    val showErrorToastChannel = _showErrorToastChannel.receiveAsFlow()
 
     init {
         getData()
@@ -45,6 +49,14 @@ class SplashViewModel @Inject constructor(
                 getData()
                 getImages()
             }
+
+            SplashUiEvent.HideDialog -> {
+                Log.d("tag_splash", "HideDialog")
+                viewModelScope.launch {
+                    Log.d("tag_splash", "_continueAppChannel")
+                    _continueAppChannel.send(true)
+                }
+            }
         }
     }
 
@@ -54,35 +66,60 @@ class SplashViewModel @Inject constructor(
             appDataRepository.getAppData().collect { appDataResult ->
                 when (appDataResult) {
                     is Resource.Error -> {
-                        _areBothImagesAndDataLoadedChannel.send(false)
+                        _showErrorToastChannel.send(true)
                     }
 
                     is Resource.Loading -> {
                     }
 
                     is Resource.Success -> {
-                        _splashState.update {
-                            it.copy(isAppDataLoaded = true)
-                        }
 
-                        val shouldShowUpdateDialog = ShouldShowUpdateDialog().invoke()
-
-                        if (shouldShowUpdateDialog) {
-                            _showUpdateDialogChannel.send(true)
-                            _splashState.update {
-                                it.copy(areBothLoadedChannelAlreadySent = true)
-                            }
-                        } else {
-                            if (splashState.value.areImagesLoaded && !splashState.value.areBothLoadedChannelAlreadySent) {
-                                imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
-                                _areBothImagesAndDataLoadedChannel.send(true)
-
+                        when (ShouldShowUpdateDialog().invoke()) {
+                            1 -> {
                                 _splashState.update {
-                                    it.copy(areBothLoadedChannelAlreadySent = true)
+                                    it.copy(
+                                        updateDialogState = 1, isDialogShowing = true
+                                    )
+                                }
+                                Log.d("tag_splash", "updateDialogState = 1")
+                                Log.d("tag_splash", "_showUpdateDialogChannel")
+                                _showUpdateDialogChannel.send(true)
+                            }
+
+                            2 -> {
+                                _splashState.update {
+                                    it.copy(
+                                        updateDialogState = 2,
+                                        isDialogShowing = true
+                                    )
+                                }
+                                Log.d("tag_splash", "updateDialogState = 2")
+                                Log.d("tag_splash", "_showUpdateDialogChannel")
+                                _showUpdateDialogChannel.send(true)
+                            }
+
+                            0 -> {
+                                _splashState.update {
+                                    it.copy(updateDialogState = 0)
+                                }
+
+
+                                Log.d("tag_splash", "updateDialogState = 0")
+
+                                if (splashState.value.areImagesLoaded) {
+                                    Log.d(
+                                        "tag_splash",
+                                        "areImagesLoaded = true -> _continueAppChannel"
+                                    )
+                                    _continueAppChannel.send(true)
                                 }
                             }
                         }
 
+                        Log.d("tag_splash", "isAppDataLoaded = true")
+                        _splashState.update {
+                            it.copy(isAppDataLoaded = true)
+                        }
                     }
                 }
             }
@@ -94,31 +131,28 @@ class SplashViewModel @Inject constructor(
             imageCategoriesRepository.getImageCategoryList().collect { imagesResult ->
                 when (imagesResult) {
                     is Resource.Error -> {
-                        _areBothImagesAndDataLoadedChannel.send(false)
+                        _showErrorToastChannel.send(true)
                     }
 
                     is Resource.Loading -> {
                     }
 
                     is Resource.Success -> {
+
+                        Log.d("tag_splash", "areImagesLoaded = true")
                         _splashState.update {
                             it.copy(areImagesLoaded = true)
                         }
 
-                        if (splashState.value.isAppDataLoaded && !splashState.value.areBothLoadedChannelAlreadySent) {
-
-                            val shouldShowUpdateDialog = ShouldShowUpdateDialog().invoke()
-                            if (!shouldShowUpdateDialog) {
-                                imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
-                                _areBothImagesAndDataLoadedChannel.send(true)
-
-                                _splashState.update {
-                                    it.copy(areBothLoadedChannelAlreadySent = true)
-                                }
-                            }
-
+                        if (splashState.value.isAppDataLoaded
+                            && splashState.value.updateDialogState == 0
+                        ) {
+                            Log.d(
+                                "tag_splash",
+                                "isAppDataLoaded = true, updateDialogState = 0 -> _continueAppChannel"
+                            )
+                            _continueAppChannel.send(true)
                         }
-
                     }
                 }
             }

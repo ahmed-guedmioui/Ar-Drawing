@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1038044636715",
+    "project_id": "walkthrough-app-57dd0",
+    "storage_bucket": "walkthrough-app-57dd0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038044636715:android:6f2e0c12e8e1bff6996c6e",
+        "android_client_info": {
+          "package_name": "com.med.drawing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038044636715-kjuejp1g8hmbjju3h8d7die5prnl28ii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEbZVRU1zrf59YPttLDmZNE44ft3fOySk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038044636715-kjuejp1g8hmbjju3h8d7die5prnl28ii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,11 +3,11 @@ package com.med.drawing
 import android.app.Application
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 import javax.inject.Inject
-
-
 
 
 /**
@@ -34,6 +34,9 @@ class App: Application() {
         super.onCreate()
 
         trimCache()
+
+        FirebaseApp.initializeApp(this)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 
         MobileAds.initialize(this)
         AudienceNetworkAds.initialize(this)

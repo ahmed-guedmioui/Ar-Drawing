@@ -1,6 +1,6 @@
 package com.med.drawing.splash.domain.usecase
 
-import android.os.Build
+import com.med.drawing.BuildConfig
 import com.med.drawing.splash.data.DataManager
 
 /**
@@ -8,11 +8,16 @@ import com.med.drawing.splash.data.DataManager
  */
 class ShouldShowUpdateDialog {
 
-    operator fun invoke(): Boolean {
-        if (Build.VERSION.SDK_INT < DataManager.appData.appLatestVersion) {
-            return true
+    operator fun invoke(): Int {
+
+        if (DataManager.appData.isAppSuspended) {
+            return 2
         }
 
-        return false
+        if (BuildConfig.VERSION_CODE < DataManager.appData.appLatestVersion) {
+            return 1
+        }
+
+        return 0
     }
 }

@@ -1,13 +1,25 @@
 package com.med.drawing.splash.presentation.splash
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.med.drawing.App
+import com.med.drawing.BuildConfig
 import com.med.drawing.R
 import com.med.drawing.util.ads.AdmobAppOpenManager
 import com.med.drawing.util.ads.InterManager
@@ -15,7 +27,11 @@ import com.med.drawing.main.presentaion.get_started.GetStartedActivity
 import com.med.drawing.main.presentaion.home.HomeActivity
 import com.med.drawing.main.presentaion.tips.TipsActivity
 import com.med.drawing.databinding.ActivitySplashBinding
+import com.med.drawing.main.presentaion.get_started.GetStartedUiEvent
+import com.med.drawing.splash.data.DataManager
 import com.med.drawing.util.AppAnimation
+import com.med.drawing.util.UrlOpener
+import com.onesignal.OneSignal
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,16 +53,18 @@ class SplashActivity : AppCompatActivity() {
         val view: View = binding.root
         setContentView(view)
 
+
         AppAnimation().startRepeatingAnimation(binding.animationImage)
 
         lifecycleScope.launch {
-            splashViewModel.splashState.collect { splashState = it }
-        }
+            splashViewModel.splashState.collect {
+                splashState = it
 
-        binding.tryAgain.setOnClickListener {
-            binding.tryAgain.visibility = View.GONE
-            binding.progressBar.visibility = View.VISIBLE
-            splashViewModel.onEvent(SplashUiEvent.TryAgain)
+                if (splashState.updateDialogState > 0) {
+                    val isSuspended = splashState.updateDialogState == 2
+                    updateDialog(isSuspended)
+                }
+            }
         }
 
         val admobAppOpenManager = AdmobAppOpenManager(
@@ -54,8 +72,16 @@ class SplashActivity : AppCompatActivity() {
         )
 
         lifecycleScope.launch {
-            splashViewModel.areBothImagesAndDataLoadedChannel.collect { result ->
-                if (result) {
+            splashViewModel.continueAppChannel.collect { continueApp ->
+                if (continueApp) {
+
+                    tryAgainButtonVisibility(false)
+
+                    OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
+                    OneSignal.initWithContext(this@SplashActivity)
+                    OneSignal.setAppId(DataManager.appData.onesignalId)
+                    OneSignal.promptForPushNotifications()
+
                     InterManager.loadInterstitial(this@SplashActivity)
 
                     admobAppOpenManager.showSplashAd {
@@ -74,23 +100,105 @@ class SplashActivity : AppCompatActivity() {
                         )
                         finish()
                     }
-                } else {
-
-                    Toast.makeText(
-                        this@SplashActivity,
-                        getString(R.string.error_connect_to_a_network_and_try_again),
-                        Toast.LENGTH_LONG
-                    ).show()
-                    binding.tryAgain.visibility = View.VISIBLE
-                    binding.progressBar.visibility = View.GONE
                 }
             }
         }
 
+        lifecycleScope.launch {
+            splashViewModel.showUpdateDialogChannel.collect { show ->
+                if (show) {
+                    val isSuspended = splashState.updateDialogState == 2
+                    updateDialog(isSuspended)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            splashViewModel.showErrorToastChannel.collect { show ->
+                if (show) {
+                    Toast.makeText(
+                        this@SplashActivity,
+                        getString(R.string.error_connect_to_a_network_and_try_again),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    tryAgainButtonVisibility(true)
+                }
+            }
+        }
+
+        binding.tryAgain.setOnClickListener {
+            tryAgainButtonVisibility(false)
+            splashViewModel.onEvent(SplashUiEvent.TryAgain)
+        }
 
     }
 
 
+    private fun updateDialog(isSuspended: Boolean) {
+
+        val updateDialog = Dialog(this)
+        updateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        updateDialog.setCancelable(!isSuspended)
+        updateDialog.setContentView(R.layout.dialog_app_update)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(updateDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        updateDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        updateDialog.window!!.attributes = layoutParams
+
+        updateDialog.findViewById<Button>(R.id.update).setOnClickListener {
+            if (isSuspended) {
+                UrlOpener.open(this, DataManager.appData.suspendedURL)
+            } else {
+                UrlOpener.open(this, BuildConfig.APPLICATION_ID)
+            }
+        }
+
+        if (!isSuspended) {
+            updateDialog.findViewById<ImageView>(R.id.close).visibility = View.VISIBLE
+        } else {
+            updateDialog.findViewById<TextView>(R.id.title).text =
+                DataManager.appData.suspendedTitle
+            updateDialog.findViewById<TextView>(R.id.msg).text =
+                DataManager.appData.suspendedMessage
+        }
+
+        updateDialog.setOnDismissListener {
+            binding.progressBar.visibility = View.VISIBLE
+            splashViewModel.onEvent(SplashUiEvent.HideDialog)
+        }
+
+        updateDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            updateDialog.dismiss()
+        }
+
+        if (splashState.isDialogShowing) {
+
+            binding.progressBar.visibility = View.GONE
+            updateDialog.show()
+        } else {
+
+            binding.progressBar.visibility = View.VISIBLE
+            updateDialog.dismiss()
+        }
+    }
+
+    private fun tryAgainButtonVisibility(show: Boolean) {
+        if (show) {
+            binding.tryAgain.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+        } else {
+            binding.tryAgain.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+        }
+
+
+    }
 }
 
 

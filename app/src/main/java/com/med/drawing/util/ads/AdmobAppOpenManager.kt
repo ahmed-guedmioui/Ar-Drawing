@@ -196,6 +196,7 @@ class AdmobAppOpenManager(
         }
 
         if (isSplash) {
+            Log.d(LOG_TAG, "showSplashAd: fetchAd")
             fetchAd {
                 onAdClosed()
                 isSplash = false

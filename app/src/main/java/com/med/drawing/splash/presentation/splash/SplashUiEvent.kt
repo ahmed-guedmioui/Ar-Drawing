@@ -5,4 +5,5 @@ package com.med.drawing.splash.presentation.splash
  */
 sealed interface SplashUiEvent {
     object TryAgain : SplashUiEvent
+    object HideDialog : SplashUiEvent
 }

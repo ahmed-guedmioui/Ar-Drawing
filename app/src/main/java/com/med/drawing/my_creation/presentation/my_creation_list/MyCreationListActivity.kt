@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.med.drawing.databinding.ActivityMyCreationLsitBinding
 import com.med.drawing.my_creation.presentation.my_creation_details.MyCreationDetailsActivity
 import com.med.drawing.my_creation.presentation.my_creation_list.adapter.MyCreationListAdapter
+import com.med.drawing.util.ads.InterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -55,16 +56,21 @@ class MyCreationListActivity : AppCompatActivity() {
             MyCreationListAdapter.ClickListener {
             override fun oClick(uri: String, isVideo: Boolean) {
 
-                Intent(
+                InterManager.showInterstitial(
                     this@MyCreationListActivity,
-                    MyCreationDetailsActivity::class.java
-                ).also { intent ->
-                    intent.putExtra("uri", uri)
-                    intent.putExtra("isVideo", isVideo)
-                    startActivity(intent)
-                    finish()
-                }
-
+                    object : InterManager.OnAdClosedListener {
+                        override fun onAdClosed() {
+                            Intent(
+                                this@MyCreationListActivity,
+                                MyCreationDetailsActivity::class.java
+                            ).also { intent ->
+                                intent.putExtra("uri", uri)
+                                intent.putExtra("isVideo", isVideo)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
+                    })
             }
         })
 

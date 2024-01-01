@@ -462,6 +462,7 @@ class CameraActivity : AppCompatActivity() {
             Toast.makeText(
                 application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
             ).show()
+            binding.fastVideoCheck.isChecked = false
         }
 
         if (binding.fastVideoCheck.isChecked) {
@@ -470,6 +471,7 @@ class CameraActivity : AppCompatActivity() {
             Toast.makeText(
                 application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
             ).show()
+            binding.fastVideoCheck.isChecked = false
         }
 
         lifecycleScope.launch {

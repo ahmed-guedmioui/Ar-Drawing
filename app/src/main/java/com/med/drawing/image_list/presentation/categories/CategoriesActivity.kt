@@ -1,15 +1,23 @@
 package com.med.drawing.image_list.presentation.categories
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +36,8 @@ import com.med.drawing.util.other.FileUtils
 import com.med.drawing.util.other.HelpActivity
 import com.med.drawing.util.other.HelpActivity2
 import com.med.drawing.sketch.presentation.SketchActivity
+import com.med.drawing.splash.data.DataManager
+import com.med.drawing.util.UrlOpener
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.RewardedManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -287,6 +297,27 @@ class CategoriesActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+    }
+
+    private fun rateDialog() {
+        val updateDialog = Dialog(this)
+        updateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        updateDialog.setCancelable(true)
+        updateDialog.setContentView(R.layout.dialog_app_update)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(updateDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        updateDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        updateDialog.window!!.attributes = layoutParams
+
+        updateDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            UrlOpener.open(this, DataManager.appData.suspendedTitle)
+        }
+
     }
 
 }

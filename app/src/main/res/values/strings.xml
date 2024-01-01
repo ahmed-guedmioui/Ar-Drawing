@@ -130,4 +130,8 @@
     <string name="fast_video">Fast Video</string>
     <string name="speeding_up_and_saving_video">Speeding up and saving video...</string>
     <string name="share">Share</string>
+    <string name="rate_this_app_with_5_start_if_you_like_it">Rate this app with 5 start if you like it.</string>
+    <string name="update">Update</string>
+    <string name="there_is_a_new_update">There is a new update 🤩</string>
+    <string name="update_the_app_to_enjoy_the_latest_features">Update the app to enjoy the latest features.</string>
 </resources>
