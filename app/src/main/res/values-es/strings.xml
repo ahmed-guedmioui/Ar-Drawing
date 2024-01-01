@@ -1,0 +1,136 @@
+<resources>
+    <string name="app_name">Med Drawing</string>
+
+    <string name="tip_title_1">Consejo 1</string>
+    <string name="tip_desc_1">Descripción del consejo 1</string>
+
+    <string name="tip_title_2">Consejo 2</string>
+    <string name="tip_desc_2">Descripción del consejo 2</string>
+
+    <string name="tip_title_3">Consejo 3</string>
+    <string name="tip_desc_3">Descripción del consejo 3</string>
+
+    <string name="tip_title_4">Consejo 4</string>
+    <string name="tip_desc_4">Descripción del consejo 4</string>
+
+    <string name="get_started_title">Med Drawing</string>
+    <string name="get_started_desc">Descripción de Med Drawing</string>
+
+    <string name="privacy_notice">Al hacer clic en iniciar, confirmas que revisaste y aceptaste nuestra Política de privacidad</string>
+
+    <string name="action_cancel">Cancelar</string>
+    <string name="label">Etiqueta</string>
+    <string name="lbl_header_settings">Configuración</string>
+    <string name="lbl_permission_denied">Permiso denegado</string>
+    <string name="lbl_permission_denied_message">Si rechazas todos estos permisos, no podrás usar la aplicación correctamente. \n\nActiva los permisos en [Configuración] &gt; [Permiso]</string>
+    <string name="lbl_setting">Configuración</string>
+    <string name="learn_more">Privacidad y política\nCómo la aplicación y nuestros socios utilizan tus datos.</string>
+
+    <string name="share_app">Compartir aplicación</string>
+    <string name="title_camera">Cámara</string>
+    <string name="title_choose_image_provider">Seleccionar</string>
+    <string name="title_gallery">Galería</string>
+
+    <string name="help1">Inicia la aplicación y coloca el móvil sobre un cristal u otro objeto como se muestra en la imagen.</string>
+    <string name="help1_1">Selecciona cualquier imagen para dibujar.</string>
+    <string name="help1_2">Toma un papel de calco para trazar y dibujar objetos.</string>
+    <string name="help1_3">Coloca el papel de calco sobre la pantalla del móvil y comienza a trazar el objeto.</string>
+    <string name="help2">Selecciona cualquier imagen para dibujar.</string>
+    <string name="help3">Añade transparencia a la pantalla para que puedas ver tu libro en la pantalla del móvil.</string>
+    <string name="help4">Comienza a dibujar colocando el lápiz sobre los bordes de la imagen. La pantalla del móvil te guiará para dibujar.</string>
+    <string name="help5" />
+
+
+    <string name="try_again">Intentar de nuevo</string>
+    <string name="error_connect_to_a_network_and_try_again">Conéctese a una red e inténtelo de nuevo</string>
+    <string name="privacy_policy">Política de privacidad</string>
+    <string name="ad">Anuncio</string>
+    <string name="no_drawing_available">No hay dibujo disponible</string>
+    <string name="select_drawing">Seleccionar dibujo</string>
+    <string name="next">Siguiente</string>
+    <string name="app_guideline">Directrices de la aplicación</string>
+    <string name="start">Comenzar</string>
+    <string name="get_started">Empezar</string>
+    <string name="okay">Aceptar</string>
+    <string name="sketch">Bosquejo</string>
+    <string name="turn_your_emotions_into_art_like_a_true_artistic_pro">Convierte tus emociones en arte como un verdadero profesional artístico.</string>
+    <string name="trace">Trazar</string>
+    <string name="trace_your_drawing_discover_something_new">Trazar tu dibujo descubre algo nuevo.</string>
+    <string name="my_creation">Mi creación</string>
+    <string name="your_art">Tu arte</string>
+    <string name="draw_quickly_and_easily_with_apps_is_a_great_way_to_get_started_in_the_world_of_art">Dibujar rápido y fácil con aplicaciones es una excelente manera de comenzar en el mundo del arte.</string>
+    <string name="support_us_to_develop_app_better_with_5_stars">Apóyanos para desarrollar la aplicación mejor con 5 estrellas</string>
+    <string name="rate">Calificar</string>
+    <string name="double_click_to_exit">Doble clic para salir</string>
+    <string name="settings">Configuración</string>
+    <string name="language">Idioma</string>
+    <string name="rate_us">Califícanos</string>
+    <string name="more_apps_ad">Más aplicaciones (Anuncio)</string>
+    <string name="explore_recommended_apps">Explorar aplicaciones recomendadas</string>
+    <string name="follow_us">Síguenos</string>
+    <string name="facebook">Facebook</string>
+    <string name="tiktok">TikTok</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_twitter">X (Twitter)</string>
+    <string name="how_to_use_trace">Cómo usar el trazado</string>
+    <string name="how_to_use_sketch">Cómo usar el bosquejo</string>
+    <string name="_1">1</string>
+    <string name="how_to_trace_1">Después de seleccionar tu imagen favorita, la pantalla de trazado mostrará el dibujo en la pantalla de tu teléfono.</string>
+    <string name="how_to_trace_2">Coloca un trozo de papel en la pantalla y procede a dibujar la imagen.</string>
+    <string name="how_to_sketch_1">Coloca tu teléfono en un vaso para que esté paralelo a la mesa.</string>
+    <string name="how_to_sketch_2">La imagen del teléfono se invertirá, y podrás dibujar desde allí.</string>
+    <string name="_2">2</string>
+    <string name="view_all">Ver todo</string>
+    <string name="explore_categories">Explorar categorías</string>
+    <string name="watch_the_entire_ad_to_unlock">Mira todo el anuncio para desbloquear</string>
+    <string name="some_issue_with_this_image_try_another_one">Algún problema con esta imagen. Intenta con otra.</string>
+    <string name="color">Color</string>
+    <string name="screen_brightness">Brillo de la pantalla</string>
+    <string name="convert_bitmap">Convertir a mapa de bits</string>
+    <string name="can_t_convert_this_image_try_with_another">No se puede convertir esta imagen. Inténtalo con otra.</string>
+    <string name="permission_not_granted">Permiso no concedido</string>
+    <string name="switch_camera_failed_does_your_device_have_a_front_camera">Error al cambiar de cámara. ¿Tu dispositivo tiene una cámara frontal?</string>
+    <string name="ad_is_not_loaded_yet">El anuncio aún no se ha cargado</string>
+    <string name="from_gallery">Desde la galería</string>
+    <string name="from_camera">Desde la cámara</string>
+    <string name="error_recording_the_video">Error al grabar el video</string>
+    <string name="video_saved">Video guardado</string>
+    <string name="_00_00">00:00</string>
+    <string name="advanced">Avanzado</string>
+    <string name="the_drawing_is_ready">El dibujo está listo</string>
+    <string name="time_is_up">Se acabó el tiempo</string>
+    <string name="you_need_to_watch_an_add_to_continue_drawing">Debes ver un anuncio para restablecer el temporizador y continuar dibujando.</string>
+    <string name="watch">Ver</string>
+    <string name="take_a_photo_of_the_finished_drawing_to_move_to_the_next_level">Toma una foto del dibujo terminado para pasar al siguiente nivel.</string>
+    <string name="it_s_not_finished_yet">No ha terminado aún</string>
+    <string name="take_a_photo">Tomar una foto</string>
+    <string name="great">Genial</string>
+    <string name="you_can_track_your_progress_and_upload_new_finished_sketches_in_the_my_creation_section">Puedes seguir tu progreso y cargar nuevas obras terminadas en la sección \'Mi creación\'.</string>
+    <string name="take_another_photo">Tomar otra foto</string>
+    <string name="save_and_exit">Guardar y salir</string>
+    <string name="photo_saved">Foto guardada</string>
+    <string name="preview">Vista previa</string>
+    <string name="creation_deleted">Creación eliminada</string>
+    <string name="are_you_sure_you_want_to_delete_this_creation">¿Estás seguro de que quieres eliminar esta creación?</string>
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="edge">Borde</string>
+    <string name="contrast">Contraste</string>
+    <string name="noise">Ruido</string>
+    <string name="sharpness">Nitidez</string>
+    <string name="apply">Aplicar</string>
+    <string name="applied">Aplicado  ✅</string>
+    <string name="do_you_want_to_apply_the_editing">¿Quieres aplicar la edición?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="error_importing_photo">Error al importar la foto</string>
+    <string name="saving_was_canceled">Guardado cancelado</string>
+    <string name="saving_failed">Error al guardar</string>
+    <string name="fast_video">Video rápido</string>
+    <string name="speeding_up_and_saving_video">Acelerando y guardando el video...</string>
+    <string name="share">Compartir</string>
+    <string name="rate_this_app_with_5_start_if_you_like_it">Califica esta aplicación con 5 estrellas si te gusta.</string>
+    <string name="update">Actualizar</string>
+    <string name="there_is_a_new_update">Hay una nueva actualización 🤩</string>
+    <string name="update_the_app_to_enjoy_the_latest_features">Actualiza la aplicación para disfrutar de las últimas funciones.</string>
+</resources>

@@ -1,0 +1,137 @@
+<resources>
+    <string name="app_name">Med Drawing</string>
+
+    <string name="tip_title_1">Conseil 1</string>
+    <string name="tip_desc_1">Description du conseil 1</string>
+
+    <string name="tip_title_2">Conseil 2</string>
+    <string name="tip_desc_2">Description du conseil 2</string>
+
+    <string name="tip_title_3">Conseil 3</string>
+    <string name="tip_desc_3">Description du conseil 3</string>
+
+    <string name="tip_title_4">Conseil 4</string>
+    <string name="tip_desc_4">Description du conseil 4</string>
+
+    <string name="get_started_title">Dessin Médical</string>
+    <string name="get_started_desc">Description du dessin médical</string>
+
+    <string name="privacy_notice">En cliquant sur Démarrer, vous confirmez avoir examiné et accepté notre politique de confidentialité</string>
+
+    <string name="action_cancel">Annuler</string>
+    <string name="label">Étiquette</string>
+    <string name="lbl_header_settings">Paramètres</string>
+    <string name="lbl_permission_denied">Autorisation refusée</string>
+    <string name="lbl_permission_denied_message">Si vous refusez toutes ces autorisations, vous ne pourrez pas utiliser l\'application correctement. \n\nVeuillez activer les autorisations dans [Paramètres] &gt; [Autorisation]</string>
+    <string name="lbl_setting">Paramètres</string>
+    <string name="learn_more">Confidentialité et politique\nComment l\'application et nos partenaires utilisent vos données !</string>
+
+    <string name="share_app">Partager l\'application</string>
+    <string name="title_camera">Appareil photo</string>
+    <string name="title_choose_image_provider">Choisir</string>
+    <string name="title_gallery">Galerie</string>
+
+    <string name="help1">Démarrez l\'application et placez le téléphone sur un verre ou tout autre objet comme indiqué sur l\'image.</string>
+    <string name="help1_1">Sélectionnez une image pour dessiner.</string>
+    <string name="help1_2">Prenez un papier calque pour tracer et dessiner des objets.</string>
+    <string name="help1_3">Placez le papier calque sur l\'écran du téléphone et commencez à tracer l\'objet.</string>
+    <string name="help2">Sélectionnez une image pour dessiner.</string>
+    <string name="help3">Ajoutez de la transparence à l\'écran pour pouvoir voir votre livre sur l\'écran du téléphone.</string>
+    <string name="help4">Commencez à dessiner en plaçant le crayon sur les bords de l\'image. L\'écran du téléphone vous guidera pour dessiner.</string>
+    <string name="help5" />
+
+    <string name="try_again">Réessayer</string>
+    <string name="error_connect_to_a_network_and_try_again">Connectez-vous à un réseau et réessayez</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="ad">Publicité</string>
+    <string name="no_drawing_available">Aucun dessin disponible</string>
+    <string name="select_drawing">Sélectionner un dessin</string>
+    <string name="next">Suivant</string>
+    <string name="app_guideline">Guide de l\'application</string>
+    <string name="start">Démarrer</string>
+    <string name="get_started">Commencer</string>
+    <string name="okay">OK</string>
+    <string name="sketch">Esquisse</string>
+    <string name="turn_your_emotions_into_art_like_a_true_artistic_pro">Transformez vos émotions en art comme un vrai professionnel artistique.</string>
+    <string name="trace">Trace</string>
+    <string name="trace_your_drawing_discover_something_new">Tracez votre dessin, découvrez quelque chose de nouveau.</string>
+    <string name="my_creation">Ma création</string>
+    <string name="your_art">Votre art</string>
+    <string name="draw_quickly_and_easily_with_apps_is_a_great_way_to_get_started_in_the_world_of_art">Dessiner rapidement et facilement avec des applications est un excellent moyen de commencer dans le monde de l\'art</string>
+    <string name="support_us_to_develop_app_better_with_5_stars">Soutenez-nous pour développer\nl\'application encore mieux avec 5 étoiles</string>
+    <string name="rate">Noter</string>
+    <string name="double_click_to_exit">Double-cliquez pour quitter</string>
+    <string name="settings">Paramètres</string>
+    <string name="language">Langue</string>
+    <string name="rate_us">Noter l\'application</string>
+    <string name="more_apps_ad">Plus d\'applications (Pub)</string>
+    <string name="explore_recommended_apps">Explorer les applications recommandées</string>
+    <string name="follow_us">Suivez-nous</string>
+    <string name="facebook">Facebook</string>
+    <string name="tiktok">TikTok</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_twitter">X (Twitter)</string>
+    <string name="how_to_use_trace">Comment utiliser la trace</string>
+    <string name="how_to_use_sketch">Comment utiliser l\'esquisse</string>
+    <string name="_1">1</string>
+    <string name="how_to_trace_1">Après avoir sélectionné votre image préférée, l\'écran de trace affichera le dessin sur l\'écran de votre téléphone.</string>
+    <string name="how_to_trace_2">Placez une feuille de papier sur l\'écran et commencez à dessiner l\'image.</string>
+    <string name="how_to_sketch_1">Placez votre téléphone sur une tasse pour qu\'il soit parallèle à la table.</string>
+    <string name="how_to_sketch_2">L\'image du téléphone sera inversée, et vous pourrez la dessiner à partir de là.</string>
+    <string name="_2">2</string>
+    <string name="view_all">Voir tout</string>
+    <string name="explore_categories">Explorer les catégories</string>
+    <string name="watch_the_entire_ad_to_unlock">Regardez toute la publicité pour débloquer</string>
+    <string name="some_issue_with_this_image_try_another_one">Un problème avec cette image, essayez-en une autre.</string>
+    <string name="color">Couleur</string>
+    <string name="screen_brightness">Luminosité de l\'écran</string>
+    <string name="convert_bitmap">Convertir l\'image</string>
+    <string name="can_t_convert_this_image_try_with_another">Impossible de convertir cette image, essayez avec une autre</string>
+    <string name="permission_not_granted">Autorisation non accordée</string>
+    <string name="switch_camera_failed_does_your_device_have_a_front_camera">Échec du changement de caméra. Votre appareil a-t-il une caméra frontale ?</string>
+    <string name="ad_is_not_loaded_yet">La publicité n\'est pas encore chargée</string>
+    <string name="from_gallery">Depuis la galerie</string>
+    <string name="from_camera">Depuis l\'appareil photo</string>
+    <string name="error_recording_the_video">Erreur lors de l\'enregistrement de la vidéo</string>
+    <string name="video_saved">Vidéo enregistrée</string>
+    <string name="_00_00">00:00</string>
+    <string name="advanced">Avancé</string>
+    <string name="the_drawing_is_ready">Le dessin est prêt</string>
+    <string name="time_is_up">Le temps est écoulé</string>
+    <string name="you_need_to_watch_an_add_to_continue_drawing">Vous devez regarder une publicité pour réinitialiser le minuteur et continuer à dessiner.</string>
+    <string name="watch">Regarder</string>
+    <string name="take_a_photo_of_the_finished_drawing_to_move_to_the_next_level">Prenez une photo du dessin terminé pour passer au niveau suivant.</string>
+    <string name="it_s_not_finished_yet">Ce n\'est pas encore terminé</string>
+    <string name="take_a_photo">Prendre une photo</string>
+    <string name="great">Génial !</string>
+    <string name="you_can_track_your_progress_and_upload_new_finished_sketches_in_the_my_creation_section">Vous pouvez suivre votre progression et télécharger de nouvelles esquisses terminées dans la section \'Ma création\'.</string>
+    <string name="take_another_photo">Prendre une autre photo</string>
+    <string name="save_and_exit">Enregistrer et quitter</string>
+    <string name="photo_saved">Photo enregistrée</string>
+    <string name="preview">Aperçu</string>
+    <string name="creation_deleted">Création supprimée</string>
+    <string name="are_you_sure_you_want_to_delete_this_creation">Êtes-vous sûr de vouloir supprimer cette création ?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="edge">Bord</string>
+    <string name="contrast">Contraste</string>
+    <string name="noise">Bruit</string>
+    <string name="sharpness">Netteté</string>
+    <string name="apply">Appliquer</string>
+    <string name="applied">Appliqué  ✅</string>
+    <string name="do_you_want_to_apply_the_editing">Voulez-vous appliquer les modifications ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="error_importing_photo">Erreur lors de l\'importation de la photo</string>
+
+    <string name="saving_was_canceled">La sauvegarde a été annulée</string>
+    <string name="saving_failed">Échec de la sauvegarde</string>
+    <string name="fast_video">Vidéo rapide</string>
+    <string name="speeding_up_and_saving_video">Accélération et sauvegarde de la vidéo...</string>
+    <string name="share">Partager</string>
+    <string name="rate_this_app_with_5_start_if_you_like_it">Notez cette application avec 5 étoiles si vous l\'appréciez.</string>
+    <string name="update">Mise à jour</string>
+    <string name="there_is_a_new_update">Il y a une nouvelle mise à jour 🤩</string>
+    <string name="update_the_app_to_enjoy_the_latest_features">Mettez à jour l\'application pour profiter des dernières fonctionnalités.</string>
+
+</resources>

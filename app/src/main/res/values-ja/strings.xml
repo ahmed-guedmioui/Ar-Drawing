@@ -1,0 +1,136 @@
+<resources>
+    <string name="app_name">Med Drawing</string>
+
+    <string name="tip_title_1">ヒント1</string>
+    <string name="tip_desc_1">ヒントの説明1</string>
+
+    <string name="tip_title_2">ヒント2</string>
+    <string name="tip_desc_2">ヒントの説明2</string>
+
+    <string name="tip_title_3">ヒント3</string>
+    <string name="tip_desc_3">ヒントの説明3</string>
+
+    <string name="tip_title_4">ヒント4</string>
+    <string name="tip_desc_4">ヒントの説明4</string>
+
+    <string name="get_started_title">Med Drawing</string>
+    <string name="get_started_desc">Med Drawingの説明</string>
+
+    <string name="privacy_notice">開始をクリックすると、プライバシーポリシーを確認して承認したことになります</string>
+
+    <string name="action_cancel">キャンセル</string>
+    <string name="label">ラベル</string>
+    <string name="lbl_header_settings">設定</string>
+    <string name="lbl_permission_denied">許可が拒否されました</string>
+    <string name="lbl_permission_denied_message">これらのすべての権限を拒否すると、アプリを正しく使用できません。\n\n[設定] &gt; [権限]で権限をオンにしてください。</string>
+    <string name="lbl_setting">設定</string>
+    <string name="learn_more">プライバシーとポリシー\nアプリとパートナーがデータをどのように使用するかについて詳しく知る！</string>
+
+    <string name="share_app">アプリを共有</string>
+    <string name="title_camera">カメラ</string>
+    <string name="title_choose_image_provider">選択</string>
+    <string name="title_gallery">ギャラリー</string>
+
+    <string name="help1">アプリを起動し、モバイルを画像に示されているようにガラスや他の物体に置きます。</string>
+    <string name="help1_1">描画するために任意の画像を選択します。</string>
+    <string name="help1_2">トレースおよびオブジェクトの描画にはトレーシングペーパーを使用します。</string>
+    <string name="help1_3">モバイル画面の上にトレーシングペーパーを置いて、オブジェクトをトレースし始めます。</string>
+    <string name="help2">描画するために任意の画像を選択します。</string>
+    <string name="help3">画面に透明度を追加して、モバイル画面で本を表示できるようにします。</string>
+    <string name="help4">画像の境界に鉛筆を置いて描画を開始します。モバイル画面が描画を案内します。</string>
+    <string name="help5" />
+
+
+    <string name="try_again">もう一度試す</string>
+    <string name="error_connect_to_a_network_and_try_again">ネットワークに接続してもう一度試してください</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="ad">広告</string>
+    <string name="no_drawing_available">利用可能な描画がありません</string>
+    <string name="select_drawing">描画を選択</string>
+    <string name="next">次へ</string>
+    <string name="app_guideline">アプリガイドライン</string>
+    <string name="start">開始</string>
+    <string name="get_started">開始</string>
+    <string name="okay">OK</string>
+    <string name="sketch">スケッチ</string>
+    <string name="turn_your_emotions_into_art_like_a_true_artistic_pro">感情を本物の芸術家のようにアートに変えます。</string>
+    <string name="trace">トレース</string>
+    <string name="trace_your_drawing_discover_something_new">描画をトレースして新しい発見をします。</string>
+    <string name="my_creation">マイ作品</string>
+    <string name="your_art">あなたのアート</string>
+    <string name="draw_quickly_and_easily_with_apps_is_a_great_way_to_get_started_in_the_world_of_art">アプリを使って素早く簡単に描くことは、芸術の世界で始める素晴らしい方法です</string>
+    <string name="support_us_to_develop_app_better_with_5_stars">5つ星でアプリの開発をサポートしてください</string>
+    <string name="rate">評価</string>
+    <string name="double_click_to_exit">ダブルクリックして終了</string>
+    <string name="settings">設定</string>
+    <string name="language">言語</string>
+    <string name="rate_us">評価する</string>
+    <string name="more_apps_ad">他のアプリ (広告)</string>
+    <string name="explore_recommended_apps">おすすめのアプリを見る</string>
+    <string name="follow_us">フォローする</string>
+    <string name="facebook">Facebook</string>
+    <string name="tiktok">TikTok</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_twitter">X (Twitter)</string>
+    <string name="how_to_use_trace">トレースの使い方</string>
+    <string name="how_to_use_sketch">スケッチの使い方</string>
+    <string name="_1">1</string>
+    <string name="how_to_trace_1">お気に入りの画像を選択した後、トレース画面に描画が表示されます</string>
+    <string name="how_to_trace_2">画面に紙を置いて画像を描きます</string>
+    <string name="how_to_sketch_1">電話をカップに置いてテーブルと平行にします</string>
+    <string name="how_to_sketch_2">電話からの画像が反転し、そこから描画できます</string>
+    <string name="_2">2</string>
+    <string name="view_all">すべて表示</string>
+    <string name="explore_categories">カテゴリを探す</string>
+    <string name="watch_the_entire_ad_to_unlock">広告全体を視聴してロックを解除</string>
+    <string name="some_issue_with_this_image_try_another_one">この画像に問題がある場合は、別の画像を試してください。</string>
+    <string name="color">色</string>
+    <string name="screen_brightness">画面の明るさ</string>
+    <string name="convert_bitmap">ビットマップに変換</string>
+    <string name="can_t_convert_this_image_try_with_another">この画像を変換できません。別の画像を試してください</string>
+    <string name="permission_not_granted">権限が許可されていません</string>
+    <string name="switch_camera_failed_does_your_device_have_a_front_camera">カメラの切り替えに失敗しました。デバイスに前面カメラがあるか確認してくださいか？</string>
+    <string name="ad_is_not_loaded_yet">広告がまだ読み込まれていません</string>
+    <string name="from_gallery">ギャラリーから</string>
+    <string name="from_camera">カメラから</string>
+    <string name="error_recording_the_video">ビデオの録画中にエラーが発生しました</string>
+    <string name="video_saved">ビデオが保存されました</string>
+    <string name="_00_00">00:00</string>
+    <string name="advanced">高度な設定</string>
+    <string name="the_drawing_is_ready">描画が完成しました</string>
+    <string name="time_is_up">時間切れ</string>
+    <string name="you_need_to_watch_an_add_to_continue_drawing">タイマーをリセットして描画を続けるには、広告を視聴する必要があります。</string>
+    <string name="watch">視聴</string>
+    <string name="take_a_photo_of_the_finished_drawing_to_move_to_the_next_level">次のレベルに進むために完成した描画の写真を撮ってください</string>
+    <string name="it_s_not_finished_yet">まだ完成していません</string>
+    <string name="take_a_photo">写真を撮る</string>
+    <string name="great">素晴らしい！</string>
+    <string name="you_can_track_your_progress_and_upload_new_finished_sketches_in_the_my_creation_section">進捗を追跡し、新しい完成したスケッチを「マイ作品」セクションにアップロードできます</string>
+    <string name="take_another_photo">別の写真を撮る</string>
+    <string name="save_and_exit">保存して終了</string>
+    <string name="photo_saved">写真が保存されました</string>
+    <string name="preview">プレビュー</string>
+    <string name="creation_deleted">作品が削除されました</string>
+    <string name="are_you_sure_you_want_to_delete_this_creation">この作品を削除してもよろしいですか？</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <string name="edge">エッジ</string>
+    <string name="contrast">コントラスト</string>
+    <string name="noise">ノイズ</string>
+    <string name="sharpness">シャープネス</string>
+    <string name="apply">適用</string>
+    <string name="applied">適用済み ✅</string>
+    <string name="do_you_want_to_apply_the_editing">編集を適用しますか？</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="error_importing_photo">写真のインポート中にエラーが発生しました</string>
+    <string name="saving_was_canceled">保存がキャンセルされました</string>
+    <string name="saving_failed">保存に失敗しました</string>
+    <string name="fast_video">高速ビデオ</string>
+    <string name="speeding_up_and_saving_video">ビデオの高速化と保存...</string>
+    <string name="share">共有</string>
+    <string name="rate_this_app_with_5_start_if_you_like_it">気に入ったら5つ星でアプリを評価してください。</string>
+    <string name="update">アップデート</string>
+    <string name="there_is_a_new_update">新しいアップデートがあります 🤩</string>
+    <string name="update_the_app_to_enjoy_the_latest_features">最新の機能を楽しむためにアプリをアップデートしてください。</string>
+</resources>

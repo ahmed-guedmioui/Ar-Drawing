@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name">Med Drawing</string>
+
+    <string name="tip_title_1">Tipp 1</string>
+    <string name="tip_desc_1">Tipp Beschreibung 1</string>
+
+    <string name="tip_title_2">Tipp 2</string>
+    <string name="tip_desc_2">Tipp Beschreibung 2</string>
+
+    <string name="tip_title_3">Tipp 3</string>
+    <string name="tip_desc_3">Tipp Beschreibung 3</string>
+
+    <string name="tip_title_4">Tipp 4</string>
+    <string name="tip_desc_4">Tipp Beschreibung 4</string>
+
+    <string name="get_started_title">Med Drawing</string>
+    <string name="get_started_desc">Med Zeichnung Beschreibung</string>
+
+    <string name="privacy_notice">Durch Klicken auf Start bestätigen Sie, dass Sie unsere Datenschutzbestimmungen überprüft und akzeptiert haben</string>
+
+    <string name="action_cancel">Abbrechen</string>
+    <string name="label">Label</string>
+    <string name="lbl_header_settings">Einstellungen</string>
+    <string name="lbl_permission_denied">Berechtigung verweigert</string>
+    <string name="lbl_permission_denied_message">Wenn Sie diese Berechtigung ablehnen, können Sie die Anwendung nicht ordnungsgemäß verwenden. \n\nBitte aktivieren Sie die Berechtigungen unter [Einstellungen] &gt; [Berechtigung]</string>
+    <string name="lbl_setting">Einstellungen</string>
+    <string name="learn_more">Datenschutz &amp; Richtlinie\nWie die App &amp; unsere Partner Ihre Daten verwenden!</string>
+
+    <string name="share_app">App teilen</string>
+    <string name="title_camera">Kamera</string>
+    <string name="title_choose_image_provider">Auswählen</string>
+    <string name="title_gallery">Galerie</string>
+
+    <string name="help1">Starten Sie die App und platzieren Sie das Handy auf Glas oder einem anderen Objekt, wie im Bild gezeigt.</string>
+    <string name="help1_1">Wählen Sie ein Bild zum Zeichnen aus.</string>
+    <string name="help1_2">Nehmen Sie Transparentpapier, um Objekte zu zeichnen und zu verfolgen.</string>
+    <string name="help1_3">Legen Sie Transparentpapier über den Bildschirm des Handys und beginnen Sie mit dem Zeichnen des Objekts.</string>
+    <string name="help2">Wählen Sie ein Bild zum Zeichnen aus.</string>
+    <string name="help3">Fügen Sie dem Bildschirm Transparenz hinzu, damit Sie Ihr Buch auf dem Handybildschirm sehen können.</string>
+    <string name="help4">Beginnen Sie mit dem Zeichnen, indem Sie den Bleistift über die Ränder des Bildes legen. Der Handybildschirm wird Sie beim Zeichnen führen.</string>
+    <string name="help5" />
+
+    <string name="try_again">Erneut versuchen</string>
+    <string name="error_connect_to_a_network_and_try_again">Mit einem Netzwerk verbinden und erneut versuchen</string>
+    <string name="privacy_policy">Datenschutzrichtlinie</string>
+    <string name="ad">Werbung</string>
+    <string name="no_drawing_available">Keine Zeichnung verfügbar</string>
+    <string name="select_drawing">Zeichnung auswählen</string>
+    <string name="next">Weiter</string>
+    <string name="app_guideline">App-Richtlinie</string>
+    <string name="start">Start</string>
+    <string name="get_started">Los geht\'s</string>
+    <string name="okay">Okay</string>
+    <string name="sketch">Skizze</string>
+    <string name="turn_your_emotions_into_art_like_a_true_artistic_pro">Verwandeln Sie Ihre Emotionen in Kunst wie ein echter Künstler.</string>
+    <string name="trace">Abpausen</string>
+    <string name="trace_your_drawing_discover_something_new">Verfolgen Sie Ihre Zeichnung und entdecken Sie etwas Neues.</string>
+    <string name="my_creation">Meine Kreation</string>
+    <string name="your_art">Ihre Kunst</string>
+    <string name="draw_quickly_and_easily_with_apps_is_a_great_way_to_get_started_in_the_world_of_art">Schnell und einfach mit Apps zeichnen ist eine großartige Möglichkeit, in die Welt der Kunst einzusteigen.</string>
+    <string name="support_us_to_develop_app_better_with_5_stars">Unterstützen Sie uns, die App mit 5 Sternen besser zu entwickeln</string>
+    <string name="rate">Bewerten</string>
+    <string name="double_click_to_exit">Doppelklick zum Beenden</string>
+    <string name="settings">Einstellungen</string>
+    <string name="language">Sprache</string>
+    <string name="rate_us">Bewerten Sie uns</string>
+    <string name="more_apps_ad">Weitere Apps (Anzeige)</string>
+    <string name="explore_recommended_apps">Empfohlene Apps erkunden</string>
+    <string name="follow_us">Folgen Sie uns</string>
+    <string name="facebook">Facebook</string>
+    <string name="tiktok">TikTok</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_twitter">X (Twitter)</string>
+    <string name="how_to_use_trace">Wie man Abpausen verwendet</string>
+    <string name="how_to_use_sketch">Wie man Skizzen verwendet</string>
+    <string name="_1">1</string>
+    <string name="how_to_trace_1">Nach Auswahl Ihres Lieblingsbildes zeigt der Abpausbildschirm die Zeichnung auf Ihrem Telefonbildschirm an</string>
+    <string name="how_to_trace_2">Legen Sie ein Blatt Papier auf den Bildschirm und zeichnen Sie das Bild</string>
+    <string name="how_to_sketch_1">Stellen Sie Ihr Telefon auf einen Becher, damit es parallel zum Tisch steht</string>
+    <string name="how_to_sketch_2">Das Bild vom Telefon wird umgekehrt, und Sie können es von dort zeichnen</string>
+    <string name="_2">2</string>
+    <string name="view_all">Alle anzeigen</string>
+    <string name="explore_categories">Kategorien erkunden</string>
+    <string name="watch_the_entire_ad_to_unlock">Schauen Sie sich die gesamte Anzeige an, um zu entsperren</string>
+    <string name="some_issue_with_this_image_try_another_one">Ein Problem mit diesem Bild. Versuchen Sie es mit einem anderen.</string>
+    <string name="color">Farbe</string>
+    <string name="screen_brightness">Bildschirmhelligkeit</string>
+    <string name="convert_bitmap">In Bitmap umwandeln</string>
+    <string name="can_t_convert_this_image_try_with_another">Kann dieses Bild nicht konvertieren. Versuchen Sie es mit einem anderen.</string>
+    <string name="permission_not_granted">Berechtigung verweigert</string>
+    <string name="switch_camera_failed_does_your_device_have_a_front_camera">Wechseln der Kamera fehlgeschlagen. Hat Ihr Gerät eine Frontkamera?</string>
+    <string name="ad_is_not_loaded_yet">Anzeige wurde noch nicht geladen</string>
+    <string name="from_gallery">Aus der Galerie</string>
+    <string name="from_camera">Von der Kamera</string>
+    <string name="error_recording_the_video">Fehler beim Aufnehmen des Videos</string>
+    <string name="video_saved">Video gespeichert</string>
+    <string name="_00_00">00:00</string>
+    <string name="advanced">Fortgeschritten</string>
+    <string name="the_drawing_is_ready">Die Zeichnung ist bereit</string>
+    <string name="time_is_up">Die Zeit ist abgelaufen</string>
+    <string name="you_need_to_watch_an_add_to_continue_drawing">Um den Timer zurückzusetzen und mit dem Zeichnen fortzufahren, müssen Sie eine Anzeige ansehen.</string>
+    <string name="watch">Ansehen</string>
+    <string name="take_a_photo_of_the_finished_drawing_to_move_to_the_next_level">Machen Sie ein Foto von der fertigen Zeichnung, um zum nächsten Level zu gelangen.</string>
+    <string name="it_s_not_finished_yet">Es ist noch nicht fertig</string>
+    <string name="take_a_photo">Foto machen</string>
+    <string name="great">Großartig!</string>
+    <string name="you_can_track_your_progress_and_upload_new_finished_sketches_in_the_my_creation_section">Sie können Ihren Fortschritt verfolgen und neue fertige Skizzen im Abschnitt „Meine Kreation“ hochladen.</string>
+    <string name="take_another_photo">Machen Sie ein weiteres Foto</string>
+    <string name="save_and_exit">Speichern und beenden</string>
+    <string name="photo_saved">Foto gespeichert</string>
+    <string name="preview">Vorschau</string>
+    <string name="creation_deleted">Erstellung gelöscht</string>
+    <string name="are_you_sure_you_want_to_delete_this_creation">Sind Sie sicher, dass Sie diese Erstellung löschen möchten?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="edge">Kante</string>
+    <string name="contrast">Kontrast</string>
+    <string name="noise">Rauschen</string>
+    <string name="sharpness">Schärfe</string>
+    <string name="apply">Anwenden</string>
+    <string name="applied">Angewendet  ✅</string>
+    <string name="do_you_want_to_apply_the_editing">Möchten Sie die Bearbeitung anwenden?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="error_importing_photo">Fehler beim Importieren des Fotos</string>
+    <string name="saving_was_canceled">Speichern wurde abgebrochen</string>
+    <string name="saving_failed">Speichern fehlgeschlagen</string>
+    <string name="fast_video">Schnelles Video</string>
+    <string name="speeding_up_and_saving_video">Video wird beschleunigt und gespeichert...</string>
+    <string name="share">Teilen</string>
+    <string name="rate_this_app_with_5_start_if_you_like_it">Bewerten Sie diese App mit 5 Sternen, wenn sie Ihnen gefällt.</string>
+    <string name="update">Aktualisieren</string>
+    <string name="there_is_a_new_update">Es gibt ein neues Update 🤩</string>
+    <string name="update_the_app_to_enjoy_the_latest_features">Aktualisieren Sie die App, um die neuesten Funktionen zu nutzen.</string>
+</resources>
