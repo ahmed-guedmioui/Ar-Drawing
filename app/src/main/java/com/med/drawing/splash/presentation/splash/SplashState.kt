@@ -8,6 +8,6 @@ data class SplashState(
     val areImagesLoaded: Boolean = false,
     val isAppDataLoaded: Boolean = false,
 
-    val isDialogShowing: Boolean = false,
+    val updateDialogAlreadyShowing: Boolean = false,
     val updateDialogState: Int = -1,
 )

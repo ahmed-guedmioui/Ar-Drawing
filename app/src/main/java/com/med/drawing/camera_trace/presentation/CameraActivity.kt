@@ -44,6 +44,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.play.core.review.ReviewException
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.med.drawing.R
 import com.med.drawing.advanced_editing.presentation.AdvancedEditingActivity
 import com.med.drawing.databinding.ActivityCameraBinding
@@ -784,7 +787,7 @@ class CameraActivity : AppCompatActivity() {
                 this@CameraActivity, getString(R.string.photo_saved), Toast.LENGTH_SHORT
             ).show()
 
-            super.onBackPressed()
+            inAppReview()
         }
 
         savePhotoDialog.show()
@@ -809,4 +812,37 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    private fun inAppReview() {
+        val manager = ReviewManagerFactory.create(this)
+
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+
+                val flow = manager.launchReviewFlow(this, reviewInfo)
+                flow.addOnCompleteListener { _ ->
+                    super.onBackPressed()
+                }
+
+            } else {
+                super.onBackPressed()
+            }
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

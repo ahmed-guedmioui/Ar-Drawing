@@ -18,7 +18,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.med.drawing.App
 import com.med.drawing.BuildConfig
 import com.med.drawing.R
 import com.med.drawing.util.ads.AdmobAppOpenManager
@@ -27,7 +26,6 @@ import com.med.drawing.main.presentaion.get_started.GetStartedActivity
 import com.med.drawing.main.presentaion.home.HomeActivity
 import com.med.drawing.main.presentaion.tips.TipsActivity
 import com.med.drawing.databinding.ActivitySplashBinding
-import com.med.drawing.main.presentaion.get_started.GetStartedUiEvent
 import com.med.drawing.splash.data.DataManager
 import com.med.drawing.util.AppAnimation
 import com.med.drawing.util.UrlOpener
@@ -53,17 +51,11 @@ class SplashActivity : AppCompatActivity() {
         val view: View = binding.root
         setContentView(view)
 
-
         AppAnimation().startRepeatingAnimation(binding.animationImage)
 
         lifecycleScope.launch {
             splashViewModel.splashState.collect {
                 splashState = it
-
-                if (splashState.updateDialogState > 0) {
-                    val isSuspended = splashState.updateDialogState == 2
-                    updateDialog(isSuspended)
-                }
             }
         }
 
@@ -107,8 +99,7 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             splashViewModel.showUpdateDialogChannel.collect { show ->
                 if (show) {
-                    val isSuspended = splashState.updateDialogState == 2
-                    updateDialog(isSuspended)
+                    updateDialog()
                 }
             }
         }
@@ -135,7 +126,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-    private fun updateDialog(isSuspended: Boolean) {
+    private fun updateDialog() {
+
+        val isSuspended = splashState.updateDialogState == 2
 
         val updateDialog = Dialog(this)
         updateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -170,22 +163,16 @@ class SplashActivity : AppCompatActivity() {
 
         updateDialog.setOnDismissListener {
             binding.progressBar.visibility = View.VISIBLE
-            splashViewModel.onEvent(SplashUiEvent.HideDialog)
+            splashViewModel.onEvent(SplashUiEvent.ContinueApp)
         }
 
         updateDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
             updateDialog.dismiss()
         }
 
-        if (splashState.isDialogShowing) {
+        updateDialog.show()
+        binding.progressBar.visibility = View.GONE
 
-            binding.progressBar.visibility = View.GONE
-            updateDialog.show()
-        } else {
-
-            binding.progressBar.visibility = View.VISIBLE
-            updateDialog.dismiss()
-        }
     }
 
     private fun tryAgainButtonVisibility(show: Boolean) {

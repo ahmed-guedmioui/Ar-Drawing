@@ -29,11 +29,11 @@ class SplashViewModel @Inject constructor(
     val splashState = _splashState.asStateFlow()
 
 
-    private val _continueAppChannel = Channel<Boolean>()
-    val continueAppChannel = _continueAppChannel.receiveAsFlow()
-
     private val _showUpdateDialogChannel = Channel<Boolean>()
     val showUpdateDialogChannel = _showUpdateDialogChannel.receiveAsFlow()
+
+    private val _continueAppChannel = Channel<Boolean>()
+    val continueAppChannel = _continueAppChannel.receiveAsFlow()
 
     private val _showErrorToastChannel = Channel<Boolean>()
     val showErrorToastChannel = _showErrorToastChannel.receiveAsFlow()
@@ -50,10 +50,14 @@ class SplashViewModel @Inject constructor(
                 getImages()
             }
 
-            SplashUiEvent.HideDialog -> {
-                Log.d("tag_splash", "HideDialog")
+            is SplashUiEvent.ContinueApp -> {
+
+                _splashState.update {
+                    it.copy(
+                        updateDialogAlreadyShowing = false
+                    )
+                }
                 viewModelScope.launch {
-                    Log.d("tag_splash", "_continueAppChannel")
                     _continueAppChannel.send(true)
                 }
             }
@@ -78,11 +82,10 @@ class SplashViewModel @Inject constructor(
                             1 -> {
                                 _splashState.update {
                                     it.copy(
-                                        updateDialogState = 1, isDialogShowing = true
+                                        updateDialogState = 1,
+                                        updateDialogAlreadyShowing = true
                                     )
                                 }
-                                Log.d("tag_splash", "updateDialogState = 1")
-                                Log.d("tag_splash", "_showUpdateDialogChannel")
                                 _showUpdateDialogChannel.send(true)
                             }
 
@@ -90,11 +93,9 @@ class SplashViewModel @Inject constructor(
                                 _splashState.update {
                                     it.copy(
                                         updateDialogState = 2,
-                                        isDialogShowing = true
+                                        updateDialogAlreadyShowing = true
                                     )
                                 }
-                                Log.d("tag_splash", "updateDialogState = 2")
-                                Log.d("tag_splash", "_showUpdateDialogChannel")
                                 _showUpdateDialogChannel.send(true)
                             }
 
@@ -104,19 +105,12 @@ class SplashViewModel @Inject constructor(
                                 }
 
 
-                                Log.d("tag_splash", "updateDialogState = 0")
-
                                 if (splashState.value.areImagesLoaded) {
-                                    Log.d(
-                                        "tag_splash",
-                                        "areImagesLoaded = true -> _continueAppChannel"
-                                    )
                                     _continueAppChannel.send(true)
                                 }
                             }
                         }
 
-                        Log.d("tag_splash", "isAppDataLoaded = true")
                         _splashState.update {
                             it.copy(isAppDataLoaded = true)
                         }
@@ -139,7 +133,7 @@ class SplashViewModel @Inject constructor(
 
                     is Resource.Success -> {
 
-                        Log.d("tag_splash", "areImagesLoaded = true")
+
                         _splashState.update {
                             it.copy(areImagesLoaded = true)
                         }
@@ -147,12 +141,11 @@ class SplashViewModel @Inject constructor(
                         if (splashState.value.isAppDataLoaded
                             && splashState.value.updateDialogState == 0
                         ) {
-                            Log.d(
-                                "tag_splash",
-                                "isAppDataLoaded = true, updateDialogState = 0 -> _continueAppChannel"
-                            )
+
+                            imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
                             _continueAppChannel.send(true)
                         }
+
                     }
                 }
             }

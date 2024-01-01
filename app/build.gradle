@@ -76,6 +76,9 @@ dependencies {
     implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.4'
     implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.0-RC1'
 
+    implementation 'com.google.android.play:review:2.0.1'
+    implementation 'com.google.android.play:review-ktx:2.0.1'
+
     implementation 'com.otaliastudios:cameraview:2.7.1'
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
