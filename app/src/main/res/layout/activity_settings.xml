@@ -30,8 +30,7 @@
             android:fontFamily="@font/font"
             android:text="@string/settings"
             android:textColor="@color/text"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

@@ -31,8 +31,7 @@
                 android:fontFamily="@font/font"
                 android:text="@string/get_started_title"
                 android:textColor="@color/text"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="19sp" />
 
             <TextView
                 android:id="@+id/tip_desc"
@@ -45,7 +44,7 @@
                 android:fontFamily="@font/font"
                 android:text="@string/get_started_desc"
                 android:textColor="@color/text"
-                android:textSize="16sp" />
+                android:textSize="15.5sp" />
 
             <Button
                 android:id="@+id/get_started"
