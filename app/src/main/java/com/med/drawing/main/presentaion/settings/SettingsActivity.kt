@@ -21,7 +21,9 @@ import com.med.drawing.R
 import com.med.drawing.main.presentaion.follow.FollowActivity
 import com.med.drawing.main.presentaion.settings.adapter.RecommendedAppsAdapter
 import com.med.drawing.databinding.ActivitySettingsBinding
+import com.med.drawing.main.presentaion.language.LanguageActivity
 import com.med.drawing.splash.data.DataManager
+import com.med.drawing.util.Constants
 import com.med.drawing.util.openDeveloper
 import com.med.drawing.util.rateApp
 import com.med.drawing.util.shareApp
@@ -62,9 +64,8 @@ class SettingsActivity : AppCompatActivity() {
             binding.recommendedAppsParent.visibility = View.GONE
         }
 
-
         binding.back.setOnClickListener {
-           onBackPressed()
+            onBackPressed()
         }
 
         binding.rateUs.setOnClickListener {
@@ -86,6 +87,13 @@ class SettingsActivity : AppCompatActivity() {
         binding.privacy.setOnClickListener {
             splashViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)
         }
+
+        binding.language.setOnClickListener {
+            val intent = Intent(this, LanguageActivity::class.java)
+            intent.putExtra("from_splash", false)
+            startActivity(intent)
+        }
+
 
     }
 
@@ -121,6 +129,16 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (Constants.languageChanged1) {
+            finish()
+            val refresh = Intent(this, SettingsActivity::class.java)
+            startActivity(refresh)
+
+            Constants.languageChanged1 = false
+        }
+    }
 }
 
 

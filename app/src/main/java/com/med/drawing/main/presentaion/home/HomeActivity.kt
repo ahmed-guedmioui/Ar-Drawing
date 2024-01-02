@@ -19,11 +19,12 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.med.drawing.R
-import com.med.drawing.main.presentaion.home.adapter.HelperPagerAdapter
-import com.med.drawing.main.presentaion.settings.SettingsActivity
 import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.image_list.presentation.categories.CategoriesActivity
+import com.med.drawing.main.presentaion.home.adapter.HelperPagerAdapter
+import com.med.drawing.main.presentaion.settings.SettingsActivity
 import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListActivity
+import com.med.drawing.util.Constants
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
@@ -197,6 +198,18 @@ class HomeActivity : AppCompatActivity() {
             homeViewModel.closeChannel.collectLatest { close ->
                 if (close) { super.onBackPressed() }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (Constants.languageChanged2) {
+            finish()
+            val refresh = Intent(this, HomeActivity::class.java)
+            startActivity(refresh)
+
+            Constants.languageChanged2 = false
         }
     }
 }

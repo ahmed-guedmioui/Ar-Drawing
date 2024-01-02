@@ -20,6 +20,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.App
 import com.med.drawing.R
@@ -58,7 +59,9 @@ class GetStartedActivity : AppCompatActivity() {
             }
         }
 
-        privacyColor()
+        binding.privacyPolicy.setOnClickListener {
+            getStartedViewModel.onEvent(GetStartedUiEvent.ShowHidePrivacyDialog)
+        }
         NativeManager.loadNative(
             findViewById(R.id.native_frame),
             findViewById(R.id.native_temp),
@@ -76,39 +79,6 @@ class GetStartedActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun privacyColor() {
-        val s = "Privacy Policy"
-        val spannableString = SpannableString(binding.privacy.text)
-
-        val start: Int = binding.privacy.text.indexOf(s)
-        val end = start + s.length
-
-
-        spannableString.setSpan(
-            UnderlineSpan(),
-            start,
-            end,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        spannableString.setSpan(
-            ForegroundColorSpan(Color.BLUE),
-            start,
-            end,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        spannableString.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                getStartedViewModel.onEvent(GetStartedUiEvent.ShowHidePrivacyDialog)
-            }
-        }, start, end, 0)
-
-        binding.privacy.text = spannableString
-        binding.privacy.movementMethod = LinkMovementMethod.getInstance()
-    }
-
 
     private fun privacyDialog() {
         val privacyDialog = Dialog(this)

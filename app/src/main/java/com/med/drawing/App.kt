@@ -1,10 +1,13 @@
 package com.med.drawing
 
 import android.app.Application
+import android.content.Context
+import android.util.Log
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.med.drawing.util.LocaleManager
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 import javax.inject.Inject
@@ -14,7 +17,7 @@ import javax.inject.Inject
  * @author Ahmed Guedmioui
  */
 @HiltAndroidApp
-class App: Application() {
+class App : Application() {
 
     companion object {
         const val DEVELOPER_NAME = "AhmedGuedmioui"
@@ -41,6 +44,17 @@ class App: Application() {
         MobileAds.initialize(this)
         AudienceNetworkAds.initialize(this)
 
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base, getCurrentLanguage(base)))
+    }
+
+    private fun getCurrentLanguage(base: Context): String {
+        val prefs = base.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
+        return prefs.getString("language", "en") ?: "en"
     }
 
     private fun trimCache() {

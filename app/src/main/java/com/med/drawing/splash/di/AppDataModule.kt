@@ -3,6 +3,7 @@ package com.med.drawing.splash.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.med.drawing.R
 import com.med.drawing.splash.data.remote.AppDataApi
 import dagger.Module
 import dagger.Provides
@@ -32,7 +33,7 @@ object AppDataModule {
 
     @Provides
     @Singleton
-    fun providesAppDataApi() : AppDataApi {
+    fun providesAppDataApi(): AppDataApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(AppDataApi.ADS_BASE_URL)
@@ -44,7 +45,9 @@ object AppDataModule {
     @Provides
     @Singleton
     fun provideSharedPref(app: Application): SharedPreferences {
-        return app.getSharedPreferences("med drawing prefs file", Context.MODE_PRIVATE)
+        return app.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
     }
 
 }

@@ -132,4 +132,12 @@
     <string name="update">Aktualisieren</string>
     <string name="there_is_a_new_update">Es gibt ein neues Update 🤩</string>
     <string name="update_the_app_to_enjoy_the_latest_features">Aktualisieren Sie die App, um die neuesten Funktionen zu nutzen.</string>
+
+    <string name="english">English</string>
+    <string name="deutsch">Deutsch</string>
+    <string name="chinese">中文</string>
+    <string name="korean">한국어</string>
+    <string name="spanish">Español</string>
+    <string name="french">Français</string>
+    <string name="japanese">日本語</string>
 </resources>

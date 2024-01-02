@@ -135,6 +135,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"  />
         <activity
+            android:name=".main.presentaion.language.LanguageActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"  />
+        <activity
             android:name=".advanced_editing.presentation.AdvancedEditingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"  />

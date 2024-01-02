@@ -1,45 +1,43 @@
 <resources>
 
-    <string name="tip_title_1">Tip 1</string>
-    <string name="tip_desc_1">Tip desc 1</string>
+    <string name="tip_title_1">팁 1</string>
+    <string name="tip_desc_1">팁 설명 1</string>
 
-    <string name="tip_title_2">Tip 2</string>
-    <string name="tip_desc_2">Tip desc 2</string>
+    <string name="tip_title_2">팁 2</string>
+    <string name="tip_desc_2">팁 설명 2</string>
 
-    <string name="tip_title_3">Tip 3</string>
-    <string name="tip_desc_3">Tip desc 3</string>
+    <string name="tip_title_3">팁 3</string>
+    <string name="tip_desc_3">팁 설명 3</string>
 
-    <string name="tip_title_4">Tip 4</string>
-    <string name="tip_desc_4">Tip desc 4</string>
+    <string name="tip_title_4">팁 4</string>
+    <string name="tip_desc_4">팁 설명 4</string>
 
+    <string name="get_started_title">의료 그림</string>
+    <string name="get_started_desc">의료 그림 설명</string>
 
-    <string name="get_started_title">Med Drawing</string>
-    <string name="get_started_desc">Med drawing desc</string>
+    <string name="privacy_notice">시작을 클릭하면 개인정보 보호정책을 검토하고 수락했다는 것을 확인합니다.</string>
 
+    <string name="action_cancel">취소</string>
+    <string name="label">라벨</string>
+    <string name="lbl_header_settings">설정</string>
+    <string name="lbl_permission_denied">권한 거부</string>
+    <string name="lbl_permission_denied_message">거부하면 모든 권한을 사용할 수 없으며, 애플리케이션을 올바르게 사용할 수 없습니다. [설정] &gt; [권한]에서 권한을 켜주세요.</string>
+    <string name="lbl_setting">설정</string>
+    <string name="learn_more">개인정보 및 정책\n앱 및 협력사가 귀하의 데이터를 사용하는 방법에 대해 알아보기!</string>
 
-    <string name="privacy_notice">By click start you confirm that you reviewed and accepted our Privacy Policy</string>
+    <string name="share_app">앱 공유</string>
+    <string name="title_camera">카메라</string>
+    <string name="title_choose_image_provider">선택</string>
+    <string name="title_gallery">갤러리</string>
 
-    <string name="action_cancel">Cancel</string>
-    <string name="label">Label</string>
-    <string name="lbl_header_settings">Settings</string>
-    <string name="lbl_permission_denied">Permission Denied</string>
-    <string name="lbl_permission_denied_message">If you reject this all permission, you cannot use the application properly. \n\nPlease turn on permissions at [Setting] &gt; [Permission]</string>
-    <string name="lbl_setting">Settings</string>
-    <string name="learn_more">Privacy &amp; Policy\nHow App &amp; our partners use your data!</string>
-
-    <string name="share_app">Share App</string>
-    <string name="title_camera">Camera</string>
-    <string name="title_choose_image_provider">Choose</string>
-    <string name="title_gallery">Gallery</string>
-
-    <string name="help1">Start the app and place the mobile on a glass or any other object as shown in the image.</string>
-    <string name="help1_1">Select any image to draw.</string>
-    <string name="help1_2">Take a tracing paper to trace &amp; draw objects.</string>
-    <string name="help1_3">Place tracing paper over the mobile Screen &amp; start tracing the object.</string>
-    <string name="help2">Select any image to draw.</string>
-    <string name="help3">Add transparency to the screen so that you can view your book on the mobile screen.</string>
-    <string name="help4">Start drawing by placing the pencil over the borders of the image. The mobile screen will guide you to draw.</string>
-    <string name="help5" />
+    <string name="help1">앱을 시작하고 모바일을 이미지에 표시된 대로 유리 또는 다른 물체 위에 놓으세요.</string>
+    <string name="help1_1">그리려는 이미지를 선택하세요.</string>
+    <string name="help1_2">추적 용지를 사용하여 물체를 추적하고 그리세요.</string>
+    <string name="help1_3">추적 용지를 모바일 화면 위에 놓고 물체를 추적하기 시작하세요.</string>
+    <string name="help2">그리려는 이미지를 선택하세요.</string>
+    <string name="help3">화면에 투명도를 추가하여 모바일 화면에서 책을 볼 수 있게하세요.</string>
+    <string name="help4">연필을 이미지의 테두리 위에 놓고 그리기 시작하세요. 모바일 화면이 그리는 방법을 안내할 것입니다.</string>
+    <string name="help5" /> 이러한
 
     <string name="try_again">다시 시도</string>
     <string name="error_connect_to_a_network_and_try_again">네트워크에 연결하고 다시 시도하세요</string>
@@ -133,4 +131,12 @@
     <string name="update">업데이트</string>
     <string name="there_is_a_new_update">새로운 업데이트가 있습니다 🤩</string>
     <string name="update_the_app_to_enjoy_the_latest_features">최신 기능을 즐기려면 앱을 업데이트하세요.</string>
+
+    <string name="english">English</string>
+    <string name="deutsch">Deutsch</string>
+    <string name="chinese">中文</string>
+    <string name="korean">한국어</string>
+    <string name="spanish">Español</string>
+    <string name="french">Français</string>
+    <string name="japanese">日本語</string>
 </resources>
