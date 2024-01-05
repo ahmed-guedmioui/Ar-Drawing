@@ -132,10 +132,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (Constants.languageChanged1) {
-            finish()
-            val refresh = Intent(this, SettingsActivity::class.java)
-            startActivity(refresh)
-
+            recreate()
             Constants.languageChanged1 = false
         }
     }

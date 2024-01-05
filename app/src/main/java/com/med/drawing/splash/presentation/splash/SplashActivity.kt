@@ -1,13 +1,12 @@
 package com.med.drawing.splash.presentation.splash
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -30,11 +29,11 @@ import com.med.drawing.databinding.ActivitySplashBinding
 import com.med.drawing.main.presentaion.language.LanguageActivity
 import com.med.drawing.splash.data.DataManager
 import com.med.drawing.util.AppAnimation
-import com.med.drawing.util.LocaleManager
 import com.med.drawing.util.UrlOpener
 import com.onesignal.OneSignal
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,6 +49,16 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val savedLanguageCode = prefs.getString("language", "en")
+
+        val locale = Locale(savedLanguageCode)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        applicationContext.createConfigurationContext(config)
+
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -82,19 +91,19 @@ class SplashActivity : AppCompatActivity() {
                     admobAppOpenManager.showSplashAd {
 
 
-                        val intent = if (!prefs.getBoolean("language_chosen", false)) {
-                            Intent(this@SplashActivity, LanguageActivity::class.java)
+                        val intent =
+                            if (!prefs.getBoolean("language_chosen", false)) {
+                                Intent(this@SplashActivity, LanguageActivity::class.java)
 
-                        } else if (!prefs.getBoolean("tipsShown", false)) {
-                            Intent(this@SplashActivity, TipsActivity::class.java)
+                            } else if (!prefs.getBoolean("tipsShown", false)) {
+                                Intent(this@SplashActivity, TipsActivity::class.java)
 
-                        } else if (!prefs.getBoolean("getStartedShown", false)) {
-                            Intent(this@SplashActivity, GetStartedActivity::class.java)
+                            } else if (!prefs.getBoolean("getStartedShown", false)) {
+                                Intent(this@SplashActivity, GetStartedActivity::class.java)
 
-                        } else {
-                            Intent(this@SplashActivity, HomeActivity::class.java)
-
-                        }
+                            } else {
+                                Intent(this@SplashActivity, HomeActivity::class.java)
+                            }
 
                         intent.putExtra("from_splash", true)
 

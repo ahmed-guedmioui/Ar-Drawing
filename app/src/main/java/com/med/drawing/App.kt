@@ -7,10 +7,8 @@ import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.med.drawing.util.LocaleManager
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
-import javax.inject.Inject
 
 
 /**
@@ -44,17 +42,6 @@ class App : Application() {
         MobileAds.initialize(this)
         AudienceNetworkAds.initialize(this)
 
-    }
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleManager.setLocale(base, getCurrentLanguage(base)))
-    }
-
-    private fun getCurrentLanguage(base: Context): String {
-        val prefs = base.getSharedPreferences(
-            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
-        )
-        return prefs.getString("language", "en") ?: "en"
     }
 
     private fun trimCache() {

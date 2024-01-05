@@ -90,10 +90,6 @@ dependencies {
 
     implementation "androidx.fragment:fragment-ktx:1.6.2"
 
-    implementation "androidx.room:room-ktx:2.6.1"
-    kapt "androidx.room:room-compiler:2.6.1"
-    implementation "androidx.room:room-paging:2.6.1"
-
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime:2.6.2"
     //noinspection LifecycleAnnotationProcessorWithJava8
@@ -103,7 +99,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
-    implementation 'com.arthenica:ffmpeg-kit-full:6.0-2'
     implementation 'com.otaliastudios:transcoder:0.10.5'
 
     implementation "androidx.media3:media3-exoplayer:1.2.0"

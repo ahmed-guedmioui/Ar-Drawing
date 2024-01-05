@@ -2,24 +2,23 @@ package com.med.drawing.main.presentaion.language
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityLanguageBinding
-import com.med.drawing.main.presentaion.get_started.GetStartedActivity
 import com.med.drawing.main.presentaion.tips.TipsActivity
-import com.med.drawing.util.AppAnimation
 import com.med.drawing.util.Constants
-import com.med.drawing.util.LocaleManager
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -75,7 +74,14 @@ class LanguageActivity : AppCompatActivity() {
                 override fun onAdClosed() {
                     prefs.edit().putString("language", languageState.language).apply()
                     prefs.edit().putBoolean("language_chosen", true).apply()
-                    LocaleManager.setLocale(applicationContext, languageState.language)
+
+                    Log.d("selected_language", languageState.language)
+
+                    val locale = Locale(languageState.language)
+                    Locale.setDefault(locale)
+                    val config = Configuration()
+                    config.setLocale(locale)
+                    this@LanguageActivity.createConfigurationContext(config)
 
                     if (fromSplash == true) {
                         startActivity(Intent(this@LanguageActivity, TipsActivity::class.java))

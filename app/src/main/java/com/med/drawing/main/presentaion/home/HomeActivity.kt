@@ -196,7 +196,9 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.onEvent(HomeUiEvent.BackPressed)
         lifecycleScope.launch {
             homeViewModel.closeChannel.collectLatest { close ->
-                if (close) { super.onBackPressed() }
+                if (close) {
+                    super.onBackPressed()
+                }
             }
         }
     }
@@ -205,10 +207,7 @@ class HomeActivity : AppCompatActivity() {
         super.onResume()
 
         if (Constants.languageChanged2) {
-            finish()
-            val refresh = Intent(this, HomeActivity::class.java)
-            startActivity(refresh)
-
+            recreate()
             Constants.languageChanged2 = false
         }
     }
