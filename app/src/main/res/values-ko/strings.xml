@@ -140,4 +140,7 @@
     <string name="spanish">Español</string>
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
+
+    <string name="app_privacy_policy">우리는 귀하의 개인 식별 정보("개인 정보")의 정확성, 기밀성 및 보안을 유지하기 위해 노력하고 있습니다.\n이 약속의 일환으로 개인 정보의 수집, 사용 및 공개와 관련된 당사의 개인 정보 처리 방침이 당사의 행동을 규제합니다.</string>
+
 </resources>

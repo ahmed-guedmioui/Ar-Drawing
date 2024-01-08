@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -61,7 +62,7 @@ import com.otaliastudios.cameraview.controls.Mode
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
-import kotlinx.coroutines.delay
+import com.med.drawing.util.LanguageChanger
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -79,6 +80,9 @@ class SketchActivity : AppCompatActivity() {
 
     @Inject
     lateinit var creationRepository: CreationRepository
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivitySketchBinding
 
@@ -103,6 +107,9 @@ class SketchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivitySketchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

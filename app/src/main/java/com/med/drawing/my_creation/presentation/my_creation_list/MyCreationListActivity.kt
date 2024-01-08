@@ -15,6 +15,7 @@ import com.med.drawing.my_creation.presentation.my_creation_list.adapter.MyCreat
 import com.med.drawing.util.ads.InterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.med.drawing.util.LanguageChanger
 import javax.inject.Inject
 
 /**
@@ -22,6 +23,9 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class MyCreationListActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private val myCreationListViewModel: MyCreationListViewModel by viewModels()
 
@@ -32,6 +36,9 @@ class MyCreationListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityMyCreationLsitBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)

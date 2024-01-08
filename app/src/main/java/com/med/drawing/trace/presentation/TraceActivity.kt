@@ -2,6 +2,7 @@ package com.med.drawing.trace.presentation
 
 import android.content.ContentResolver
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -17,6 +18,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.Toast
+import com.med.drawing.util.LanguageChanger
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -26,8 +28,14 @@ import com.med.drawing.R
 import com.med.drawing.databinding.ActivityTraceBinding
 import com.med.drawing.util.other.MultiTouch
 import com.thebluealliance.spectrum.SpectrumDialog
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TraceActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivityTraceBinding
 
@@ -43,6 +51,9 @@ class TraceActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityTraceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

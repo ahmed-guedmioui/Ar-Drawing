@@ -33,6 +33,7 @@ import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
 import com.med.drawing.util.rateApp
+import com.med.drawing.util.LanguageChanger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -54,6 +55,9 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)

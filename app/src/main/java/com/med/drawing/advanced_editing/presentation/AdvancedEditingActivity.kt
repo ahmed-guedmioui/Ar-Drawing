@@ -1,10 +1,11 @@
 package com.med.drawing.advanced_editing.presentation
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
-import android.window.OnBackInvokedDispatcher
+import com.med.drawing.util.LanguageChanger
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageWhiteBalanceFilter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 /**
@@ -32,6 +34,9 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private val advancedEditingViewModel: AdvancedEditingViewModel by viewModels()
     private lateinit var advancedEditingState: AdvancedEditingState
@@ -45,6 +50,9 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityAdvancedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

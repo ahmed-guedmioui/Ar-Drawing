@@ -13,6 +13,7 @@ import com.med.drawing.R
 import com.med.drawing.main.presentaion.get_started.GetStartedActivity
 import com.med.drawing.databinding.ActivityTipsBinding
 import com.med.drawing.util.AppAnimation
+import com.med.drawing.util.LanguageChanger
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,9 @@ class TipsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityTipsBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)

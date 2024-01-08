@@ -2,8 +2,10 @@ package com.med.drawing.main.presentaion.follow
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import com.med.drawing.util.LanguageChanger
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.med.drawing.App.Companion.facebook
@@ -12,14 +14,21 @@ import com.med.drawing.App.Companion.tiktok
 import com.med.drawing.App.Companion.twitter
 import com.med.drawing.databinding.ActivityFollowBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FollowActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivityFollowBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityFollowBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)

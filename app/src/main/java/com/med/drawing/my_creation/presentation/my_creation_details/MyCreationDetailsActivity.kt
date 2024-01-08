@@ -1,6 +1,7 @@
 package com.med.drawing.my_creation.presentation.my_creation_details
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -18,17 +19,22 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import com.bumptech.glide.Glide
+import com.med.drawing.util.LanguageChanger
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityMyCreationDetailsBinding
 import com.med.drawing.my_creation.domian.model.Creation
 import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * @author Ahmed Guedmioui
  */
 @AndroidEntryPoint
 class MyCreationDetailsActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private var player: ExoPlayer? = null
 
@@ -39,6 +45,9 @@ class MyCreationDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityMyCreationDetailsBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)

@@ -142,4 +142,7 @@
     <string name="spanish">Español</string>
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
+
+    <string name="app_privacy_policy">私たちは、お客様の個人を特定できる情報（「個人情報」）の正確性、機密性、およびセキュリティの維持に尽力しています。\nこのコミットメントの一環として、当社のプライバシーポリシーは個人情報の収集、使用、開示に関する当社の行動を規定しています。</string>
+
 </resources>

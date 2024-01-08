@@ -1,6 +1,7 @@
 package com.med.drawing.image_list.presentation.categories
 
 import android.app.Activity
+import com.med.drawing.util.LanguageChanger
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -53,6 +54,9 @@ class CategoriesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityCategoriesBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)

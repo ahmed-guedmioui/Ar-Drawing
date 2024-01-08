@@ -3,6 +3,7 @@ package com.med.drawing.main.presentaion.settings
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import com.med.drawing.util.LanguageChanger
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -44,6 +45,9 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -112,7 +116,7 @@ class SettingsActivity : AppCompatActivity() {
         privacyDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         privacyDialog.window!!.attributes = layoutParams
 
-        privacyDialog.findViewById<TextView>(R.id.privacy_policy).text = App.PRIVACY
+        privacyDialog.findViewById<TextView>(R.id.privacy_policy).text = getString(R.string.app_privacy_policy)
 
         privacyDialog.setOnDismissListener {
             splashViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)

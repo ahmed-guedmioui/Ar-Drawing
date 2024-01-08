@@ -14,6 +14,7 @@ import com.med.drawing.R
 import com.med.drawing.databinding.ActivityLanguageBinding
 import com.med.drawing.main.presentaion.tips.TipsActivity
 import com.med.drawing.util.Constants
+import com.med.drawing.util.LanguageChanger
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +46,9 @@ class LanguageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityLanguageBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -74,10 +78,8 @@ class LanguageActivity : AppCompatActivity() {
                 override fun onAdClosed() {
                     prefs.edit().putString("language", languageState.language).apply()
                     prefs.edit().putBoolean("language_chosen", true).apply()
-
-                    Log.d("selected_language", languageState.language)
-
-                    setAppLanguage(languageState.language)
+                    
+                    LanguageChanger.changeAppLanguage(languageState.language, this@LanguageActivity)
 
                     if (fromSplash == true) {
                         startActivity(Intent(this@LanguageActivity, TipsActivity::class.java))
@@ -178,20 +180,6 @@ class LanguageActivity : AppCompatActivity() {
                     AppCompatResources.getDrawable(this, R.drawable.language_selected_bg)
             }
         }
-    }
-
-    private fun setAppLanguage(languageCode: String) {
-        val config = resources.configuration
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-
-        createConfigurationContext(config)
-
-        Log.d("tag_language", "languageCode: $languageCode")
-        Log.d("tag_language", "locale: ${locale.language}")
-
-        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
 }

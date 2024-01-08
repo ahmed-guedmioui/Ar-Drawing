@@ -20,7 +20,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
+import com.med.drawing.util.LanguageChanger
 import androidx.lifecycle.lifecycleScope
 import com.med.drawing.App
 import com.med.drawing.R
@@ -48,6 +48,9 @@ class GetStartedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityGetStartedBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -95,7 +98,7 @@ class GetStartedActivity : AppCompatActivity() {
         privacyDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         privacyDialog.window!!.attributes = layoutParams
 
-        privacyDialog.findViewById<TextView>(R.id.privacy_policy).text = App.PRIVACY
+        privacyDialog.findViewById<TextView>(R.id.privacy_policy).text = getString(R.string.app_privacy_policy)
 
         privacyDialog.setOnDismissListener {
             getStartedViewModel.onEvent(GetStartedUiEvent.ShowHidePrivacyDialog)

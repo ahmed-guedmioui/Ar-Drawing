@@ -33,6 +33,7 @@ import com.med.drawing.databinding.ActivitySplashBinding
 import com.med.drawing.main.presentaion.language.LanguageActivity
 import com.med.drawing.splash.data.DataManager
 import com.med.drawing.util.AppAnimation
+import com.med.drawing.util.LanguageChanger
 import com.med.drawing.util.UrlOpener
 import com.onesignal.OneSignal
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +54,10 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        changeAppLanguage()
+        
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
+        
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -140,23 +144,6 @@ class SplashActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun changeAppLanguage() {
-        val languageCode = prefs.getString("language", "en") ?: return
-
-        val config = resources.configuration
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-
-        createConfigurationContext(config)
-
-        Log.d("tag_language", "languageCode: $languageCode")
-        Log.d("tag_language", "locale: ${locale.language}")
-
-        resources.updateConfiguration(config, resources.displayMetrics)
-    }
-
 
     private fun updateDialog(state: Int) {
 
