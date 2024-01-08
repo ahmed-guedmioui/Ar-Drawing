@@ -2,13 +2,16 @@ package com.med.drawing
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Build
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
+import java.util.Locale
 
 
 /**
@@ -35,7 +38,6 @@ class App : Application() {
         super.onCreate()
 
         trimCache()
-
         FirebaseApp.initializeApp(this)
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 

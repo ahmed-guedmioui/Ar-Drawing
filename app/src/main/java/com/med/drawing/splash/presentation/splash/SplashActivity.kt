@@ -1,12 +1,14 @@
 package com.med.drawing.splash.presentation.splash
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -51,16 +53,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val savedLanguageCode = prefs.getString("language", "en")
-
-        val locale = Locale(savedLanguageCode)
-        Locale.setDefault(locale)
-        val config = Configuration()
-        config.setLocale(locale)
-        applicationContext.createConfigurationContext(config)
-
-
+        changeAppLanguage()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -146,6 +139,22 @@ class SplashActivity : AppCompatActivity() {
             splashViewModel.onEvent(SplashUiEvent.TryAgain)
         }
 
+    }
+
+    private fun changeAppLanguage() {
+        val languageCode = prefs.getString("language", "en") ?: return
+
+        val config = resources.configuration
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+
+        createConfigurationContext(config)
+
+        Log.d("tag_language", "languageCode: $languageCode")
+        Log.d("tag_language", "locale: ${locale.language}")
+
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
 

@@ -33,7 +33,7 @@ class LanguageActivity : AppCompatActivity() {
     val fr = "fr"
     val ja = "ja"
     val ko = "ko"
-    val zh_rCN = "zh-rCN"
+    val zh_rCN = "zh"
 
     private val languageViewModel: LanguageViewModel by viewModels()
     private lateinit var languageState: LanguageState
@@ -77,11 +77,7 @@ class LanguageActivity : AppCompatActivity() {
 
                     Log.d("selected_language", languageState.language)
 
-                    val locale = Locale(languageState.language)
-                    Locale.setDefault(locale)
-                    val config = Configuration()
-                    config.setLocale(locale)
-                    this@LanguageActivity.createConfigurationContext(config)
+                    setAppLanguage(languageState.language)
 
                     if (fromSplash == true) {
                         startActivity(Intent(this@LanguageActivity, TipsActivity::class.java))
@@ -183,6 +179,21 @@ class LanguageActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun setAppLanguage(languageCode: String) {
+        val config = resources.configuration
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+
+        createConfigurationContext(config)
+
+        Log.d("tag_language", "languageCode: $languageCode")
+        Log.d("tag_language", "locale: ${locale.language}")
+
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
 }
 
 
