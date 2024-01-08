@@ -50,6 +50,7 @@ import com.med.drawing.databinding.ActivitySketchBinding
 import com.med.drawing.my_creation.domian.repository.CreationRepository
 import com.med.drawing.util.Constants
 import com.med.drawing.util.PermissionUtils
+import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
 import com.med.drawing.util.other.MultiTouch
@@ -60,6 +61,7 @@ import com.otaliastudios.cameraview.controls.Mode
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -165,23 +167,27 @@ class SketchActivity : AppCompatActivity() {
 
         binding.relCamera.setOnClickListener {
             it.startAnimation(pushanim)
-            getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
-                ImagePicker.with(this)
-                    .cameraOnly()
-                    .saveDir(it1)
-                    .createIntent { intent ->
-                        startForGetPhotoResult.launch(intent)
-                    }
+            rewarded {
+                getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+                    ImagePicker.with(this)
+                        .cameraOnly()
+                        .saveDir(it1)
+                        .createIntent { intent ->
+                            startForGetPhotoResult.launch(intent)
+                        }
+                }
             }
         }
 
         binding.relGallery.setOnClickListener {
             it.startAnimation(pushanim)
-            ImagePicker.with(this)
-                .galleryOnly()
-                .createIntent { intent ->
-                    startForGetPhotoResult.launch(intent)
-                }
+            rewarded {
+                ImagePicker.with(this)
+                    .galleryOnly()
+                    .createIntent { intent ->
+                        startForGetPhotoResult.launch(intent)
+                    }
+            }
         }
 
         binding.relFlip.setOnClickListener {
@@ -391,7 +397,11 @@ class SketchActivity : AppCompatActivity() {
                 binding.cameraView.stopVideo()
                 stopVideo()
             } else {
-                takeVideo()
+                rewarded {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        takeVideo()
+                    }, 500)
+                }
             }
         }
 
@@ -578,7 +588,7 @@ class SketchActivity : AppCompatActivity() {
         timeDialog.window!!.attributes = layoutParams
 
         timeDialog.findViewById<Button>(R.id.watch).setOnClickListener {
-            rewarded()
+            rewarded { countDown() }
             isTimeIsUpDialogShowing = false
             timeDialog.dismiss()
         }
@@ -586,61 +596,20 @@ class SketchActivity : AppCompatActivity() {
         timeDialog.show()
     }
 
-    private fun rewarded() {
+    private fun rewarded(onRewComplete: () -> Unit) {
         RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
-            override fun onRewClosed() {}
+            override fun onRewClosed() {
+                onRewComplete()
+            }
 
             override fun onRewFailedToShow() {
-                countDown()
+                onRewComplete()
             }
 
-            override fun onRewComplete() {
-                countDown()
-            }
+            override fun onRewComplete() {}
         })
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(timerRunnable)
-        countDownTimer.cancel()
-        Constants.bitmap = null
-        Constants.convertedBitmap = null
-    }
-
-    companion object {
-        const val FLIP_HORIZONTAL = 2
-        private const val FLIP_VERTICAL = 1
-        const val PERMISSIONS_CODE = 3002
-
-        fun flip(bitmap: Bitmap?, type: Int): Bitmap? {
-            if (bitmap != null) {
-                val matrix = Matrix()
-                when (type) {
-                    FLIP_VERTICAL -> matrix.preScale(1.0f, -1.0f)
-                    FLIP_HORIZONTAL -> matrix.preScale(-1.0f, 1.0f)
-                    else -> return null
-                }
-                return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-            }
-            return null
-        }
-
-        fun getBitmapWithTransparentBG(bitmap: Bitmap, color: Int): Bitmap {
-            val copy = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-            val width = copy.width
-            val height = copy.height
-            for (i in 0 until height) {
-                for (j in 0 until width) {
-                    if (copy.getPixel(j, i) == color) {
-                        copy.setPixel(j, i, 0)
-                    }
-                }
-            }
-            return copy
-        }
-    }
 
     private fun takePhotoDialog() {
         isDialogShowing = true
@@ -753,10 +722,8 @@ class SketchActivity : AppCompatActivity() {
     }
 
     private fun saveImage(bitmap: Bitmap) {
-
         lifecycleScope.launch {
             creationRepository.insertPhotoCreation(bitmap)
-
         }
     }
 
@@ -796,28 +763,6 @@ class SketchActivity : AppCompatActivity() {
         }
     }
 
-    private fun isWriteStoragePermissionGranted(): Boolean {
-
-        if (
-            checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED &&
-            checkSelfPermission("android.permission.READ_MEDIA_IMAGES") == PackageManager.PERMISSION_GRANTED &&
-            checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                "android.permission.WRITE_EXTERNAL_STORAGE",
-                "android.permission.READ_MEDIA_IMAGES",
-                "android.permission.CAMERA"
-            ),
-            PERMISSIONS_CODE
-        )
-        return false
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -846,7 +791,48 @@ class SketchActivity : AppCompatActivity() {
         if (isRecording) {
             stopVideo()
         }
-
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(timerRunnable)
+        countDownTimer.cancel()
+        Constants.bitmap = null
+        Constants.convertedBitmap = null
+    }
+
+    companion object {
+        const val FLIP_HORIZONTAL = 2
+        private const val FLIP_VERTICAL = 1
+        const val PERMISSIONS_CODE = 3002
+
+        fun flip(bitmap: Bitmap?, type: Int): Bitmap? {
+            if (bitmap != null) {
+                val matrix = Matrix()
+                when (type) {
+                    FLIP_VERTICAL -> matrix.preScale(1.0f, -1.0f)
+                    FLIP_HORIZONTAL -> matrix.preScale(-1.0f, 1.0f)
+                    else -> return null
+                }
+                return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            }
+            return null
+        }
+
+        fun getBitmapWithTransparentBG(bitmap: Bitmap, color: Int): Bitmap {
+            val copy = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+            val width = copy.width
+            val height = copy.height
+            for (i in 0 until height) {
+                for (j in 0 until width) {
+                    if (copy.getPixel(j, i) == color) {
+                        copy.setPixel(j, i, 0)
+                    }
+                }
+            }
+            return copy
+        }
+    }
+
 
 }

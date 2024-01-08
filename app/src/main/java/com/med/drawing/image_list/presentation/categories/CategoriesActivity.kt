@@ -68,15 +68,13 @@ class CategoriesActivity : AppCompatActivity() {
 
         }
 
-        binding.back.setOnClickListener { onBackPressed() }
-
         pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.back.setOnClickListener {
-            onBackPressed()
+            super.onBackPressed()
         }
 
         binding.relHelp.setOnClickListener {
@@ -112,7 +110,7 @@ class CategoriesActivity : AppCompatActivity() {
             override fun oClick(isGallery: Boolean) {
                 this@CategoriesActivity.isGallery = isGallery
 
-                if (isWriteStoragePermissionGranted(false)) {
+                if (isWriteStoragePermissionGranted()) {
                     if (isGallery) {
                         Log.d("tag_per", "isGallery: ImagePicker")
                         ImagePicker.with(this@CategoriesActivity)
@@ -155,6 +153,9 @@ class CategoriesActivity : AppCompatActivity() {
         })
 
         binding.recyclerView.adapter = categoriesAdapter
+
+
+        writeStoragePermission()
     }
 
     private fun rewarded(
@@ -183,8 +184,7 @@ class CategoriesActivity : AppCompatActivity() {
         })
     }
 
-    private fun isWriteStoragePermissionGranted(isLaunch: Boolean): Boolean {
-
+    private fun isWriteStoragePermissionGranted(): Boolean {
         if (
             checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission("android.permission.READ_MEDIA_IMAGES") == PackageManager.PERMISSION_GRANTED &&
@@ -202,14 +202,25 @@ class CategoriesActivity : AppCompatActivity() {
                 "android.permission.READ_MEDIA_IMAGES",
                 "android.permission.CAMERA"
             ),
-            if (!isLaunch) storagePermissionRequestCode else 2001
+            storagePermissionRequestCode
         )
         return false
     }
 
-    override fun onResume() {
-        super.onResume()
-        isWriteStoragePermissionGranted(true)
+    private fun writeStoragePermission() {
+        if (
+            checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED &&
+            checkSelfPermission("android.permission.READ_MEDIA_IMAGES") == PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        ActivityCompat.requestPermissions(
+            this, arrayOf(
+                "android.permission.WRITE_EXTERNAL_STORAGE",
+                "android.permission.READ_MEDIA_IMAGES"
+            ), 20011
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -220,7 +231,7 @@ class CategoriesActivity : AppCompatActivity() {
             return
         }
 
-        if (grantResults.isEmpty() && grantResults[0] == 0 && grantResults[1] == 0  && grantResults[2] == 0) {
+        if (grantResults.isEmpty() && grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0) {
             return
         }
 
