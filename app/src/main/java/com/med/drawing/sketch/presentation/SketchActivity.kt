@@ -389,7 +389,6 @@ class SketchActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupCameraCallbacks() {
         binding.cameraView.mode = Mode.VIDEO
         binding.recordVideo.setOnClickListener {

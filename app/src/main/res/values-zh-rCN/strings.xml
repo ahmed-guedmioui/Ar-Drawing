@@ -133,6 +133,8 @@
     <string name="update">更新</string>
     <string name="there_is_a_new_update">有新的更新 🤩</string>
     <string name="update_the_app_to_enjoy_the_latest_features">更新应用以享受最新功能。</string>
+    <string name="this_action_may_contain_ads">此操作可能包含广告</string>
+
     <string name="english">English</string>
     <string name="deutsch">Deutsch</string>
     <string name="chinese">中文</string>
