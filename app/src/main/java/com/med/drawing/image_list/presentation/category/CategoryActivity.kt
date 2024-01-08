@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.med.drawing.R
-import com.med.drawing.camera_trace.presentation.CameraActivity
 import com.med.drawing.databinding.ActivityCategoryBinding
 import com.med.drawing.image_list.domain.model.images.Image
 import com.med.drawing.image_list.data.ImagesManager
 import com.med.drawing.sketch.presentation.SketchActivity
+import com.med.drawing.trace.presentation.TraceActivity
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
@@ -123,7 +123,7 @@ class CategoryActivity : AppCompatActivity() {
     private fun traceDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@CategoryActivity, CameraActivity::class.java)
+                val intent = Intent(this@CategoryActivity, SketchActivity::class.java)
                 intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }
@@ -133,7 +133,7 @@ class CategoryActivity : AppCompatActivity() {
     private fun sketchDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@CategoryActivity, SketchActivity::class.java)
+                val intent = Intent(this@CategoryActivity, TraceActivity::class.java)
                 intent.putExtra("imagePath", imagePath)
                 startActivity(intent)
             }

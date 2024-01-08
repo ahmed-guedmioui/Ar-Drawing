@@ -17,7 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.med.drawing.BuildConfig
 import com.med.drawing.R
 import com.med.drawing.util.ads.AdmobAppOpenManager
@@ -66,8 +68,20 @@ class SplashActivity : AppCompatActivity() {
         AppAnimation().startRepeatingAnimation(binding.animationImage)
 
         lifecycleScope.launch {
-            splashViewModel.splashState.collect {
-                splashState = it
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                splashViewModel.splashState.collect {
+                    splashState = it
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                splashViewModel.updateDialogState.collect { state ->
+                    if (state > 0) {
+                        updateDialog(state)
+                    }
+                }
             }
         }
 
@@ -90,7 +104,6 @@ class SplashActivity : AppCompatActivity() {
 
                     admobAppOpenManager.showSplashAd {
 
-
                         val intent =
                             if (!prefs.getBoolean("language_chosen", false)) {
                                 Intent(this@SplashActivity, LanguageActivity::class.java)
@@ -110,14 +123,6 @@ class SplashActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            splashViewModel.showUpdateDialogChannel.collect { show ->
-                if (show) {
-                    updateDialog()
                 }
             }
         }
@@ -144,9 +149,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-    private fun updateDialog() {
+    private fun updateDialog(state: Int) {
 
-        val isSuspended = splashState.updateDialogState == 2
+        val isSuspended = state == 2
 
         val updateDialog = Dialog(this)
         updateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

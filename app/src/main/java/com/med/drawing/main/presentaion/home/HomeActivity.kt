@@ -2,6 +2,7 @@ package com.med.drawing.main.presentaion.home
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,12 +13,14 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
+import com.med.drawing.BuildConfig
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityHomeBinding
 import com.med.drawing.image_list.presentation.categories.CategoriesActivity
@@ -25,6 +28,7 @@ import com.med.drawing.main.presentaion.home.adapter.HelperPagerAdapter
 import com.med.drawing.main.presentaion.settings.SettingsActivity
 import com.med.drawing.my_creation.presentation.my_creation_list.MyCreationListActivity
 import com.med.drawing.util.Constants
+import com.med.drawing.util.UrlOpener
 import com.med.drawing.util.ads.InterManager
 import com.med.drawing.util.ads.NativeManager
 import com.med.drawing.util.ads.RewardedManager
@@ -32,6 +36,7 @@ import com.med.drawing.util.rateApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * @author Ahmed Guedmioui
@@ -44,11 +49,21 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
+    @Inject
+    lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
+
+        if (prefs.getBoolean("showRating", true)) {
+            rateDialog()
+            prefs.edit().putBoolean("showRating", false).apply()
+        } else {
+            prefs.edit().putBoolean("showRating", true).apply()
+        }
 
         RewardedManager.loadRewarded(this)
 
@@ -91,12 +106,12 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
-        binding.trace.setOnClickListener {
+        binding.sketch.setOnClickListener {
             it.startAnimation(pushAnimation)
             drawingListScreen(false)
         }
 
-        binding.sketch.setOnClickListener {
+        binding.trace.setOnClickListener {
             it.startAnimation(pushAnimation)
             drawingListScreen(true)
         }
@@ -211,6 +226,40 @@ class HomeActivity : AppCompatActivity() {
             Constants.languageChanged2 = false
         }
     }
+
+
+    private fun rateDialog() {
+        val rateDialog = Dialog(this)
+        rateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        rateDialog.setCancelable(true)
+        rateDialog.setContentView(R.layout.dialog_rate_app)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(rateDialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        rateDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        rateDialog.window!!.attributes = layoutParams
+
+        rateDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            rateDialog.dismiss()
+        }
+
+        rateDialog.findViewById<RatingBar>(R.id.rating_bar).onRatingBarChangeListener =
+            RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
+                if (rating > 3.5) {
+                    UrlOpener.open(this, BuildConfig.APPLICATION_ID)
+                } else {
+                    Toast.makeText(
+                        this, "Thanks for rating 😄", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+    }
+
 }
 
 

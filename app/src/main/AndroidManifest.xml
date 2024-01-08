@@ -106,11 +106,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.sketch.presentation.SketchActivity"
+            android:name="com.med.drawing.trace.presentation.TraceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.camera_trace.presentation.CameraActivity"
+            android:name="com.med.drawing.sketch.presentation.SketchActivity"
             android:launchMode="singleTask"
             android:theme="@style/CameraActivityTheme"
             android:screenOrientation="portrait" />

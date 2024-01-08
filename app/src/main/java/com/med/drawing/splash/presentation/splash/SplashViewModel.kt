@@ -29,8 +29,8 @@ class SplashViewModel @Inject constructor(
     val splashState = _splashState.asStateFlow()
 
 
-    private val _showUpdateDialogChannel = Channel<Boolean>()
-    val showUpdateDialogChannel = _showUpdateDialogChannel.receiveAsFlow()
+    private val _updateDialogState = MutableStateFlow(-1)
+    val updateDialogState = _updateDialogState.asStateFlow()
 
     private val _continueAppChannel = Channel<Boolean>()
     val continueAppChannel = _continueAppChannel.receiveAsFlow()
@@ -52,12 +52,6 @@ class SplashViewModel @Inject constructor(
             }
 
             is SplashUiEvent.ContinueApp -> {
-
-                _splashState.update {
-                    it.copy(
-                        updateDialogAlreadyShowing = false
-                    )
-                }
                 viewModelScope.launch {
                     _continueAppChannel.send(true)
                 }
@@ -81,32 +75,18 @@ class SplashViewModel @Inject constructor(
 
                         when (ShouldShowUpdateDialog().invoke()) {
                             1 -> {
-                                _splashState.update {
-                                    it.copy(
-                                        updateDialogState = 1,
-                                        updateDialogAlreadyShowing = true
-                                    )
-                                }
-                                _showUpdateDialogChannel.send(true)
+                                _updateDialogState.update { 1 }
                             }
 
                             2 -> {
-                                _splashState.update {
-                                    it.copy(
-                                        updateDialogState = 2,
-                                        updateDialogAlreadyShowing = true
-                                    )
-                                }
-                                _showUpdateDialogChannel.send(true)
+                                _updateDialogState.update { 2 }
                             }
 
                             0 -> {
-                                _splashState.update {
-                                    it.copy(updateDialogState = 0)
-                                }
-
+                                _updateDialogState.update { 0 }
 
                                 if (splashState.value.areImagesLoaded) {
+                                    imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
                                     _continueAppChannel.send(true)
                                 }
                             }
@@ -134,15 +114,11 @@ class SplashViewModel @Inject constructor(
 
                     is Resource.Success -> {
 
-
                         _splashState.update {
                             it.copy(areImagesLoaded = true)
                         }
 
-                        if (splashState.value.isAppDataLoaded
-                            && splashState.value.updateDialogState == 0
-                        ) {
-
+                        if (splashState.value.isAppDataLoaded && updateDialogState.value == 0) {
                             imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
                             _continueAppChannel.send(true)
                         }
