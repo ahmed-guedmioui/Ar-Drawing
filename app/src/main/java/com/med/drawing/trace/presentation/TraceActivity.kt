@@ -12,6 +12,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.animation.Animation
@@ -26,6 +27,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityTraceBinding
+import com.med.drawing.util.ads.RewardedManager
 import com.med.drawing.util.other.MultiTouch
 import com.thebluealliance.spectrum.SpectrumDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,7 +53,7 @@ class TraceActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityTraceBinding.inflate(layoutInflater)
@@ -63,8 +65,14 @@ class TraceActivity : AppCompatActivity() {
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
 
         binding.apply {
-            relFlip.setOnClickListener {
+
+            binding.relEditRound.setOnClickListener {
                 it.startAnimation(pushanim)
+                colorDialog()
+            }
+
+            relFlip.setOnClickListener { flip ->
+                flip.startAnimation(pushanim)
                 bmOriginal = flip(bmOriginal, 2)
                 bmOriginal?.let {
                     objImage.setImageBitmap(it)
@@ -73,15 +81,20 @@ class TraceActivity : AppCompatActivity() {
 
             relCamera.setOnClickListener {
                 it.startAnimation(pushanim)
-                getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
-                    ImagePicker.with(this@TraceActivity).cameraOnly()
-                        .saveDir(it1).start(103)
+                rewarded {
+                    getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+                        ImagePicker.with(this@TraceActivity).cameraOnly()
+                            .saveDir(it1).start(103)
+                    }
                 }
+
             }
 
             relGallery.setOnClickListener {
                 it.startAnimation(pushanim)
-                ImagePicker.with(this@TraceActivity).galleryOnly().start(102)
+                rewarded {
+                    ImagePicker.with(this@TraceActivity).galleryOnly().start(102)
+                }
             }
 
             relLock.setOnClickListener {
@@ -195,51 +208,28 @@ class TraceActivity : AppCompatActivity() {
                     override fun onLoadCleared(placeholder: Drawable?) {}
                 })
         }
+
         binding.animationView.visibility = View.VISIBLE
         Handler(Looper.getMainLooper()).postDelayed({
             binding.animationView.visibility = View.GONE
         }, 7000L)
-        binding.relCamera.setOnClickListener {
-            it.startAnimation(pushanim)
-            getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
-                ImagePicker.with(this).cameraOnly().saveDir(
-                    it1
-                ).start(103)
+
+    }
+
+    private fun rewarded(onRewComplete: () -> Unit) {
+        Log.d("tag_vid", "rewarded")
+        RewardedManager.showRewarded(true, this, object : RewardedManager.OnAdClosedListener {
+            override fun onRewClosed() {
+                Log.d("tag_vid", "onRewClosed")
+                onRewComplete()
             }
-        }
-        binding.relGallery.setOnClickListener {
-            it.startAnimation(pushanim)
-            ImagePicker.with(this).galleryOnly().start(102)
-        }
-        binding.relFlip.setOnClickListener {
-            it.startAnimation(pushanim)
-            bmOriginal = flip(bmOriginal, 2)
-            if (bmOriginal != null) {
-                binding.objImage.setImageBitmap(bmOriginal)
+
+            override fun onRewFailedToShow() {
+                Log.d("tag_vid", "onRewFailedToShow")
+                onRewComplete()
             }
-        }
-        binding.relEditRound.setOnClickListener {
-            it.startAnimation(pushanim)
-            colorDialog()
-        }
-        binding.relLock.setOnClickListener {
-            it.startAnimation(pushanim)
-            if (!isLock) {
-                binding.objImage.isEnabled = false
-                isLock = true
-                binding.icLock.setImageResource(R.drawable.unlock)
-            } else {
-                binding.objImage.isEnabled = true
-                isLock = false
-                binding.icLock.setImageResource(R.drawable.lock)
-            }
-        }
-        binding.alphaSeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-            override fun onProgressChanged(seekBar: SeekBar, i2: Int, z: Boolean) {
-                binding.objImage.alpha = (binding.alphaSeek.max - i2) / 10.0f
-            }
+
+            override fun onRewComplete() {}
         })
     }
 

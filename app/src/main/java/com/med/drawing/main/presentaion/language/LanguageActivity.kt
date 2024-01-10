@@ -9,7 +9,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityLanguageBinding
 import com.med.drawing.main.presentaion.tips.TipsActivity
@@ -46,7 +48,7 @@ class LanguageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityLanguageBinding.inflate(layoutInflater)
@@ -54,7 +56,9 @@ class LanguageActivity : AppCompatActivity() {
         setContentView(view)
 
         lifecycleScope.launch {
-            languageViewModel.languageState.collect { languageState = it }
+            languageViewModel.languageState.collect {
+                languageState = it
+            }
         }
 
         NativeManager.loadNative(
@@ -78,7 +82,7 @@ class LanguageActivity : AppCompatActivity() {
                 override fun onAdClosed() {
                     prefs.edit().putString("language", languageState.language).apply()
                     prefs.edit().putBoolean("language_chosen", true).apply()
-                    
+
                     LanguageChanger.changeAppLanguage(languageState.language, this@LanguageActivity)
 
                     if (fromSplash == true) {

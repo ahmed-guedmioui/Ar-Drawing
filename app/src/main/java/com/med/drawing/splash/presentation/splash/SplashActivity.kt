@@ -54,10 +54,10 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
-        
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
@@ -65,19 +65,15 @@ class SplashActivity : AppCompatActivity() {
         AppAnimation().startRepeatingAnimation(binding.animationImage)
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                splashViewModel.splashState.collect {
-                    splashState = it
-                }
+            splashViewModel.splashState.collect {
+                splashState = it
             }
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                splashViewModel.updateDialogState.collect { state ->
-                    if (state > 0) {
-                        updateDialog(state)
-                    }
+            splashViewModel.updateDialogState.collect { state ->
+                if (state > 0) {
+                    updateDialog(state)
                 }
             }
         }

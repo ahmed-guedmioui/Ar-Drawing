@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.med.drawing.databinding.ActivityMyCreationLsitBinding
 import com.med.drawing.my_creation.presentation.my_creation_details.MyCreationDetailsActivity
@@ -36,7 +38,7 @@ class MyCreationListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityMyCreationLsitBinding.inflate(layoutInflater)

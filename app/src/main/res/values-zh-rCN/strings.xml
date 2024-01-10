@@ -144,5 +144,6 @@
     <string name="japanese">日本語</string>
 
     <string name="app_privacy_policy">我们致力于维护您的个人身份信息（“个人信息”）的准确性、机密性和安全性。\n作为这一承诺的一部分，我们的隐私政策管理着我们在收集、使用和披露个人信息方面的行为。</string>
+    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
 
 </resources>

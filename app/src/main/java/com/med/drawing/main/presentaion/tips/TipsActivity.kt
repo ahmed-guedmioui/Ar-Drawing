@@ -8,7 +8,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.med.drawing.R
 import com.med.drawing.main.presentaion.get_started.GetStartedActivity
 import com.med.drawing.databinding.ActivityTipsBinding
@@ -36,7 +38,7 @@ class TipsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityTipsBinding.inflate(layoutInflater)

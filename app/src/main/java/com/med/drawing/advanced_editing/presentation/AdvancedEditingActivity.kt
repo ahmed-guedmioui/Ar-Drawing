@@ -9,7 +9,9 @@ import com.med.drawing.util.LanguageChanger
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.med.drawing.R
 import com.med.drawing.databinding.ActivityAdvancedBinding
 import com.med.drawing.util.Constants
@@ -50,7 +52,7 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityAdvancedBinding.inflate(layoutInflater)
@@ -59,10 +61,10 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         lifecycleScope.launch {
             advancedEditingViewModel.advancedEditingState.collect {
                 advancedEditingState = it
-
                 updatedSelected()
             }
         }
+
         binding.objImage.setImageBitmap(Constants.bitmap)
 
         binding.edge.setOnClickListener {

@@ -54,7 +54,7 @@ class CategoriesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityCategoriesBinding.inflate(layoutInflater)
@@ -98,7 +98,12 @@ class CategoriesActivity : AppCompatActivity() {
                     ImagesManager.imageCategoryList[categoryPosition].imageList[imagePosition]
 
                 if (imageItem.locked) {
-                    rewarded(categoryPosition, imagePosition, imageItem)
+                    rewarded(false) {
+                        imageItem.locked = false
+                        ImagesManager.imageCategoryList[categoryPosition]
+                            .adapter?.notifyItemChanged(imagePosition)
+                        prefs.edit().putBoolean(imageItem.prefsId, false).apply()
+                    }
                 } else {
                     if (isTrace) {
                         traceDrawingScreen(imageItem.image)
@@ -113,27 +118,28 @@ class CategoriesActivity : AppCompatActivity() {
             CategoriesAdapter.GalleryAndCameraClickListener {
             override fun oClick(isGallery: Boolean) {
                 this@CategoriesActivity.isGallery = isGallery
-
-                if (isWriteStoragePermissionGranted()) {
-                    if (isGallery) {
-                        Log.d("tag_per", "isGallery: ImagePicker")
-                        ImagePicker.with(this@CategoriesActivity)
-                            .galleryOnly()
-                            .createIntent { intent ->
-                                startForProfileImageResult.launch(intent)
-                            }
-                    } else {
-                        Log.d("tag_per", "isCamera: ImagePicker")
-                        getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+                rewarded(true) {
+                    if (isWriteStoragePermissionGranted()) {
+                        if (isGallery) {
+                            Log.d("tag_per", "isGallery: ImagePicker")
                             ImagePicker.with(this@CategoriesActivity)
-                                .cameraOnly()
-                                .saveDir(it1)
+                                .galleryOnly()
                                 .createIntent { intent ->
                                     startForProfileImageResult.launch(intent)
                                 }
+                        } else {
+                            Log.d("tag_per", "isCamera: ImagePicker")
+                            getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
+                                ImagePicker.with(this@CategoriesActivity)
+                                    .cameraOnly()
+                                    .saveDir(it1)
+                                    .createIntent { intent ->
+                                        startForProfileImageResult.launch(intent)
+                                    }
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         })
@@ -163,29 +169,37 @@ class CategoriesActivity : AppCompatActivity() {
     }
 
     private fun rewarded(
-        categoryPosition: Int,
-        imagePosition: Int,
-        imageItem: Image
+        isRewClosed: Boolean = false,
+        onRewComplete: () -> Unit
     ) {
-        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
-            override fun onRewClosed() {}
+        RewardedManager.showRewarded(
+            isRewClosed,
+            this,
+            object : RewardedManager.OnAdClosedListener {
+                override fun onRewClosed() {
+                    if (isRewClosed) {
+                        onRewComplete()
+                    }
+                }
 
-            override fun onRewFailedToShow() {
-                Toast.makeText(
-                    this@CategoriesActivity,
-                    getString(R.string.ad_is_not_loaded_yet),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                override fun onRewFailedToShow() {
+                    if (!isRewClosed) {
+                        Toast.makeText(
+                            this@CategoriesActivity,
+                            getString(R.string.ad_is_not_loaded_yet),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        onRewComplete()
+                    }
+                }
 
-            override fun onRewComplete() {
-                imageItem.locked = false
-                ImagesManager.imageCategoryList[categoryPosition]
-                    .adapter?.notifyItemChanged(imagePosition)
-                prefs.edit().putBoolean(imageItem.prefsId, false).apply()
-            }
-
-        })
+                override fun onRewComplete() {
+                    if (!isRewClosed) {
+                        onRewComplete()
+                    }
+                }
+            })
     }
 
     private fun isWriteStoragePermissionGranted(): Boolean {

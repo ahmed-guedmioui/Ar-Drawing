@@ -1,6 +1,14 @@
 package com.med.drawing.util.ads
 
 import android.app.Activity
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
 import com.facebook.ads.Ad
 import com.facebook.ads.RewardedVideoAd
 import com.facebook.ads.RewardedVideoAdListener
@@ -8,6 +16,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.med.drawing.R
 import com.med.drawing.splash.data.DataManager
 
 object RewardedManager {
@@ -32,21 +41,55 @@ object RewardedManager {
         }
     }
 
-    fun showRewarded(activity: Activity, adClosedListener: OnAdClosedListener) {
+    fun showRewarded(
+        isRewClosed: Boolean = false,
+        activity: Activity,
+        adClosedListener: OnAdClosedListener
+    ) {
         onAdClosedListener = adClosedListener
 
         if (!DataManager.appData.showAdsForThisUser) {
-            onAdClosedListener.onRewComplete()
+            if (isRewClosed) {
+                onAdClosedListener.onRewClosed()
+            } else {
+                onAdClosedListener.onRewComplete()
+            }
             return
         }
 
-        when (DataManager.appData.rewarded) {
-            AdType.admob -> showAdmobRewarded(activity)
-            AdType.facebook -> showFacebookRewarded(activity)
-            else -> onAdClosedListener.onRewFailedToShow()
-        }
+        dialog(activity)
     }
 
+    private fun dialog(activity: Activity) {
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_rewarded)
+        val layoutParams = WindowManager.LayoutParams()
+
+        layoutParams.copyFrom(dialog.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.attributes = layoutParams
+
+        dialog.findViewById<ImageView>(R.id.close).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<Button>(R.id.watch).setOnClickListener {
+            when (DataManager.appData.rewarded) {
+                AdType.admob -> showAdmobRewarded(activity)
+                AdType.facebook -> showFacebookRewarded(activity)
+                else -> onAdClosedListener.onRewFailedToShow()
+            }
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 
     // Admob ---------------------------------------------------------------------------------------------------------------------
 

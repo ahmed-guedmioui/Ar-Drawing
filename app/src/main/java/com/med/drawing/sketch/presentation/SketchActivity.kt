@@ -23,6 +23,7 @@ import android.os.CountDownTimer
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -96,6 +97,7 @@ class SketchActivity : AppCompatActivity() {
 
     private var elapsedTimeMillis: Long = 0
     private var isRecording = false
+    private var isSavedVideoCalled = true
     private lateinit var handler: Handler
     private lateinit var timestamp: String
 
@@ -107,7 +109,7 @@ class SketchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivitySketchBinding.inflate(layoutInflater)
@@ -344,7 +346,9 @@ class SketchActivity : AppCompatActivity() {
                         override fun onLoadCleared(placeholder: Drawable?) {}
                     })
             } else {
-                Toast.makeText(this, "Error taking image", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, getString(R.string.error_importing_photo), Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -405,6 +409,7 @@ class SketchActivity : AppCompatActivity() {
             } else {
                 rewarded {
                     Handler(Looper.getMainLooper()).postDelayed({
+                        isSavedVideoCalled = false
                         takeVideo()
                     }, 500)
                 }
@@ -413,24 +418,20 @@ class SketchActivity : AppCompatActivity() {
 
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onVideoTaken(result: VideoResult) {
-
-                saveRecordedVideo(result.file)
-
+                if (!isSavedVideoCalled) {
+                    isSavedVideoCalled = true
+                    saveRecordedVideo(result.file)
+                }
             }
         })
     }
 
     private fun saveRecordedVideo(file: File) {
+        Log.d("tag_vid", "saveRecordedVideo: isChecked: ${binding.fastVideoCheck.isChecked}")
 
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage(getString(R.string.speeding_up_and_saving_video))
         progressDialog.setCancelable(false)
-        progressDialog.setOnDismissListener {
-            Toast.makeText(
-                application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
-            ).show()
-            binding.fastVideoCheck.isChecked = false
-        }
 
         if (binding.fastVideoCheck.isChecked) {
             progressDialog.show()
@@ -438,7 +439,6 @@ class SketchActivity : AppCompatActivity() {
             Toast.makeText(
                 application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
             ).show()
-            binding.fastVideoCheck.isChecked = false
         }
 
         lifecycleScope.launch {
@@ -446,15 +446,27 @@ class SketchActivity : AppCompatActivity() {
                 runBlocking {
                     creationRepository.deleteTempCreation(filePath)
                 }
+                Log.d(
+                    "tag_vid",
+                    "saveRecordedVideo finished: isChecked: ${binding.fastVideoCheck.isChecked}"
+                )
 
-                if (binding.fastVideoCheck.isChecked) {
-                    progressDialog.dismiss()
-                }
+                progressDialog.dismiss()
             }
+
+            progressDialog.setOnDismissListener {
+                progressDialog.dismiss()
+                binding.fastVideoCheck.isChecked = false
+                Toast.makeText(
+                    application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
+                ).show()
+            }
+
         }
     }
 
     private fun stopVideo() {
+        Log.d("tag_vid", "stopVideo")
         isRecording = false
         handler.removeCallbacks(timerRunnable)
         binding.recordVideoImage.setImageDrawable(
@@ -471,6 +483,8 @@ class SketchActivity : AppCompatActivity() {
 
     private lateinit var filePath: String
     private fun takeVideo() {
+        Log.d("tag_vid", "takeVideo")
+
         try {
 
             timestamp = SimpleDateFormat(
@@ -603,7 +617,7 @@ class SketchActivity : AppCompatActivity() {
     }
 
     private fun rewarded(onRewComplete: () -> Unit) {
-        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
+        RewardedManager.showRewarded(true, this, object : RewardedManager.OnAdClosedListener {
             override fun onRewClosed() {
                 onRewComplete()
             }

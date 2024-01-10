@@ -144,5 +144,6 @@
     <string name="japanese">日本語</string>
 
     <string name="app_privacy_policy">Nos comprometemos a mantener la precisión, confidencialidad y seguridad de su información personal identificable ("Información personal").\nComo parte de este compromiso, nuestra política de privacidad rige nuestras acciones en lo que respecta a la recopilación, uso y divulgación de información personal.</string>
+    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
 
 </resources>

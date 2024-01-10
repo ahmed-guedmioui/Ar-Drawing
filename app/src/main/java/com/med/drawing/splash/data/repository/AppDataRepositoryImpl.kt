@@ -62,6 +62,7 @@ class AppDataRepositoryImpl @Inject constructor(
                 .apply()
 
             ShouldShowAdsForUser(application).invoke()
+            DataManager.appData.showAdsForThisUser = false
 
             emit(Resource.Success())
 

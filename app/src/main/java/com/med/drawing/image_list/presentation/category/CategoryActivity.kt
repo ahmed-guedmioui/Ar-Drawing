@@ -103,7 +103,7 @@ class CategoryActivity : AppCompatActivity() {
         imagePosition: Int,
         imageItem: Image
     ) {
-        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
+        RewardedManager.showRewarded(false, this, object : RewardedManager.OnAdClosedListener {
             override fun onRewClosed() {}
 
             override fun onRewFailedToShow() {

@@ -20,8 +20,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import com.med.drawing.util.LanguageChanger
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.med.drawing.App
 import com.med.drawing.R
 import com.med.drawing.util.ads.NativeManager
@@ -56,9 +58,9 @@ class GetStartedActivity : AppCompatActivity() {
         setContentView(view)
 
         lifecycleScope.launch {
-            getStartedViewModel.getsStartedState.collect {
-                getStartedState = it
-                privacyDialog()
+                getStartedViewModel.getsStartedState.collect {
+                    getStartedState = it
+                    privacyDialog()
             }
         }
 
