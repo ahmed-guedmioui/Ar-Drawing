@@ -98,7 +98,7 @@ class CategoriesActivity : AppCompatActivity() {
                     ImagesManager.imageCategoryList[categoryPosition].imageList[imagePosition]
 
                 if (imageItem.locked) {
-                    rewarded(false) {
+                    rewarded {
                         imageItem.locked = false
                         ImagesManager.imageCategoryList[categoryPosition]
                             .adapter?.notifyItemChanged(imagePosition)
@@ -118,17 +118,15 @@ class CategoriesActivity : AppCompatActivity() {
             CategoriesAdapter.GalleryAndCameraClickListener {
             override fun oClick(isGallery: Boolean) {
                 this@CategoriesActivity.isGallery = isGallery
-                rewarded(true) {
+                rewarded {
                     if (isWriteStoragePermissionGranted()) {
                         if (isGallery) {
-                            Log.d("tag_per", "isGallery: ImagePicker")
                             ImagePicker.with(this@CategoriesActivity)
                                 .galleryOnly()
                                 .createIntent { intent ->
                                     startForProfileImageResult.launch(intent)
                                 }
                         } else {
-                            Log.d("tag_per", "isCamera: ImagePicker")
                             getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
                                 ImagePicker.with(this@CategoriesActivity)
                                     .cameraOnly()
@@ -169,37 +167,24 @@ class CategoriesActivity : AppCompatActivity() {
     }
 
     private fun rewarded(
-        isRewClosed: Boolean = false,
         onRewComplete: () -> Unit
     ) {
-        RewardedManager.showRewarded(
-            isRewClosed,
-            this,
-            object : RewardedManager.OnAdClosedListener {
-                override fun onRewClosed() {
-                    if (isRewClosed) {
-                        onRewComplete()
-                    }
-                }
+        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
+            override fun onRewClosed() {}
 
-                override fun onRewFailedToShow() {
-                    if (!isRewClosed) {
-                        Toast.makeText(
-                            this@CategoriesActivity,
-                            getString(R.string.ad_is_not_loaded_yet),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        onRewComplete()
-                    }
-                }
+            override fun onRewFailedToShow() {
+                Toast.makeText(
+                    this@CategoriesActivity,
+                    getString(R.string.ad_is_not_loaded_yet),
+                    Toast.LENGTH_SHORT
+                ).show()
 
-                override fun onRewComplete() {
-                    if (!isRewClosed) {
-                        onRewComplete()
-                    }
-                }
-            })
+            }
+
+            override fun onRewComplete() {
+                onRewComplete()
+            }
+        })
     }
 
     private fun isWriteStoragePermissionGranted(): Boolean {

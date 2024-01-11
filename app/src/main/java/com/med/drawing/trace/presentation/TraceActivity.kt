@@ -217,19 +217,20 @@ class TraceActivity : AppCompatActivity() {
     }
 
     private fun rewarded(onRewComplete: () -> Unit) {
-        Log.d("tag_vid", "rewarded")
-        RewardedManager.showRewarded(true, this, object : RewardedManager.OnAdClosedListener {
-            override fun onRewClosed() {
-                Log.d("tag_vid", "onRewClosed")
-                onRewComplete()
-            }
+        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
+            override fun onRewClosed() {}
 
             override fun onRewFailedToShow() {
-                Log.d("tag_vid", "onRewFailedToShow")
-                onRewComplete()
+                Toast.makeText(
+                    this@TraceActivity,
+                    getString(R.string.ad_is_not_loaded_yet),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
-            override fun onRewComplete() {}
+            override fun onRewComplete() {
+                onRewComplete()
+            }
         })
     }
 

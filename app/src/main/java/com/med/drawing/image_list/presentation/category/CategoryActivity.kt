@@ -39,7 +39,7 @@ class CategoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val languageCode = prefs.getString("language", "en") ?: "en"
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
@@ -103,7 +103,7 @@ class CategoryActivity : AppCompatActivity() {
         imagePosition: Int,
         imageItem: Image
     ) {
-        RewardedManager.showRewarded(false, this, object : RewardedManager.OnAdClosedListener {
+        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
             override fun onRewClosed() {}
 
             override fun onRewFailedToShow() {

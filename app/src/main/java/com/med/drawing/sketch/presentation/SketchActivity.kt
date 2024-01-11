@@ -617,16 +617,21 @@ class SketchActivity : AppCompatActivity() {
     }
 
     private fun rewarded(onRewComplete: () -> Unit) {
-        RewardedManager.showRewarded(true, this, object : RewardedManager.OnAdClosedListener {
+        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
             override fun onRewClosed() {
-                onRewComplete()
             }
 
             override fun onRewFailedToShow() {
-                onRewComplete()
+                Toast.makeText(
+                    this@SketchActivity,
+                    getString(R.string.ad_is_not_loaded_yet),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
-            override fun onRewComplete() {}
+            override fun onRewComplete() {
+                onRewComplete()
+            }
         })
     }
 

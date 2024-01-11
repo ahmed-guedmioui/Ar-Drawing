@@ -42,18 +42,13 @@ object RewardedManager {
     }
 
     fun showRewarded(
-        isRewClosed: Boolean = false,
         activity: Activity,
         adClosedListener: OnAdClosedListener
     ) {
         onAdClosedListener = adClosedListener
 
         if (!DataManager.appData.showAdsForThisUser) {
-            if (isRewClosed) {
-                onAdClosedListener.onRewClosed()
-            } else {
-                onAdClosedListener.onRewComplete()
-            }
+            onAdClosedListener.onRewComplete()
             return
         }
 
