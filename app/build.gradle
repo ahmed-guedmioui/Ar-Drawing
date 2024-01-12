@@ -126,7 +126,6 @@ dependencies {
 
     // In app purchase
     implementation 'com.revenuecat.purchases:purchases:7.0.0'
-    implementation 'com.revenuecat.purchases:purchases-ui:7.0.0'
 }
 
 
