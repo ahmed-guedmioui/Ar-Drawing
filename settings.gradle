@@ -18,5 +18,5 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "Med Drawing"
+rootProject.name = "Med Drawing With Purchase"
 include ':app', ':library', ':spectrum'
