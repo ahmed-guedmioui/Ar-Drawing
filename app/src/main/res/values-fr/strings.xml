@@ -145,5 +145,6 @@
 
     <string name="app_privacy_policy">Nous nous engageons à maintenir l\'exactitude, la confidentialité et la sécurité de vos informations personnelles identifiables (\"Informations personnelles\").\nDans le cadre de cet engagement, notre politique de confidentialité régit nos actions en ce qui concerne la collecte, l\'utilisation et la divulgation des informations personnelles.</string>
     <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
+    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
 
 </resources>

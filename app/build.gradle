@@ -24,6 +24,8 @@ android {
         buildConfigField("String", "IMAGES_BASE_URL", IMAGES_BASE_URL)
         buildConfigField("String", "IMAGES_PATH", IMAGES_PATH)
 
+        buildConfigField("String", "REVENUECUT_KEY", REVENUECUT_KEY)
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {

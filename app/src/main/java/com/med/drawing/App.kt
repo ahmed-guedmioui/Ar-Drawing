@@ -5,10 +5,15 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
+import android.util.Log
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.revenuecat.purchases.LogLevel
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.PurchasesConfiguration
+import com.revenuecat.purchases.getOfferingsWith
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 import java.util.Locale
@@ -40,6 +45,12 @@ class App : Application() {
         MobileAds.initialize(this)
         AudienceNetworkAds.initialize(this)
 
+        Purchases.logLevel = LogLevel.DEBUG
+        Purchases.configure(
+            PurchasesConfiguration.Builder(
+                this, BuildConfig.REVENUECUT_KEY
+            ).build()
+        )
     }
 
     private fun trimCache() {

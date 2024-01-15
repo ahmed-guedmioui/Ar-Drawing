@@ -7,6 +7,7 @@ import com.med.drawing.util.LanguageChanger
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -20,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.med.drawing.App
+import com.med.drawing.BuildConfig
 import com.med.drawing.R
 import com.med.drawing.main.presentaion.follow.FollowActivity
 import com.med.drawing.main.presentaion.settings.adapter.RecommendedAppsAdapter
@@ -30,6 +32,10 @@ import com.med.drawing.util.Constants
 import com.med.drawing.util.openDeveloper
 import com.med.drawing.util.rateApp
 import com.med.drawing.util.shareApp
+import com.revenuecat.purchases.PurchaseParams
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getOfferingsWith
+import com.revenuecat.purchases.purchaseWith
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -101,6 +107,27 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
+        Purchases.sharedInstance.getOfferingsWith(
+            onError = { error ->
+                Log.d("REVENUE_CUT", "getOfferingsWith: onError: ${error.underlyingErrorMessage}")
+            },
+            onSuccess = { offerings ->
+                Log.d("REVENUE_CUT", "getOfferingsWith: onSuccess: ${offerings.current}")
+            }
+        )
+
+//        Purchases.sharedInstance.purchaseWith(
+//            PurchaseParams.Builder(
+//                this, xxx
+//            ).build(),
+//            onError = { error, userCancelled -> /* No purchase */ },
+//            onSuccess = { storeTransaction, customerInfo ->
+//                if (customerInfo.entitlements["j"]?.isActive == true) {
+//                    // Unlock that great "pro" content
+//                }
+//
+//            }
+//        )
     }
 
     private fun privacyDialog() {

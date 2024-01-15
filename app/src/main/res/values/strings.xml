@@ -145,6 +145,23 @@
     <string name="japanese">日本語</string>
 
     <string name="app_privacy_policy">We are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information (\"Personal Information\").\nAs part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Personal Information.</string>
+
     <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
+    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
+    <string name="get_access_to">GET ACCESS TO</string>
+    <string name="get_access_to_details_1">Easily trace pictures on paper</string>
+    <string name="get_access_to_details_2">Upload good quality images or choose from +1000 templates</string>
+    <string name="get_access_to_details_3">Quick draw and create an art</string>
+    <string name="choose_a_plan">CHOOSE A PLAN</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_details_1">No ads, enjoy 100% ad-free experience</string>
+    <string name="faq_details_2">Your credit card details are 100% secure with Google Play</string>
+    <string name="faq_details_3">You can cancel at any time</string>
+    <string name="trusted_by_over">Trusted by over</string>
+    <string name="_1_000_000">1.000.000+</string>
+    <string name="average_rating">Average rating</string>
+    <string name="_4_5">4.5</string>
+    <string name="continue_">Continue</string>
+    <string name="restore_subscription">Restore Subscription</string>
 
 </resources>
