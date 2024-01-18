@@ -163,5 +163,7 @@
     <string name="_4_5">4.5</string>
     <string name="continue_">Continue</string>
     <string name="restore_subscription">Restore Subscription</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="become_premium">Become Premium</string>
 
 </resources>

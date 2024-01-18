@@ -68,7 +68,7 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name="com.med.drawing.splash.presentation.splash.SplashActivity"
+            android:name="com.ardrawing.sketchtrace.splash.presentation.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -78,6 +78,10 @@
         </activity>
         <activity
             android:name=".main.presentaion.tips.TipsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.presentaion.pay_wall.PayWallActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -97,32 +101,32 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.image_list.presentation.categories.CategoriesActivity"
+            android:name="com.ardrawing.sketchtrace.image_list.presentation.categories.CategoriesActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.image_list.presentation.category.CategoryActivity"
+            android:name="com.ardrawing.sketchtrace.image_list.presentation.category.CategoryActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.trace.presentation.TraceActivity"
+            android:name="com.ardrawing.sketchtrace.trace.presentation.TraceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.sketch.presentation.SketchActivity"
+            android:name="com.ardrawing.sketchtrace.sketch.presentation.SketchActivity"
             android:launchMode="singleTask"
             android:theme="@style/CameraActivityTheme"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.util.other.HelpActivity"
+            android:name="com.ardrawing.sketchtrace.util.other.HelpActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.util.other.HelpActivity2"
+            android:name="com.ardrawing.sketchtrace.util.other.HelpActivity2"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.med.drawing.util.other.PrivacyPolicyActivity"
+            android:name="com.ardrawing.sketchtrace.util.other.PrivacyPolicyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -150,7 +154,7 @@
 
         <provider
             android:name="com.github.dhaval2404.imagepicker.ImagePickerFileProvider"
-            android:authorities="com.med.drawing.imagepicker.provider"
+            android:authorities="com.ardrawing.sketchtrace.imagepicker.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
