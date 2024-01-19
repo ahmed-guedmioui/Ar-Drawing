@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -25,23 +26,32 @@ import com.ardrawing.sketchtrace.main.presentaion.get_started.GetStartedActivity
 import com.ardrawing.sketchtrace.main.presentaion.home.HomeActivity
 import com.ardrawing.sketchtrace.main.presentaion.tips.TipsActivity
 import com.ardrawing.sketchtrace.databinding.ActivitySplashBinding
+import com.ardrawing.sketchtrace.main.presentaion.get_started.GetStartedUiEvent
 import com.ardrawing.sketchtrace.main.presentaion.language.LanguageActivity
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.util.AppAnimation
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.UrlOpener
 import com.onesignal.OneSignal
+import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
+@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity(), PaywallResultHandler {
 
     private val splashViewModel: SplashViewModel by viewModels()
 
     private lateinit var splashState: SplashState
     private lateinit var binding: ActivitySplashBinding
+
+    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -72,6 +82,9 @@ class SplashActivity : AppCompatActivity() {
             }
         }
 
+
+        paywallActivityLauncher = PaywallActivityLauncher(this, this)
+
         val admobAppOpenManager = AdmobAppOpenManager(
             this@SplashActivity.application, prefs
         )
@@ -91,24 +104,29 @@ class SplashActivity : AppCompatActivity() {
 
                     admobAppOpenManager.showSplashAd {
 
-                        val intent =
-                            if (!prefs.getBoolean("language_chosen", false)) {
-                                Intent(this@SplashActivity, LanguageActivity::class.java)
-
-                            } else if (!prefs.getBoolean("tipsShown", false)) {
-                                Intent(this@SplashActivity, TipsActivity::class.java)
-
-                            } else if (!prefs.getBoolean("getStartedShown", false)) {
-                                Intent(this@SplashActivity, GetStartedActivity::class.java)
-
-                            } else {
-                                Intent(this@SplashActivity, HomeActivity::class.java)
+                        if (!prefs.getBoolean("language_chosen", false)) {
+                            Intent(this@SplashActivity, LanguageActivity::class.java).also {
+                                it.putExtra("from_splash", true)
+                                startActivity(it)
+                                finish()
                             }
 
-                        intent.putExtra("from_splash", true)
+                        } else if (!prefs.getBoolean("tipsShown", false)) {
+                            Intent(this@SplashActivity, TipsActivity::class.java).also {
+                                startActivity(it)
+                                finish()
+                            }
 
-                        startActivity(intent)
-                        finish()
+                        } else if (!prefs.getBoolean("getStartedShown", false)) {
+                            Intent(this@SplashActivity, GetStartedActivity::class.java).also {
+                                startActivity(it)
+                                finish()
+                            }
+
+                        } else {
+                            move()
+                        }
+
                     }
                 }
             }
@@ -134,6 +152,70 @@ class SplashActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun move() {
+        if (DataManager.appData.isSubscribed) {
+            splashViewModel.onEvent(SplashUiEvent.AlreadySubscribed)
+            goToHome()
+        } else {
+            paywallActivityLauncher.launchIfNeeded(
+                requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
+            )
+        }
+    }
+
+    override fun onActivityResult(result: PaywallResult) {
+        when (result) {
+            PaywallResult.Cancelled -> {
+                Log.d("REVENUE_CUT", "Cancelled")
+                splashViewModel.onEvent(
+                    SplashUiEvent.Subscribe(isSubscribed = false)
+                )
+                goToHome()
+            }
+
+            is PaywallResult.Error -> {
+                Log.d("REVENUE_CUT", "Error")
+                splashViewModel.onEvent(
+                    SplashUiEvent.Subscribe(isSubscribed = false)
+                )
+                goToHome()
+            }
+
+            is PaywallResult.Purchased -> {
+
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                splashViewModel.onEvent(
+                    SplashUiEvent.Subscribe(isSubscribed = true, date = date)
+                )
+
+                Log.d("REVENUE_CUT", "Purchased")
+                goToHome()
+            }
+
+            is PaywallResult.Restored -> {
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                splashViewModel.onEvent(
+                    SplashUiEvent.Subscribe(isSubscribed = true, date = date)
+                )
+
+                Log.d("REVENUE_CUT", "Restored")
+                goToHome()
+            }
+        }
+    }
+
+    private fun goToHome() {
+        Intent(this, HomeActivity::class.java).also {
+            startActivity(it)
+            finish()
+        }
+    }
+
 
     private fun updateDialog(state: Int) {
 

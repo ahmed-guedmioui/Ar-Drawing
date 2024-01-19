@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface AppDataRepository {
     suspend fun getAppData(): Flow<Resource<Unit>>
-
+    suspend fun setAdsVisibilityForUser()
 }

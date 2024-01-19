@@ -1,30 +1,33 @@
 package com.ardrawing.sketchtrace.image_list.data.repository
 
+import android.app.Application
 import android.content.SharedPreferences
+import com.ardrawing.sketchtrace.image_list.data.ImagesManager
 import com.ardrawing.sketchtrace.image_list.data.mapper.toImageCategoryList
 import com.ardrawing.sketchtrace.image_list.data.remote.ImageCategoryApi
 import com.ardrawing.sketchtrace.image_list.domain.model.images.ImageCategory
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.image_list.data.ImagesManager
-import com.ardrawing.sketchtrace.image_list.data.remote.respond.images.ImageCategoryListDto
+import com.ardrawing.sketchtrace.splash.domain.usecase.UpdateSubscriptionInfo
 import com.ardrawing.sketchtrace.util.Resource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 import retrofit2.HttpException
+import java.util.Date
 import javax.inject.Inject
+
 
 /**
  * @author Ahmed Guedmioui
  */
 class ImageCategoriesRepositoryImpl @Inject constructor(
+    private val application: Application,
     private val imageCategoryApi: ImageCategoryApi,
     private val prefs: SharedPreferences
 ) : ImageCategoriesRepository {
 
-  override  suspend fun getImageCategoryList(): Flow<Resource<Unit>> {
+    override suspend fun getImageCategoryList(): Flow<Resource<Unit>> {
         return flow {
 
             emit(Resource.Loading(true))
@@ -47,9 +50,6 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
 
             ImagesManager.imageCategoryList = categoryListDto.toImageCategoryList().toMutableList()
 
-            setUnlockedImages()
-
-
             emit(Resource.Success())
 
             emit(Resource.Loading(false))
@@ -59,24 +59,23 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         }
     }
 
-     suspend fun getImageCategoryListt(): Flow<Resource<Unit>> {
-        return flow {
-            emit(Resource.Loading(true))
-
-            delay(3000)
-
-            ImagesManager.imageCategoryList =
-                ImageCategoryListDto(null).toImageCategoryList().toMutableList()
-
-            setUnlockedImages()
-
-            emit(Resource.Success())
-
-            emit(Resource.Loading(false))
+    override suspend fun setUnlockedImages(date: Date?) {
+        date?.let {
+            UpdateSubscriptionInfo(application, it).invoke()
         }
-    }
 
-    private fun setUnlockedImages() {
+        // When user is subscribed all images will be unlocked
+        if (DataManager.appData.isSubscribed) {
+            ImagesManager.imageCategoryList.forEach { categoryItem ->
+                categoryItem.imageList.forEach { image ->
+                    image.locked = false
+                }
+            }
+
+            return
+        }
+
+        // When user is not subscribed unlock only the image the user manually unlocked by watching an ad
         ImagesManager.imageCategoryList.forEach { categoryItem ->
             categoryItem.imageList.forEach { image ->
                 if (image.locked) {
@@ -88,7 +87,25 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setGalleryAndCameraAndNativeItems() {
+    override suspend fun setNativeItems(date: Date?) {
+        date?.let {
+            UpdateSubscriptionInfo(application, it).invoke()
+        }
+
+        if (DataManager.appData.isSubscribed) {
+
+            val iterator: MutableIterator<ImageCategory> = ImagesManager.imageCategoryList.iterator()
+
+            while (iterator.hasNext()) {
+                val categoryItem: ImageCategory = iterator.next()
+                if (categoryItem.imageCategoryName == "native") {
+                    iterator.remove() // Safely remove the element using the iterator
+                }
+            }
+
+
+            return
+        }
 
         val nativeItem = ImageCategory(
             imageCategoryName = "native",
@@ -101,7 +118,9 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             ImagesManager.imageCategoryList.add(index, nativeItem)
             index += DataManager.appData.nativeRate + 1
         }
+    }
 
+    override suspend fun setGalleryAndCameraItems() {
         ImagesManager.imageCategoryList.add(
             0,
             ImageCategory(
@@ -120,6 +139,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             )
         )
     }
+
 }
 
 

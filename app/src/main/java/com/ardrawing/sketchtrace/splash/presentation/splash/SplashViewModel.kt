@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
+import com.ardrawing.sketchtrace.main.presentaion.get_started.GetStartedUiEvent
+import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.splash.domain.usecase.ShouldShowUpdateDialog
 import com.ardrawing.sketchtrace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 /**
@@ -55,6 +58,37 @@ class SplashViewModel @Inject constructor(
                     _continueAppChannel.send(true)
                 }
             }
+
+            is SplashUiEvent.Subscribe -> {
+
+                if (splashUiEvent.isSubscribed) {
+
+                    splashUiEvent.date?.let {
+                        if (it.after(Date())) {
+                            DataManager.appData.isSubscribed = true
+
+                            viewModelScope.launch {
+                                appDataRepository.setAdsVisibilityForUser()
+                                imageCategoriesRepository.setUnlockedImages()
+                                imageCategoriesRepository.setNativeItems()
+                            }
+                        }
+                    }
+
+                } else {
+                    viewModelScope.launch {
+                        appDataRepository.setAdsVisibilityForUser()
+                    }
+                }
+            }
+
+            SplashUiEvent.AlreadySubscribed -> {
+                viewModelScope.launch {
+                    appDataRepository.setAdsVisibilityForUser()
+                    imageCategoriesRepository.setUnlockedImages()
+                    imageCategoriesRepository.setNativeItems()
+                }
+            }
         }
     }
 
@@ -85,7 +119,12 @@ class SplashViewModel @Inject constructor(
                                 _updateDialogState.update { 0 }
 
                                 if (splashState.value.areImagesLoaded) {
-                                    imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
+
+                                    appDataRepository.setAdsVisibilityForUser()
+                                    imageCategoriesRepository.setUnlockedImages()
+                                    imageCategoriesRepository.setNativeItems()
+                                    imageCategoriesRepository.setGalleryAndCameraItems()
+
                                     _continueAppChannel.send(true)
                                 }
                             }
@@ -112,13 +151,17 @@ class SplashViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-
                         _splashState.update {
                             it.copy(areImagesLoaded = true)
                         }
 
                         if (splashState.value.isAppDataLoaded && updateDialogState.value == 0) {
-                            imageCategoriesRepository.setGalleryAndCameraAndNativeItems()
+
+                            appDataRepository.setAdsVisibilityForUser()
+                            imageCategoriesRepository.setUnlockedImages()
+                            imageCategoriesRepository.setNativeItems()
+                            imageCategoriesRepository.setGalleryAndCameraItems()
+
                             _continueAppChannel.send(true)
                         }
 

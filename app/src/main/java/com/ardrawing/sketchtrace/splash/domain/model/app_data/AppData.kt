@@ -37,5 +37,8 @@ data class AppData(
 
     // these one is not gotten from json configuration, we assign a value to based on the user's
     // country.
-    var showAdsForThisUser: Boolean = false
+    var showAdsForThisUser: Boolean = false,
+    var isSubscribed: Boolean = false,
+
+    var subscriptionInfo: String = ""
 )

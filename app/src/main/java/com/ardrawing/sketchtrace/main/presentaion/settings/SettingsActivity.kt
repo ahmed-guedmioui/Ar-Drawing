@@ -3,10 +3,8 @@ package com.ardrawing.sketchtrace.main.presentaion.settings
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
-import com.ardrawing.sketchtrace.util.LanguageChanger
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -15,40 +13,37 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.compose.setContent
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.main.presentaion.follow.FollowActivity
-import com.ardrawing.sketchtrace.main.presentaion.settings.adapter.RecommendedAppsAdapter
 import com.ardrawing.sketchtrace.databinding.ActivitySettingsBinding
+import com.ardrawing.sketchtrace.main.presentaion.follow.FollowActivity
 import com.ardrawing.sketchtrace.main.presentaion.language.LanguageActivity
-import com.ardrawing.sketchtrace.main.presentaion.pay_wall.PayWallActivity
+import com.ardrawing.sketchtrace.main.presentaion.settings.adapter.RecommendedAppsAdapter
 import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.splash.presentation.splash.SplashUiEvent
 import com.ardrawing.sketchtrace.util.Constants
+import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.openDeveloper
 import com.ardrawing.sketchtrace.util.rateApp
 import com.ardrawing.sketchtrace.util.shareApp
+import com.revenuecat.purchases.CacheFetchPolicy
 import com.revenuecat.purchases.CustomerInfo
-import com.revenuecat.purchases.Package
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
-import com.revenuecat.purchases.getOfferingsWith
-import com.revenuecat.purchases.models.StoreTransaction
+import com.revenuecat.purchases.interfaces.ReceiveCustomerInfoCallback
 import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
-import com.revenuecat.purchases.ui.revenuecatui.PaywallDialog
-import com.revenuecat.purchases.ui.revenuecatui.PaywallDialogOptions
-import com.revenuecat.purchases.ui.revenuecatui.PaywallListener
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import javax.inject.Inject
-
 
 @OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
@@ -58,6 +53,8 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
 
     private lateinit var settingsState: SettingsState
     private lateinit var binding: ActivitySettingsBinding
+
+    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -119,28 +116,56 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
 
         paywallActivityLauncher = PaywallActivityLauncher(this, this)
         binding.subscribe.setOnClickListener {
-            paywallActivityLauncher.launchIfNeeded(requiredEntitlementIdentifier = "pro")
+            if (DataManager.appData.isSubscribed) {
+                Toast.makeText(
+                    this, getString(R.string.you_are_already_subscribed), Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                paywallActivityLauncher.launchIfNeeded(
+                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
+                )
+            }
         }
 
+        binding.subscribeInfo.text = DataManager.appData.subscriptionInfo
     }
-
-    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     override fun onActivityResult(result: PaywallResult) {
         when (result) {
             PaywallResult.Cancelled -> {
                 Log.d("REVENUE_CUT", "Cancelled")
+                splashViewModel.onEvent(
+                    SettingsUiEvent.Subscribe(isSubscribed = false)
+                )
             }
 
             is PaywallResult.Error -> {
                 Log.d("REVENUE_CUT", "Error")
+                splashViewModel.onEvent(
+                    SettingsUiEvent.Subscribe(isSubscribed = false)
+                )
             }
 
             is PaywallResult.Purchased -> {
+
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                splashViewModel.onEvent(
+                    SettingsUiEvent.Subscribe(isSubscribed = true, date = date)
+                )
+
                 Log.d("REVENUE_CUT", "Purchased")
             }
 
             is PaywallResult.Restored -> {
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                splashViewModel.onEvent(
+                    SettingsUiEvent.Subscribe(isSubscribed = true, date = date)
+                )
+
                 Log.d("REVENUE_CUT", "Restored")
             }
         }

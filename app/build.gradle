@@ -25,6 +25,7 @@ android {
         buildConfigField("String", "IMAGES_PATH", IMAGES_PATH)
 
         buildConfigField("String", "REVENUECUT_KEY", REVENUECUT_KEY)
+        buildConfigField("String", "ENTITLEMENT", ENTITLEMENT)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

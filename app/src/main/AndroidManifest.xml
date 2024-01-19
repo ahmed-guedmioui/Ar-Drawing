@@ -81,10 +81,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.presentaion.pay_wall.PayWallActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".main.presentaion.get_started.GetStartedActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

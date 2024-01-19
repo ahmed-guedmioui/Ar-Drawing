@@ -164,6 +164,8 @@
     <string name="continue_">Continue</string>
     <string name="restore_subscription">Restore Subscription</string>
     <string name="subscribe">Subscribe</string>
-    <string name="become_premium">Become Premium</string>
+    <string name="you_are_already_subscribed">You are already subscribed 😄</string>
+    <string name="your_subscription_will_expire_in_n">Your subscription will expire in:\n%1$s</string>
+    <string name="your_are_not_subscribed">Your are not subscribed</string>
 
 </resources>

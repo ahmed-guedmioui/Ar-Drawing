@@ -233,7 +233,7 @@ class CategoriesActivity : AppCompatActivity() {
             return
         }
 
-        if (grantResults.isEmpty() && grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0) {
+        if (grantResults.isEmpty() || grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0) {
             return
         }
 
