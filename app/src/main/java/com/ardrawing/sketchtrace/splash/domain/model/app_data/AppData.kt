@@ -6,6 +6,7 @@ data class AppData(
     val openAppAd: String,
     val rewarded: String,
 
+    val admobPublisherId: String,
     val admobInterstitial: String,
     val admobNative: String,
     val admobOpenApp: String,

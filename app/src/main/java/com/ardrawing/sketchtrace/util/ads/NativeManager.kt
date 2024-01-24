@@ -1,6 +1,7 @@
 package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -23,6 +24,8 @@ import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.util.Shared
+import com.google.ads.mediation.admob.AdMobAdapter
 
 object NativeManager {
 
@@ -98,7 +101,19 @@ object NativeManager {
             }
         }).build()
 
-        adLoader.loadAd(AdRequest.Builder().build())
+        val personalized = Shared.getBoolean(activity, "personalized", true)
+
+        val adRequest = if (personalized) {
+            AdRequest.Builder().build()
+        } else {
+            val bundle = Bundle()
+            bundle.putString("npa", "1")
+            AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
+                .build()
+        }
+
+        adLoader.loadAd(adRequest)
     }
 
     private fun populateAdmobNative(nativeAd: NativeAd, adView: NativeAdView) {

@@ -1,5 +1,6 @@
 {
 
+  "admob_publisher_id": "ca-app-pub-3940256099942544/9257395921",
   "admob_interstitial": "ca-app-pub-3940256099942544/1033173712",
   "admob_native": "ca-app-pub-3940256099942544/2247696110",
   "admob_rewarded": "ca-app-pub-3940256099942544/5224354917",
@@ -21,13 +22,15 @@
   
   "clicks_to_show_inter": 2,
   "native_rate": 2,
+
+  "privacy_link": "https://firebasestorage.googleapis.com/v0/b/ar-draw-cineday.appspot.com/o/PrivacyPolicy.html?alt=media&fbclid=IwAR0u5ASb-Ckm0T5uiYlIG-5yrqSMcmev9TD8Rdw8q_ugkjt-hFo-GIpZNWE",
   
   "is_app_suspended": false,
   "suspended_title": "A new update for this app is available.",
   "suspended_message": "Update this app because this version has some issues.",
-  "suspended_URL": "xxxx",
+  "suspended_URL": "com.roblox.client",
   
-  "app_latest_version": 2,
+  "app_latest_version": 1,
 
   "are_ads_for_only_white_list_countries": false,
   "countries_white_list": [

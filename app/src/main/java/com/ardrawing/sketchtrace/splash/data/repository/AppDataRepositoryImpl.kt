@@ -98,6 +98,8 @@ class AppDataRepositoryImpl @Inject constructor(
     }
 
 
+
+    // Only for testing
     suspend fun getAppTestData(): Flow<Resource<Unit>> {
         return flow {
 
@@ -106,6 +108,7 @@ class AppDataRepositoryImpl @Inject constructor(
             delay(3000)
 
             DataManager.appData = AppDataDto(
+                null,
                 null,
                 null,
                 null,

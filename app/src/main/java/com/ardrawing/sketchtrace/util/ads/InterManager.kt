@@ -1,15 +1,18 @@
 package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
+import android.os.Bundle
+import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.util.Shared
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
+import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.ardrawing.sketchtrace.splash.data.DataManager
 
 object InterManager {
 
@@ -102,7 +105,19 @@ object InterManager {
 
     private fun loadAdmobInter(activity: Activity) {
         isAdmobInterLoaded = false
-        val adRequest = AdRequest.Builder().build()
+
+        val personalized = Shared.getBoolean(activity, "personalized", true)
+
+        val adRequest = if (personalized) {
+            AdRequest.Builder().build()
+        } else {
+            val bundle = Bundle()
+            bundle.putString("npa", "1")
+            AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
+                .build()
+        }
+
         InterstitialAd.load(
             activity,
             DataManager.appData.admobInterstitial,

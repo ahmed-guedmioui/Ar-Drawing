@@ -4,10 +4,10 @@ import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import com.facebook.ads.Ad
@@ -19,6 +19,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.util.Shared
+import com.google.ads.mediation.admob.AdMobAdapter
 
 object RewardedManager {
 
@@ -106,7 +108,18 @@ object RewardedManager {
     private fun loadAdmobRewarded(activity: Activity) {
 
         isAdmobRewardedLoaded = false
-        val adRequest: AdRequest = AdRequest.Builder().build()
+
+        val personalized = Shared.getBoolean(activity, "personalized", true)
+
+        val adRequest = if (personalized) {
+            AdRequest.Builder().build()
+        } else {
+            val bundle = Bundle()
+            bundle.putString("npa", "1")
+            AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
+                .build()
+        }
 
         com.google.android.gms.ads.rewarded.RewardedAd.load(
             activity,

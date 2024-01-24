@@ -15,6 +15,7 @@ fun AppDataDto.toAppData(): AppData {
         native = Native ?: "",
         openAppAd = OpenAppAd ?: "",
         rewarded = Rewarded ?: "",
+        admobPublisherId = admob_publisher_id ?: "",
         admobInterstitial = admob_interstitial ?: "",
         admobNative = admob_native ?: "",
         admobOpenApp = admob_open_app ?: "",

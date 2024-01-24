@@ -17,6 +17,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.util.Shared
+import com.google.ads.mediation.admob.AdMobAdapter
 import java.util.Date
 
 class AdmobAppOpenManager(
@@ -28,11 +30,6 @@ class AdmobAppOpenManager(
     private var loadTime: Long = 0
     private var currentActivity: Activity? = null
     private lateinit var loadCallback: AppOpenAdLoadCallback
-    private val adRequest: AdRequest
-        /**
-         * Creates and returns ad request.
-         */
-        private get() = AdRequest.Builder().build()
 
     /**
      * Utility method to check if ad was loaded more than n hours ago.
@@ -92,9 +89,22 @@ class AdmobAppOpenManager(
                 }
             }
         }
-        val request = adRequest
+        val personalized = Shared.getBoolean(
+            app.applicationContext, "personalized", true
+        )
+
+        val adRequest = if (personalized) {
+            AdRequest.Builder().build()
+        } else {
+            val bundle = Bundle()
+            bundle.putString("npa", "1")
+            AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
+                .build()
+        }
+
         AppOpenAd.load(
-            app, id, request, loadCallback
+            app, id, adRequest, loadCallback
         )
     }
 

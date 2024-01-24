@@ -6,6 +6,7 @@ data class AppDataDto(
     val OpenAppAd: String?,
     val Rewarded: String?,
 
+    val admob_publisher_id: String?,
     val admob_interstitial: String?,
     val admob_native: String?,
     val admob_open_app: String?,
