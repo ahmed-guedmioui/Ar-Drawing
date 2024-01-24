@@ -27,7 +27,7 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/premium" />
+            android:src="@drawable/drawing_colors" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/font"
             android:gravity="center"
-            android:text="@string/vip_feature"
+            android:text="@string/unlock_image"
             android:textColor="@color/text"
             android:textSize="24sp" />
 
@@ -46,7 +46,7 @@
             android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/font"
             android:gravity="center"
-            android:text="@string/become_a_vip_or_watch_ads_to_use_it_for_free"
+            android:text="@string/become_a_vip_or_watch_ads_to_unlock_for_free"
             android:textColor="@color/text"
             android:textSize="18sp" />
 
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/font"
-                    android:text="@string/become_vip"
+                    android:text="@string/unlock_all"
                     android:textColor="@color/white"
                     android:textSize="19sp" />
 

@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import com.facebook.ads.Ad
 import com.facebook.ads.RewardedVideoAd
 import com.facebook.ads.RewardedVideoAdListener
@@ -43,7 +44,9 @@ object RewardedManager {
 
     fun showRewarded(
         activity: Activity,
-        adClosedListener: OnAdClosedListener
+        adClosedListener: OnAdClosedListener,
+        isImages: Boolean = true,
+        onOpenPaywall: () -> Unit,
     ) {
         onAdClosedListener = adClosedListener
 
@@ -52,14 +55,22 @@ object RewardedManager {
             return
         }
 
-        dialog(activity)
+        dialog(activity, isImages) {
+            onOpenPaywall()
+        }
     }
 
-    private fun dialog(activity: Activity) {
+    private fun dialog(
+        activity: Activity,
+        isImages: Boolean = true,
+        onOpenPaywall: () -> Unit,
+    ) {
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
-        dialog.setContentView(R.layout.dialog_rewarded)
+        dialog.setContentView(
+            if (isImages) R.layout.dialog_rewarded_images else R.layout.dialog_rewarded
+        )
         val layoutParams = WindowManager.LayoutParams()
 
         layoutParams.copyFrom(dialog.window!!.attributes)
@@ -74,13 +85,17 @@ object RewardedManager {
             dialog.dismiss()
         }
 
-        dialog.findViewById<Button>(R.id.watch).setOnClickListener {
+        dialog.findViewById<CardView>(R.id.watch).setOnClickListener {
             when (DataManager.appData.rewarded) {
                 AdType.admob -> showAdmobRewarded(activity)
                 AdType.facebook -> showFacebookRewarded(activity)
                 else -> onAdClosedListener.onRewFailedToShow()
             }
             dialog.dismiss()
+        }
+
+        dialog.findViewById<CardView>(R.id.vip).setOnClickListener {
+            onOpenPaywall()
         }
 
         dialog.show()

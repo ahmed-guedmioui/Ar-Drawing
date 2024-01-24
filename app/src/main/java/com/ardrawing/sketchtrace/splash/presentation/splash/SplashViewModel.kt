@@ -69,8 +69,8 @@ class SplashViewModel @Inject constructor(
 
                             viewModelScope.launch {
                                 appDataRepository.setAdsVisibilityForUser()
-                                imageCategoriesRepository.setUnlockedImages()
-                                imageCategoriesRepository.setNativeItems()
+                                imageCategoriesRepository.setUnlockedImages(it)
+                                imageCategoriesRepository.setNativeItems(it)
                             }
                         }
                     }

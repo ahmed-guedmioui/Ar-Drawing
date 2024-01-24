@@ -26,10 +26,6 @@ class SettingsViewModel @Inject constructor(
     private val _settingsState = MutableStateFlow(SettingsState())
     val settingsState = _settingsState.asStateFlow()
 
-
-    init {
-    }
-
     fun onEvent(settingsUiEvent: SettingsUiEvent) {
         when (settingsUiEvent) {
             SettingsUiEvent.ShowHidePrivacyDialog -> {
@@ -48,8 +44,8 @@ class SettingsViewModel @Inject constructor(
 
                             viewModelScope.launch {
                                 appDataRepository.setAdsVisibilityForUser()
-                                imageCategoriesRepository.setUnlockedImages()
-                                imageCategoriesRepository.setNativeItems()
+                                imageCategoriesRepository.setUnlockedImages(it)
+                                imageCategoriesRepository.setNativeItems(it)
                             }
                         }
                     }

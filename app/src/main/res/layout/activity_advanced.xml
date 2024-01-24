@@ -46,6 +46,13 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/vip" />
+
     </androidx.cardview.widget.CardView>
 
 

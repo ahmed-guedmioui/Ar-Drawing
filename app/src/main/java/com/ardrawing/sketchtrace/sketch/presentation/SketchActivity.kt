@@ -39,6 +39,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import com.ardrawing.sketchtrace.BuildConfig
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -47,7 +49,11 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.advanced_editing.presentation.AdvancedEditingActivity
 import com.ardrawing.sketchtrace.databinding.ActivitySketchBinding
+import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
+import com.ardrawing.sketchtrace.main.presentaion.settings.SettingsUiEvent
 import com.ardrawing.sketchtrace.my_creation.domian.repository.CreationRepository
+import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.PermissionUtils
 import com.ardrawing.sketchtrace.util.ads.NativeManager
@@ -61,6 +67,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageThresholdEdgeDetectionFilter
 import com.ardrawing.sketchtrace.util.LanguageChanger
+import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -73,11 +83,18 @@ import javax.inject.Inject
 /**
  * @author Ahmed Guedmioui
  */
+@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class SketchActivity : AppCompatActivity() {
+class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
     @Inject
     lateinit var creationRepository: CreationRepository
+
+    @Inject
+    lateinit var appDataRepository: AppDataRepository
+
+    @Inject
+    lateinit var imageCategoriesRepository: ImageCategoriesRepository
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -104,6 +121,8 @@ class SketchActivity : AppCompatActivity() {
     private var isTimeIsUp = false
     private var isTimeIsUpDialogShowing = false
 
+    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -112,8 +131,15 @@ class SketchActivity : AppCompatActivity() {
         binding = ActivitySketchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        updateMainTimerText("03:00", 300000)
-        countDown()
+        paywallActivityLauncher = PaywallActivityLauncher(this, this)
+
+        updateMainTimerText("05:00", 500000)
+
+        if (!DataManager.appData.isSubscribed) {
+            countDown()
+        } else {
+            binding.mainTempContainer.visibility = View.GONE
+        }
 
         handler = Handler(Looper.getMainLooper())
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
@@ -462,6 +488,63 @@ class SketchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(result: PaywallResult) {
+        when (result) {
+            PaywallResult.Cancelled -> {
+                Log.d("REVENUE_CUT", "Cancelled")
+                lifecycleScope.launch {
+                    appDataRepository.setAdsVisibilityForUser()
+                }
+            }
+
+            is PaywallResult.Error -> {
+                Log.d("REVENUE_CUT", "Error")
+                lifecycleScope.launch {
+                    appDataRepository.setAdsVisibilityForUser()
+                }
+            }
+
+            is PaywallResult.Purchased -> {
+
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                date?.let {
+                    if (it.after(Date())) {
+                        DataManager.appData.isSubscribed = true
+
+                        lifecycleScope.launch {
+                            appDataRepository.setAdsVisibilityForUser()
+                            imageCategoriesRepository.setUnlockedImages(it)
+                            imageCategoriesRepository.setNativeItems(it)
+                        }
+                    }
+                }
+
+                Log.d("REVENUE_CUT", "Purchased")
+            }
+
+            is PaywallResult.Restored -> {
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                date?.let {
+                    if (it.after(Date())) {
+                        DataManager.appData.isSubscribed = true
+
+                        lifecycleScope.launch {
+                            appDataRepository.setAdsVisibilityForUser()
+                            imageCategoriesRepository.setUnlockedImages(it)
+                            imageCategoriesRepository.setNativeItems(it)
+                        }
+                    }
+                }
+
+                Log.d("REVENUE_CUT", "Restored")
+            }
+        }
+    }
+
     private fun stopVideo() {
         Log.d("tag_vid", "stopVideo")
         isRecording = false
@@ -553,7 +636,7 @@ class SketchActivity : AppCompatActivity() {
         isTimeIsUp = false
         binding.theDrawingIsReadyBtn.visibility = View.GONE
 
-        val countdownDurationMillis: Long = 3 * 60 * 1000
+        val countdownDurationMillis: Long = 5 * 60 * 1000
         // Set the countdown interval (e.g., 1 second)
         val countdownIntervalMillis: Long = 1000
 
@@ -614,22 +697,31 @@ class SketchActivity : AppCompatActivity() {
     }
 
     private fun rewarded(onRewComplete: () -> Unit) {
-        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
-            override fun onRewClosed() {
-            }
+        RewardedManager.showRewarded(
+            activity = this,
+            adClosedListener = object : RewardedManager.OnAdClosedListener {
+                override fun onRewClosed() {
+                }
 
-            override fun onRewFailedToShow() {
-                Toast.makeText(
-                    this@SketchActivity,
-                    getString(R.string.ad_is_not_loaded_yet),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                override fun onRewFailedToShow() {
+                    Toast.makeText(
+                        this@SketchActivity,
+                        getString(R.string.ad_is_not_loaded_yet),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            override fun onRewComplete() {
-                onRewComplete()
+                override fun onRewComplete() {
+                    onRewComplete()
+                }
+            },
+            isImages = false,
+            onOpenPaywall = {
+                paywallActivityLauncher.launchIfNeeded(
+                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
+                )
             }
-        })
+        )
     }
 
 
@@ -817,10 +909,12 @@ class SketchActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        handler.removeCallbacks(timerRunnable)
-        countDownTimer.cancel()
-        Constants.bitmap = null
-        Constants.convertedBitmap = null
+        if (!DataManager.appData.isSubscribed) {
+            handler.removeCallbacks(timerRunnable)
+            countDownTimer.cancel()
+            Constants.bitmap = null
+            Constants.convertedBitmap = null
+        }
     }
 
     companion object {

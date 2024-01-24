@@ -31,5 +31,7 @@ data class AppDataDto(
     val is_app_suspended: Boolean?,
     val suspended_URL: String?,
     val suspended_message: String?,
-    val suspended_title: String?
+    val suspended_title: String?,
+
+    val privacy_link: String?
 )

@@ -11,7 +11,6 @@ import com.revenuecat.purchases.PurchasesConfiguration
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 
-
 /**
  * @author Ahmed Guedmioui
  */

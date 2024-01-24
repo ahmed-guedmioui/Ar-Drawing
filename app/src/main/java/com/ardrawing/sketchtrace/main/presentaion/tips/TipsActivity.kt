@@ -31,6 +31,8 @@ class TipsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTipsBinding
 
+    private var isFromSplash = true
+
     @Inject
     lateinit var prefs: SharedPreferences
 
@@ -42,6 +44,8 @@ class TipsActivity : AppCompatActivity() {
         binding = ActivityTipsBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
+
+        isFromSplash = intent?.extras?.getBoolean("from_splash") ?: true
 
         lifecycleScope.launch {
             tipsViewModel.tipsState.collect { tipsState = it }
@@ -104,15 +108,19 @@ class TipsActivity : AppCompatActivity() {
                 binding.tipImage.setImageDrawable(
                     AppCompatResources.getDrawable(this, R.drawable.tip_image_4)
                 )
-                binding.nextStart.text = getString(R.string.start)
+
+                binding.nextStart.text =
+                    if (isFromSplash) getString(R.string.start) else getString(R.string.exit)
             }
 
             5 -> {
 
                 InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
                     override fun onAdClosed() {
-                        prefs.edit().putBoolean("tipsShown", true).apply()
-                        startActivity(Intent(this@TipsActivity, GetStartedActivity::class.java))
+                        if (isFromSplash) {
+                            prefs.edit().putBoolean("tipsShown", true).apply()
+                            startActivity(Intent(this@TipsActivity, GetStartedActivity::class.java))
+                        }
                         finish()
                     }
                 })

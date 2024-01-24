@@ -62,12 +62,10 @@ class HomeActivity : AppCompatActivity() {
         val view: View = binding.root
         setContentView(view)
 
-        if (prefs.getBoolean("showRating", true)) {
+        if (!prefs.getBoolean("is_rated", false)) {
             rateDialog()
-            prefs.edit().putBoolean("showRating", false).apply()
-        } else {
-            prefs.edit().putBoolean("showRating", true).apply()
         }
+
 
         RewardedManager.loadRewarded(this)
 
@@ -231,7 +229,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
     private fun rateDialog() {
         val rateDialog = Dialog(this)
         rateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -253,14 +250,11 @@ class HomeActivity : AppCompatActivity() {
 
         rateDialog.findViewById<RatingBar>(R.id.rating_bar).onRatingBarChangeListener =
             RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
-                if (rating > 3.5) {
-                    UrlOpener.open(this, BuildConfig.APPLICATION_ID)
-                } else {
-                    Toast.makeText(
-                        this, "Thanks for rating 😄", Toast.LENGTH_SHORT
-                    ).show()
-                }
+                prefs.edit().putBoolean("is_rated", true).apply()
+                UrlOpener.open(this, BuildConfig.APPLICATION_ID)
             }
+
+        rateDialog.show()
 
     }
 

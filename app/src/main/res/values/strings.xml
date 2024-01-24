@@ -167,5 +167,14 @@
     <string name="you_are_already_subscribed">You are already subscribed 😄</string>
     <string name="your_subscription_will_expire_in_n">Your subscription will expire in:\n%1$s</string>
     <string name="your_are_not_subscribed">Your are not subscribed</string>
+    <string name="unlock_image">Unlock Image</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Become a VIP or watch ads to unlock for free</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Become a VIP or watch ads to use it for free</string>
+    <string name="unlock_all">Unlock All</string>
+    <string name="watch_video">Watch Video</string>
+    <string name="vip_feature">VIP Feature</string>
+    <string name="become_vip">Become VIP</string>
+    <string name="tips">Tips</string>
+    <string name="exit">Exit</string>
 
 </resources>

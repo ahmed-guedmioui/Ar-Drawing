@@ -35,6 +35,9 @@ data class AppData(
     val suspendedTitle: String,
 
 
+    val privacyLink: String,
+
+
     // these one is not gotten from json configuration, we assign a value to based on the user's
     // country.
     var showAdsForThisUser: Boolean = false,

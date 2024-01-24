@@ -1,5 +1,6 @@
 package com.ardrawing.sketchtrace.main.presentaion.get_started
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,6 +12,9 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -150,6 +154,7 @@ class GetStartedActivity : AppCompatActivity(), PaywallResultHandler {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun privacyDialog() {
         val privacyDialog = Dialog(this)
         privacyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -165,8 +170,18 @@ class GetStartedActivity : AppCompatActivity(), PaywallResultHandler {
         privacyDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         privacyDialog.window!!.attributes = layoutParams
 
-        privacyDialog.findViewById<TextView>(R.id.privacy_policy).text =
-            getString(R.string.app_privacy_policy)
+        val webView = privacyDialog.findViewById<WebView>(R.id.web_view)
+        webView.settings.javaScriptEnabled = true
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?, request: WebResourceRequest?
+            ): Boolean {
+                view?.loadUrl(DataManager.appData.privacyLink)
+                return super.shouldOverrideUrlLoading(view, request)
+            }
+        }
+        webView.loadUrl(DataManager.appData.privacyLink)
 
         privacyDialog.setOnDismissListener {
             getStartedViewModel.onEvent(GetStartedUiEvent.ShowHidePrivacyDialog)

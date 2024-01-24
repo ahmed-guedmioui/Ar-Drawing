@@ -33,7 +33,8 @@ fun AppDataDto.toAppData(): AppData {
         isAppSuspended = is_app_suspended ?: false,
         suspendedURL = suspended_URL ?: "",
         suspendedMessage = suspended_message ?: "",
-        suspendedTitle = suspended_title ?: ""
+        suspendedTitle = suspended_title ?: "",
+        privacyLink = privacy_link ?: ""
     )
 }
 

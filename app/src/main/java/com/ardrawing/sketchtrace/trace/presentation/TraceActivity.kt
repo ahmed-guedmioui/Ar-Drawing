@@ -1,5 +1,6 @@
 package com.ardrawing.sketchtrace.trace.presentation
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,31 +13,56 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.ardrawing.sketchtrace.BuildConfig
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityTraceBinding
+import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
+import com.ardrawing.sketchtrace.my_creation.domian.repository.CreationRepository
+import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
+import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.ads.RewardedManager
 import com.ardrawing.sketchtrace.util.other.MultiTouch
+import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
+import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import com.thebluealliance.spectrum.SpectrumDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
+@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class TraceActivity : AppCompatActivity() {
+class TraceActivity : AppCompatActivity(), PaywallResultHandler {
 
     @Inject
     lateinit var prefs: SharedPreferences
+
+    @Inject
+    lateinit var appDataRepository: AppDataRepository
+
+    @Inject
+    lateinit var imageCategoriesRepository: ImageCategoriesRepository
+
+    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     private lateinit var binding: ActivityTraceBinding
 
@@ -57,6 +83,8 @@ class TraceActivity : AppCompatActivity() {
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityTraceBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
         cResolver = contentResolver
@@ -82,8 +110,12 @@ class TraceActivity : AppCompatActivity() {
                 it.startAnimation(pushanim)
                 rewarded {
                     getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
-                        ImagePicker.with(this@TraceActivity).cameraOnly()
-                            .saveDir(it1).start(103)
+                        ImagePicker.with(this@TraceActivity)
+                            .cameraOnly()
+                            .saveDir(it1)
+                            .createIntent { intent ->
+                                startForGetPhotoResult.launch(intent)
+                            }
                     }
                 }
 
@@ -92,7 +124,11 @@ class TraceActivity : AppCompatActivity() {
             relGallery.setOnClickListener {
                 it.startAnimation(pushanim)
                 rewarded {
-                    ImagePicker.with(this@TraceActivity).galleryOnly().start(102)
+                    ImagePicker.with(this@TraceActivity)
+                        .galleryOnly()
+                        .createIntent { intent ->
+                            startForGetPhotoResult.launch(intent)
+                        }
                 }
             }
 
@@ -215,22 +251,88 @@ class TraceActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(result: PaywallResult) {
+        when (result) {
+            PaywallResult.Cancelled -> {
+                Log.d("REVENUE_CUT", "Cancelled")
+                lifecycleScope.launch {
+                    appDataRepository.setAdsVisibilityForUser()
+                }
+            }
+
+            is PaywallResult.Error -> {
+                Log.d("REVENUE_CUT", "Error")
+                lifecycleScope.launch {
+                    appDataRepository.setAdsVisibilityForUser()
+                }
+            }
+
+            is PaywallResult.Purchased -> {
+
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                date?.let {
+                    if (it.after(Date())) {
+                        DataManager.appData.isSubscribed = true
+
+                        lifecycleScope.launch {
+                            appDataRepository.setAdsVisibilityForUser()
+                            imageCategoriesRepository.setUnlockedImages(it)
+                            imageCategoriesRepository.setNativeItems(it)
+                        }
+                    }
+                }
+
+                Log.d("REVENUE_CUT", "Purchased")
+            }
+
+            is PaywallResult.Restored -> {
+                val date =
+                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
+
+                date?.let {
+                    if (it.after(Date())) {
+                        DataManager.appData.isSubscribed = true
+
+                        lifecycleScope.launch {
+                            appDataRepository.setAdsVisibilityForUser()
+                            imageCategoriesRepository.setUnlockedImages(it)
+                            imageCategoriesRepository.setNativeItems(it)
+                        }
+                    }
+                }
+
+                Log.d("REVENUE_CUT", "Restored")
+            }
+        }
+    }
+
     private fun rewarded(onRewComplete: () -> Unit) {
-        RewardedManager.showRewarded(this, object : RewardedManager.OnAdClosedListener {
-            override fun onRewClosed() {}
+        RewardedManager.showRewarded(
+            activity = this,
+            adClosedListener = object : RewardedManager.OnAdClosedListener {
+                override fun onRewClosed() {}
 
-            override fun onRewFailedToShow() {
-                Toast.makeText(
-                    this@TraceActivity,
-                    getString(R.string.ad_is_not_loaded_yet),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                override fun onRewFailedToShow() {
+                    Toast.makeText(
+                        this@TraceActivity,
+                        getString(R.string.ad_is_not_loaded_yet),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            override fun onRewComplete() {
-                onRewComplete()
+                override fun onRewComplete() {
+                    onRewComplete()
+                }
+            },
+            isImages = false,
+            onOpenPaywall = {
+                paywallActivityLauncher.launchIfNeeded(
+                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
+                )
             }
-        })
+        )
     }
 
     private fun colorDialog() {
@@ -264,17 +366,18 @@ class TraceActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            val dataUri = data?.data
+    private val startForGetPhotoResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
 
-            if (dataUri != null) {
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val uri = result.data?.data!!
 
                 val i = Resources.getSystem().displayMetrics.widthPixels
                 Glide.with(this)
                     .asBitmap()
-                    .load(dataUri.toString())
+                    .load(uri.toString())
                     .into(object : CustomTarget<Bitmap>() {
                         override fun onResourceReady(
                             resource: Bitmap,
@@ -303,10 +406,12 @@ class TraceActivity : AppCompatActivity() {
 
                         override fun onLoadCleared(placeholder: Drawable?) {}
                     })
+            } else {
+                Toast.makeText(
+                    this, getString(R.string.error_importing_photo), Toast.LENGTH_SHORT
+                ).show()
             }
         }
-    }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

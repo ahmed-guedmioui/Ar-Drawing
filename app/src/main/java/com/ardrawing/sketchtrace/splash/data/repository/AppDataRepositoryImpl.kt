@@ -129,6 +129,7 @@ class AppDataRepositoryImpl @Inject constructor(
                 null,
                 null,
                 null,
+                null
             ).toAppData()
 
             prefs.edit()

@@ -2,6 +2,7 @@ package com.ardrawing.sketchtrace.image_list.data.repository
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.util.Log
 import com.ardrawing.sketchtrace.image_list.data.ImagesManager
 import com.ardrawing.sketchtrace.image_list.data.mapper.toImageCategoryList
 import com.ardrawing.sketchtrace.image_list.data.remote.ImageCategoryApi
@@ -63,6 +64,8 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         date?.let {
             UpdateSubscriptionInfo(application, it).invoke()
         }
+
+        Log.d("tag_setUnlockedImages", "setUnlockedImages: ${DataManager.appData.isSubscribed}")
 
         // When user is subscribed all images will be unlocked
         if (DataManager.appData.isSubscribed) {

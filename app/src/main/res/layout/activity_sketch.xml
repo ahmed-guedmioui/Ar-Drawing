@@ -50,6 +50,7 @@
             android:textSize="17sp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/main_temp_container"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -107,7 +108,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="4dp"
                     android:layout_marginTop="1dp"
-                    android:src="@drawable/ic_star" />
+                    android:src="@drawable/vip" />
 
             </androidx.cardview.widget.CardView>
 
@@ -135,7 +136,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="4dp"
                     android:layout_marginTop="1dp"
-                    android:src="@drawable/ic_star" />
+                    android:src="@drawable/vip" />
 
             </androidx.cardview.widget.CardView>
 
@@ -162,7 +163,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="4dp"
                     android:layout_marginTop="1dp"
-                    android:src="@drawable/ic_star" />
+                    android:src="@drawable/vip" />
 
             </androidx.cardview.widget.CardView>
 
@@ -366,7 +367,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@color/camera_buttons"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
