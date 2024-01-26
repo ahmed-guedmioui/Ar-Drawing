@@ -103,6 +103,7 @@
                     app:tint="@color/white" />
 
                 <ImageView
+                    android:id="@+id/vip_photo"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="end"
@@ -131,6 +132,7 @@
                     app:tint="@color/white" />
 
                 <ImageView
+                    android:id="@+id/vip_video"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="end"
@@ -158,6 +160,7 @@
                     android:src="@drawable/rec" />
 
                 <ImageView
+                    android:id="@+id/vip_record"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="end"

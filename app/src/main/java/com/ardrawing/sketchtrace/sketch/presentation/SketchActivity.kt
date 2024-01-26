@@ -39,7 +39,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.ardrawing.sketchtrace.BuildConfig
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -50,7 +49,6 @@ import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.advanced_editing.presentation.AdvancedEditingActivity
 import com.ardrawing.sketchtrace.databinding.ActivitySketchBinding
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
-import com.ardrawing.sketchtrace.main.presentaion.settings.SettingsUiEvent
 import com.ardrawing.sketchtrace.my_creation.domian.repository.CreationRepository
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
@@ -71,8 +69,8 @@ import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIP
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -139,6 +137,9 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             countDown()
         } else {
             binding.mainTempContainer.visibility = View.GONE
+            binding.vipPhoto.visibility = View.GONE
+            binding.vipVideo.visibility = View.GONE
+            binding.vipRecord.visibility = View.GONE
         }
 
         handler = Handler(Looper.getMainLooper())
@@ -148,9 +149,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         }
 
         NativeManager.loadNative(
-            findViewById(R.id.native_frame),
-            findViewById(R.id.native_temp),
-            this, true
+            findViewById(R.id.native_frame), findViewById(R.id.native_temp), this, true
         )
 
         setupFlashButton()
@@ -161,35 +160,30 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
         val imagePath = intent?.extras?.getString("imagePath")
         if (imagePath != null) {
-            Glide.with(this)
-                .asBitmap()
-                .load(imagePath)
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        Constants.bitmap = resource
-                        binding.objImage.apply {
-                            val i = Resources.getSystem().displayMetrics.widthPixels
-                            setOnTouchListener(
-                                MultiTouch(
-                                    this, 1.0f, 1.0f,
-                                    (i / 3.5).toInt().toFloat(), 600.0f
-                                )
+            Glide.with(this).asBitmap().load(imagePath).into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(
+                    resource: Bitmap, transition: Transition<in Bitmap>?
+                ) {
+                    Constants.bitmap = resource
+                    binding.objImage.apply {
+                        val i = Resources.getSystem().displayMetrics.widthPixels
+                        setOnTouchListener(
+                            MultiTouch(
+                                this, 1.0f, 1.0f, (i / 3.5).toInt().toFloat(), 600.0f
                             )
+                        )
 
-                            setImageBitmap(Constants.bitmap)
+                        setImageBitmap(Constants.bitmap)
 
-                            isEditSketch = false
-                            binding.imgOutline.setImageResource(R.drawable.outline)
-                            alpha = 0.6f
-                            binding.alphaSeek.progress = 4
-                        }
+                        isEditSketch = false
+                        binding.imgOutline.setImageResource(R.drawable.outline)
+                        alpha = 0.6f
+                        binding.alphaSeek.progress = 4
                     }
+                }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {}
-                })
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
         }
 
         binding.animationView.visibility = View.VISIBLE
@@ -201,12 +195,9 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             it.startAnimation(pushanim)
             rewarded {
                 getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
-                    ImagePicker.with(this)
-                        .cameraOnly()
-                        .saveDir(it1)
-                        .createIntent { intent ->
-                            startForGetPhotoResult.launch(intent)
-                        }
+                    ImagePicker.with(this).cameraOnly().saveDir(it1).createIntent { intent ->
+                        startForGetPhotoResult.launch(intent)
+                    }
                 }
             }
         }
@@ -214,11 +205,9 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         binding.relGallery.setOnClickListener {
             it.startAnimation(pushanim)
             rewarded {
-                ImagePicker.with(this)
-                    .galleryOnly()
-                    .createIntent { intent ->
-                        startForGetPhotoResult.launch(intent)
-                    }
+                ImagePicker.with(this).galleryOnly().createIntent { intent ->
+                    startForGetPhotoResult.launch(intent)
+                }
             }
         }
 
@@ -314,9 +303,10 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
     private fun switchFlash() {
         try {
-            isFlashSupported = (getSystemService(Context.CAMERA_SERVICE) as CameraManager)
-                .getCameraCharacteristics("0")
-                .get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+            isFlashSupported =
+                (getSystemService(Context.CAMERA_SERVICE) as CameraManager).getCameraCharacteristics(
+                    "0"
+                ).get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
 
             if (isTorchOn) {
                 isTorchOn = false
@@ -340,21 +330,17 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                 //Image Uri will not be null for RESULT_OK
                 val uri = result.data?.data!!
 
-                Glide.with(this)
-                    .asBitmap()
-                    .load(uri.toString())
+                Glide.with(this).asBitmap().load(uri.toString())
                     .into(object : CustomTarget<Bitmap>() {
                         override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
+                            resource: Bitmap, transition: Transition<in Bitmap>?
                         ) {
                             Constants.bitmap = resource
                             binding.objImage.apply {
                                 val i = Resources.getSystem().displayMetrics.widthPixels
                                 setOnTouchListener(
                                     MultiTouch(
-                                        this, 1.0f, 1.0f,
-                                        (i / 3.5).toInt().toFloat(), 600.0f
+                                        this, 1.0f, 1.0f, (i / 3.5).toInt().toFloat(), 600.0f
                                     )
                                 )
 
@@ -383,13 +369,10 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                 //Image Uri will not be null for RESULT_OK
                 val uri = result.data?.data!!
 
-                Glide.with(this)
-                    .asBitmap()
-                    .load(uri.toString())
+                Glide.with(this).asBitmap().load(uri.toString())
                     .into(object : CustomTarget<Bitmap>() {
                         override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
+                            resource: Bitmap, transition: Transition<in Bitmap>?
                         ) {
                             savePhotoDialog(resource)
                         }
@@ -405,9 +388,10 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
     private fun setupFlashButton() {
         try {
-            isFlashSupported = (getSystemService(Context.CAMERA_SERVICE) as CameraManager)
-                .getCameraCharacteristics("0")
-                .get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+            isFlashSupported =
+                (getSystemService(Context.CAMERA_SERVICE) as CameraManager).getCameraCharacteristics(
+                    "0"
+                ).get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
 
             if (isFlashSupported) {
                 binding.relFlash.visibility = View.VISIBLE
@@ -443,6 +427,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             override fun onVideoTaken(result: VideoResult) {
                 if (!isSavedVideoCalled) {
                     isSavedVideoCalled = true
+
                     saveRecordedVideo(result.file)
                 }
             }
@@ -450,7 +435,6 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
     }
 
     private fun saveRecordedVideo(file: File) {
-        Log.d("tag_vid", "saveRecordedVideo: isChecked: ${binding.fastVideoCheck.isChecked}")
 
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage(getString(R.string.speeding_up_and_saving_video))
@@ -458,33 +442,26 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
         if (binding.fastVideoCheck.isChecked) {
             progressDialog.show()
-        } else {
-            Toast.makeText(
-                application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
-            ).show()
         }
 
         lifecycleScope.launch {
-            creationRepository.insertVideoCreation(file, binding.fastVideoCheck.isChecked) {
-                runBlocking {
-                    creationRepository.deleteTempCreation(filePath)
-                }
-                Log.d(
-                    "tag_vid",
-                    "saveRecordedVideo finished: isChecked: ${binding.fastVideoCheck.isChecked}"
+            var isSaved = false
+            val job = launch {
+                isSaved = creationRepository.insertVideoCreation(
+                    file, binding.fastVideoCheck.isChecked
                 )
-
-                progressDialog.dismiss()
             }
 
-            progressDialog.setOnDismissListener {
-                progressDialog.dismiss()
-                binding.fastVideoCheck.isChecked = false
-                Toast.makeText(
-                    application, application.getString(R.string.video_saved), Toast.LENGTH_SHORT
-                ).show()
-            }
+            job.join()
+            Toast.makeText(
+                application, if (isSaved) application.getString(R.string.video_saved)
+                else getString(R.string.something_went_wrong_while_saving_video), Toast.LENGTH_SHORT
+            ).show()
 
+            progressDialog.dismiss()
+            binding.fastVideoCheck.isChecked = false
+
+            creationRepository.deleteTempCreation(tempFilePath)
         }
     }
 
@@ -518,6 +495,8 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                             imageCategoriesRepository.setUnlockedImages(it)
                             imageCategoriesRepository.setNativeItems(it)
                         }
+
+                        subscribe()
                     }
                 }
 
@@ -537,12 +516,24 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                             imageCategoriesRepository.setUnlockedImages(it)
                             imageCategoriesRepository.setNativeItems(it)
                         }
+
+                        subscribe()
                     }
                 }
 
                 Log.d("REVENUE_CUT", "Restored")
             }
         }
+    }
+
+    private fun subscribe() {
+        handler.removeCallbacks(timerRunnable)
+        countDownTimer.cancel()
+
+        binding.mainTempContainer.visibility = View.GONE
+        binding.vipPhoto.visibility = View.GONE
+        binding.vipVideo.visibility = View.GONE
+        binding.vipRecord.visibility = View.GONE
     }
 
     private fun stopVideo() {
@@ -561,7 +552,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         binding.temp.text = getString(R.string._00_00)
     }
 
-    private lateinit var filePath: String
+    private lateinit var tempFilePath: String
     private fun takeVideo() {
         Log.d("tag_vid", "takeVideo")
 
@@ -572,7 +563,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             ).format(Date())
             val videoFile = File(filesDir, "VIDEO_$timestamp.mp4")
 
-            filePath = Uri.fromFile(videoFile).toString()
+            tempFilePath = Uri.fromFile(videoFile).toString()
 
             binding.cameraView.takeVideo(videoFile)
             isRecording = true
@@ -591,9 +582,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             e.printStackTrace()
 
             Toast.makeText(
-                this,
-                getString(R.string.error_recording_the_video),
-                Toast.LENGTH_SHORT
+                this, getString(R.string.error_recording_the_video), Toast.LENGTH_SHORT
             ).show()
 
             stopVideo()
@@ -601,9 +590,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             e.printStackTrace()
 
             Toast.makeText(
-                this,
-                getString(R.string.error_recording_the_video),
-                Toast.LENGTH_SHORT
+                this, getString(R.string.error_recording_the_video), Toast.LENGTH_SHORT
             ).show()
 
             stopVideo()
@@ -652,7 +639,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             override fun onFinish() {
                 isTimeIsUp = true
                 updateMainTimerText("00:00", 0)
-                if (!isDialogShowing && !isTimeIsUpDialogShowing) {
+                if (!isDialogShowing && !isTimeIsUpDialogShowing && !DataManager.appData.isSubscribed) {
                     timeDialog()
                 }
             }
@@ -697,8 +684,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
     }
 
     private fun rewarded(onRewComplete: () -> Unit) {
-        RewardedManager.showRewarded(
-            activity = this,
+        RewardedManager.showRewarded(activity = this,
             adClosedListener = object : RewardedManager.OnAdClosedListener {
                 override fun onRewClosed() {
                 }
@@ -720,8 +706,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                 paywallActivityLauncher.launchIfNeeded(
                     requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
                 )
-            }
-        )
+            })
     }
 
 
@@ -743,8 +728,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         takePhotoDialog.window!!.attributes = layoutParams
 
         val itsNotFinished = takePhotoDialog.findViewById<TextView>(R.id.its_not_finished)
-        itsNotFinished.paintFlags =
-            itsNotFinished.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        itsNotFinished.paintFlags = itsNotFinished.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         takePhotoDialog.findViewById<ImageView>(R.id.close).setOnClickListener {
             isDialogShowing = false
@@ -790,8 +774,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         savePhotoDialog.window!!.attributes = layoutParams
 
         val takeAnotherPhoto = savePhotoDialog.findViewById<TextView>(R.id.take_another_photo)
-        takeAnotherPhoto.paintFlags =
-            takeAnotherPhoto.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        takeAnotherPhoto.paintFlags = takeAnotherPhoto.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         savePhotoDialog.findViewById<ImageView>(R.id.photo).setImageBitmap(bitmap)
 
@@ -814,11 +797,6 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
             isDialogShowing = false
             savePhotoDialog.dismiss()
             saveImage(bitmap)
-            Toast.makeText(
-                this@SketchActivity, getString(R.string.photo_saved), Toast.LENGTH_SHORT
-            ).show()
-
-            inAppReview()
         }
 
         savePhotoDialog.show()
@@ -826,20 +804,31 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
     private fun takePhoto() {
         getExternalFilesDir(Environment.DIRECTORY_DCIM)?.let { it1 ->
-            ImagePicker.with(this)
-                .cameraOnly()
-                .saveDir(it1)
-                .createIntent { intent ->
-                    startForTakeAndSaveDrawingPhotoResult.launch(intent)
-                }
+            ImagePicker.with(this).cameraOnly().saveDir(it1).createIntent { intent ->
+                startForTakeAndSaveDrawingPhotoResult.launch(intent)
+            }
         }
     }
 
     private fun saveImage(bitmap: Bitmap) {
         lifecycleScope.launch {
-            creationRepository.insertPhotoCreation(bitmap)
+
+            val isSaved = async { creationRepository.insertPhotoCreation(bitmap) }
+
+            Toast.makeText(
+                this@SketchActivity,
+                if (isSaved.await()) getString(R.string.photo_saved)
+                else getString(R.string.something_went_wrong_while_saving_photo),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            if (isSaved.await()) {
+                inAppReview()
+            }
+
         }
     }
+
 
     private fun inAppReview() {
         val manager = ReviewManagerFactory.create(this)
@@ -878,9 +867,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         if (requestCode == PERMISSIONS_CODE && (grantResults.isEmpty() || grantResults[0] != 0)) {
             Toast.makeText(

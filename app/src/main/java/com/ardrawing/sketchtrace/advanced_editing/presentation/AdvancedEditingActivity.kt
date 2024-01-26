@@ -70,6 +70,10 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         binding = ActivityAdvancedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (DataManager.appData.isSubscribed) {
+            binding.vipApply.visibility = View.GONE
+        }
+
         paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
         lifecycleScope.launch {

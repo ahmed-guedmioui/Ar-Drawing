@@ -84,6 +84,12 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
         binding = ActivityTraceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        if (DataManager.appData.isSubscribed) {
+            binding.vipPhoto.visibility = View.GONE
+            binding.vipVideo.visibility = View.GONE
+        }
+
         paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
@@ -284,6 +290,9 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
                     }
                 }
 
+                binding.vipPhoto.visibility = View.GONE
+                binding.vipVideo.visibility = View.GONE
+
                 Log.d("REVENUE_CUT", "Purchased")
             }
 
@@ -302,6 +311,9 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
                         }
                     }
                 }
+
+                binding.vipPhoto.visibility = View.GONE
+                binding.vipVideo.visibility = View.GONE
 
                 Log.d("REVENUE_CUT", "Restored")
             }

@@ -176,5 +176,7 @@
     <string name="become_vip">Become VIP</string>
     <string name="tips">Tips</string>
     <string name="exit">Exit</string>
+    <string name="something_went_wrong_while_saving_photo">Something went wrong while saving photo</string>
+    <string name="something_went_wrong_while_saving_video">Something went wrong while saving video</string>
 
 </resources>

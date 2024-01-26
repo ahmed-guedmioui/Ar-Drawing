@@ -7,8 +7,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 public class AppConstant {
-    public static String TraceDirect = "Trace_direct";
-    public static String selected_id = "Trace direct";
 
     public static String getRealPathFromURI_API19(Context context, Uri uri) {
         if (uri.getHost().contains("com.android.providers.media")) {

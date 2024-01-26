@@ -105,7 +105,7 @@ class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
 
         binding.relHelp.setOnClickListener {
             it.startAnimation(pushAnimation)
-            if (AppConstant.selected_id == AppConstant.TraceDirect) {
+            if (isTrace) {
                 helpScreen()
             } else {
                 helpScreen2()

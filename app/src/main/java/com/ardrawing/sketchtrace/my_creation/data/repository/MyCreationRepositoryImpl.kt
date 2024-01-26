@@ -19,9 +19,12 @@ import com.otaliastudios.transcoder.source.UriDataSource
 import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
 import com.otaliastudios.transcoder.validator.DefaultValidator
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -44,9 +47,7 @@ class MyCreationRepositoryImpl @Inject constructor(
         if (isVideo) {
             try {
                 MediaScannerConnection.scanFile(
-                    application,
-                    arrayOf(file.path),
-                    arrayOf("video/mp4")
+                    application, arrayOf(file.path), arrayOf("video/mp4")
                 ) { _, uri ->
 
                     val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri)
@@ -70,16 +71,13 @@ class MyCreationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertPhotoCreation(bitmap: Bitmap) {
-
+    override suspend fun insertPhotoCreation(bitmap: Bitmap): Boolean {
         val timestamp = SimpleDateFormat(
             "yyyyMMdd_HHmmss", Locale.getDefault()
         ).format(Date())
         val fileName = "image_$timestamp.png"
 
-
-        try {
-
+        return try {
             withContext(Dispatchers.IO) {
                 val picturesFolder = File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
@@ -100,28 +98,26 @@ class MyCreationRepositoryImpl @Inject constructor(
                 }
 
                 notifyMediaScanner(photoFile, false)
+                true
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            false
         }
     }
 
+
     override suspend fun insertVideoCreation(
-        file: File,
-        isFast: Boolean,
-        onVideoFinished: () -> Unit
-    ) {
+        file: File, isFast: Boolean
+    ): Boolean {
 
         val timestamp = SimpleDateFormat(
             "yyyyMMdd_HHmmss", Locale.getDefault()
         ).format(Date())
         val fileNameOutput = "video_$timestamp.mp4"
 
-        withContext(Dispatchers.IO) {
-
-            try {
-
-
+        return try {
+            withContext(Dispatchers.IO) {
                 val appVideosDir = File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
                     application.getString(R.string.app_name) + " Videos"
@@ -138,24 +134,34 @@ class MyCreationRepositoryImpl @Inject constructor(
                     outputStream.write(file.readBytes())
                     outputStream.close()
                     notifyMediaScanner(outputFile, true)
-                    onVideoFinished()
-
+                    true
                 } else {
+                    val deferred = CompletableDeferred<Boolean>()
+
                     speedUpVideo(file, fileNameOutput) { transcodeOutputFile ->
-                        outputStream.write(transcodeOutputFile?.readBytes())
-                        outputStream.close()
-                        if (transcodeOutputFile != null) {
+                        val isSaved = if (transcodeOutputFile != null) {
+                            outputStream.write(transcodeOutputFile.readBytes())
+                            outputStream.close()
                             notifyMediaScanner(outputFile, true)
+                            true
+                        } else {
+                            false
                         }
-                        onVideoFinished()
+
+                        // Complete the deferred with the result
+                        deferred.complete(isSaved)
                     }
+
+                    // Wait for the result from the deferred
+                    deferred.await()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                onVideoFinished()
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
     }
+
 
     private fun speedUpVideo(
         videoToSpeedUp: File,
@@ -168,36 +174,32 @@ class MyCreationRepositoryImpl @Inject constructor(
             outputDir.mkdir()
             val transcodeOutputFile = File.createTempFile(fileNameOutput, ".mp4", outputDir)
 
-            val transcodeAudioStrategy = DefaultAudioStrategy.builder()
-                .channels(DefaultAudioStrategy.CHANNELS_AS_INPUT)
-                .sampleRate(DefaultAudioStrategy.SAMPLE_RATE_AS_INPUT)
-                .build()
+            val transcodeAudioStrategy =
+                DefaultAudioStrategy.builder().channels(DefaultAudioStrategy.CHANNELS_AS_INPUT)
+                    .sampleRate(DefaultAudioStrategy.SAMPLE_RATE_AS_INPUT).build()
 
             val transcodeVideoStrategy = DefaultVideoStrategy.Builder().frameRate(30).build()
 
             val builder = Transcoder.into(transcodeOutputFile.absolutePath)
             val source = UriDataSource(application, videoToSpeedUp.toUri())
 
-            builder
-                .setListener(object : TranscoderListener {
-                    override fun onTranscodeProgress(progress: Double) {
-                        Log.d("tag_speed", "onTranscodeProgress: $progress")
-                    }
+            builder.setListener(object : TranscoderListener {
+                override fun onTranscodeProgress(progress: Double) {
+                    Log.d("tag_speed", "onTranscodeProgress: $progress")
+                }
 
-                    override fun onTranscodeCompleted(successCode: Int) {
-                        onVideoFinished(transcodeOutputFile)
-                    }
+                override fun onTranscodeCompleted(successCode: Int) {
+                    onVideoFinished(transcodeOutputFile)
+                }
 
-                    override fun onTranscodeCanceled() {
-                        onVideoFinished(null)
-                    }
+                override fun onTranscodeCanceled() {
+                    onVideoFinished(null)
+                }
 
-                    override fun onTranscodeFailed(exception: Throwable) {
-                        onVideoFinished(null)
-                    }
-                })
-                .addDataSource(source)
-                .setAudioTrackStrategy(transcodeAudioStrategy)
+                override fun onTranscodeFailed(exception: Throwable) {
+                    onVideoFinished(null)
+                }
+            }).addDataSource(source).setAudioTrackStrategy(transcodeAudioStrategy)
                 .setVideoTrackStrategy(transcodeVideoStrategy)
                 .setValidator(object : DefaultValidator() {
                     override fun validate(
@@ -205,9 +207,7 @@ class MyCreationRepositoryImpl @Inject constructor(
                     ): Boolean {
                         return super.validate(videoStatus, audioStatus)
                     }
-                })
-                .setSpeed(1.7f)
-                .transcode()
+                }).setSpeed(1.7f).transcode()
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -287,8 +287,7 @@ class MyCreationRepositoryImpl @Inject constructor(
             )
 
             application.contentResolver.query(
-                imagesCollection, imageProjection, imageSelection, imageSelectionArgs,
-                null
+                imagesCollection, imageProjection, imageSelection, imageSelectionArgs, null
             )?.use { imageCursor ->
                 val idColumn = imageCursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
                 while (imageCursor.moveToNext()) {
@@ -313,8 +312,7 @@ class MyCreationRepositoryImpl @Inject constructor(
             )
 
             application.contentResolver.query(
-                videosCollection, videoProjection, videoSelection, videoSelectionArgs,
-                null
+                videosCollection, videoProjection, videoSelection, videoSelectionArgs, null
             )?.use { videoCursor ->
                 val idColumn = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
                 while (videoCursor.moveToNext()) {

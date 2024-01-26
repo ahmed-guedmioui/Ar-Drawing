@@ -49,12 +49,6 @@ public class HelpActivity2 extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
 
     @Override
     public void onBackPressed() {
