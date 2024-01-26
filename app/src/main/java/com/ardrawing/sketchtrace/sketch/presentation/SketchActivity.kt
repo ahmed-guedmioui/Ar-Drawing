@@ -864,6 +864,14 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         if (Constants.bitmap != null) {
             binding.objImage.setImageBitmap(Constants.bitmap)
         }
+
+        if (DataManager.appData.isSubscribed) {
+            binding.mainTempContainer.visibility = View.GONE
+            binding.vipPhoto.visibility = View.GONE
+            binding.vipVideo.visibility = View.GONE
+            binding.vipRecord.visibility = View.GONE
+        }
+
     }
 
     override fun onRequestPermissionsResult(

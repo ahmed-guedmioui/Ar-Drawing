@@ -39,7 +39,8 @@ import javax.inject.Inject
  */
 @OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener, PaywallResultHandler {
+class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener,
+    PaywallResultHandler {
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -107,9 +108,19 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         binding.sharpnessSeek.setOnSeekBarChangeListener(this)
 
         binding.apply.setOnClickListener {
-            paywallActivityLauncher.launchIfNeeded(
-                requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-            )
+            if (DataManager.appData.isSubscribed) {
+                Constants.bitmap = Constants.convertedBitmap
+                Constants.convertedBitmap = null
+
+                finish()
+                Toast.makeText(
+                    this, getString(R.string.applied), Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                paywallActivityLauncher.launchIfNeeded(
+                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
+                )
+            }
         }
     }
 
