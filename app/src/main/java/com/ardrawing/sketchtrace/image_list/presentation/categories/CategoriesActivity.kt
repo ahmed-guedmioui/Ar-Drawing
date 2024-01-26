@@ -345,11 +345,11 @@ class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
     }
 
     private fun helpScreen() {
-        startActivity(Intent(this, HelpActivity::class.java))
+        startActivity(Intent(this, HelpActivity2::class.java))
     }
 
     private fun helpScreen2() {
-        startActivity(Intent(this, HelpActivity2::class.java))
+        startActivity(Intent(this, HelpActivity::class.java))
     }
 
     private val startForProfileImageResult =

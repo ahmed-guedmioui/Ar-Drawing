@@ -98,6 +98,7 @@ object RewardedManager {
 
         dialog.findViewById<CardView>(R.id.vip).setOnClickListener {
             onOpenPaywall()
+            dialog.dismiss()
         }
 
         dialog.show()

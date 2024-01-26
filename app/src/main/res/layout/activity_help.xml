@@ -19,7 +19,7 @@
             android:lines="1"
             android:text="@string/app_guideline"
             android:textAllCaps="true"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="@dimen/_15sdp" />
     </RelativeLayout>
 
@@ -45,7 +45,7 @@
             android:fontFamily="@font/font"
             android:gravity="center"
             android:text="@string/help1"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="@dimen/_14sdp" />
 
         <Button
