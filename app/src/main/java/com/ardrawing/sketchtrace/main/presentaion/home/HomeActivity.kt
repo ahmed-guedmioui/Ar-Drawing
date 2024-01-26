@@ -252,6 +252,7 @@ class HomeActivity : AppCompatActivity() {
             RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
                 prefs.edit().putBoolean("is_rated", true).apply()
                 UrlOpener.open(this, BuildConfig.APPLICATION_ID)
+                rateDialog.dismiss()
             }
 
         rateDialog.show()

@@ -143,8 +143,37 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
 
-    <string name="app_privacy_policy">我们致力于维护您的个人身份信息（“个人信息”）的准确性、机密性和安全性。\n作为这一承诺的一部分，我们的隐私政策管理着我们在收集、使用和披露个人信息方面的行为。</string>
-    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
-    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
+    <string name="you_need_to_watch_an_ad">您需要观看广告</string>
+    <string name="draw_art_from_sketches_with_ar">使用AR从草图中绘制艺术品</string>
+    <string name="get_access_to">获取访问权限</string>
+    <string name="get_access_to_details_1">轻松在纸上描绘图像</string>
+    <string name="get_access_to_details_2">上传高质量图像或从1000多个模板中选择</string>
+    <string name="get_access_to_details_3">快速绘制并创建艺术品</string>
+    <string name="choose_a_plan">选择一个计划</string>
+    <string name="faq">常见问题解答</string>
+    <string name="faq_details_1">无广告，100%无广告体验</string>
+    <string name="faq_details_2">您的信用卡信息在Google Play上100%安全</string>
+    <string name="faq_details_3">您可以随时取消</string>
+    <string name="trusted_by_over">受到超过1000万人的信任</string>
+    <string name="_1_000_000">1,000,000+</string>
+    <string name="average_rating">平均评分</string>
+    <string name="_4_5">4.5</string>
+    <string name="continue_">继续</string>
+    <string name="restore_subscription">恢复订阅</string>
+    <string name="subscribe">订阅</string>
+    <string name="you_are_already_subscribed">您已经订阅了 😄</string>
+    <string name="your_subscription_will_expire_in_n">您的订阅将在:\n%1$s过期</string>
+    <string name="your_are_not_subscribed">您未订阅</string>
+    <string name="unlock_image">解锁图片</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">成为VIP或观看广告以免费解锁</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">成为VIP或观看广告以免费使用</string>
+    <string name="unlock_all">全部解锁</string>
+    <string name="watch_video">观看视频</string>
+    <string name="vip_feature">VIP功能</string>
+    <string name="become_vip">成为VIP</string>
+    <string name="tips">提示</string>
+    <string name="exit">退出</string>
+    <string name="something_went_wrong_while_saving_photo">保存照片时出错</string>
+    <string name="something_went_wrong_while_saving_video">保存视频时出错</string>
 
 </resources>

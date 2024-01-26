@@ -81,8 +81,7 @@ class MyCreationListActivity : AppCompatActivity() {
             }
         })
 
-        binding.recyclerView.layoutManager =
-            GridLayoutManager(this@MyCreationListActivity, 2)
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.adapter = myCreationListAdapter
 
     }

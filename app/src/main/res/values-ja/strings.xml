@@ -143,8 +143,38 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
 
-    <string name="app_privacy_policy">私たちは、お客様の個人を特定できる情報（「個人情報」）の正確性、機密性、およびセキュリティの維持に尽力しています。\nこのコミットメントの一環として、当社のプライバシーポリシーは個人情報の収集、使用、開示に関する当社の行動を規定しています。</string>
-    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
-    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
+    <string name="you_need_to_watch_an_ad">広告を視聴する必要があります</string>
+    <string name="draw_art_from_sketches_with_ar">ARでスケッチからアートを描く</string>
+    <string name="get_access_to">アクセスを取得</string>
+    <string name="get_access_to_details_1">紙に簡単に写真をトレース</string>
+    <string name="get_access_to_details_2">高品質な画像をアップロードするか、+1000のテンプレートから選択する</string>
+    <string name="get_access_to_details_3">素早く描いてアートを作成</string>
+    <string name="choose_a_plan">プランを選択</string>
+    <string name="faq">よくある質問</string>
+    <string name="faq_details_1">広告なし、100%広告なしの体験をお楽しみください</string>
+    <string name="faq_details_2">クレジットカードの詳細はGoogle Playで100%安全です</string>
+    <string name="faq_details_3">いつでもキャンセルできます</string>
+    <string name="trusted_by_over">1000万以上の信頼</string>
+    <string name="_1_000_000">100万以上</string>
+    <string name="average_rating">平均評価</string>
+    <string name="_4_5">4.5</string>
+    <string name="continue_">続ける</string>
+    <string name="restore_subscription">サブスクリプションを復元</string>
+    <string name="subscribe">購読する</string>
+    <string name="you_are_already_subscribed">すでに購読しています 😄</string>
+    <string name="your_subscription_will_expire_in_n">購読が終了するまで:\n%1$s</string>
+    <string name="your_are_not_subscribed">購読されていません</string>
+    <string name="unlock_image">画像のロックを解除</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">VIPになるか広告を視聴して無料でロックを解除</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">VIPになるか広告を視聴して無料で使用</string>
+    <string name="unlock_all">すべてのロックを解除</string>
+    <string name="watch_video">ビデオを視聴</string>
+    <string name="vip_feature">VIP機能</string>
+    <string name="become_vip">VIPになる</string>
+    <string name="tips">ヒント</string>
+    <string name="exit">終了</string>
+    <string name="something_went_wrong_while_saving_photo">写真を保存する際に問題が発生しました</string>
+    <string name="something_went_wrong_while_saving_video">動画を保存する際に問題が発生しました</string>
+
 
 </resources>

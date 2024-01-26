@@ -142,8 +142,37 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
 
-    <string name="app_privacy_policy">Wir verpflichten uns, die Genauigkeit, Vertraulichkeit und Sicherheit Ihrer persönlich identifizierbaren Informationen ("Persönliche Informationen") zu gewährleisten.\nIm Rahmen dieser Verpflichtung regelt unsere Datenschutzrichtlinie unser Handeln in Bezug auf die Erfassung, Nutzung und Offenlegung von persönlichen Informationen.</string>
-    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
-    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
+    <string name="you_need_to_watch_an_ad">Sie müssen eine Anzeige ansehen</string>
+    <string name="draw_art_from_sketches_with_ar">Zeichnen Sie Kunst aus Skizzen mit AR</string>
+    <string name="get_access_to">ZUGRIFF BEKOMMEN AUF</string>
+    <string name="get_access_to_details_1">Zeichnen Sie Bilder leicht auf Papier nach</string>
+    <string name="get_access_to_details_2">Laden Sie qualitativ hochwertige Bilder hoch oder wählen Sie aus über 1000 Vorlagen aus</string>
+    <string name="get_access_to_details_3">Schnell zeichnen und Kunstwerke erstellen</string>
+    <string name="choose_a_plan">EINEN PLAN AUSWÄHLEN</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_details_1">Keine Werbung, genießen Sie eine werbefreie Erfahrung zu 100%</string>
+    <string name="faq_details_2">Ihre Kreditkartendaten sind zu 100% sicher bei Google Play</string>
+    <string name="faq_details_3">Sie können jederzeit kündigen</string>
+    <string name="trusted_by_over">Vertraut von über</string>
+    <string name="_1_000_000">1.000.000+</string>
+    <string name="average_rating">Durchschnittliche Bewertung</string>
+    <string name="_4_5">4.5</string>
+    <string name="continue_">Fortsetzen</string>
+    <string name="restore_subscription">Abonnement wiederherstellen</string>
+    <string name="subscribe">Abonnieren</string>
+    <string name="you_are_already_subscribed">Sie sind bereits abonniert 😄</string>
+    <string name="your_subscription_will_expire_in_n">Ihr Abonnement läuft ab in:\n%1$s</string>
+    <string name="your_are_not_subscribed">Sie sind nicht abonniert</string>
+    <string name="unlock_image">Bild entsperren</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Werden Sie VIP oder sehen Sie Anzeigen an, um es kostenlos zu entsperren</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Werden Sie VIP oder sehen Sie Anzeigen an, um es kostenlos zu verwenden</string>
+    <string name="unlock_all">Alles entsperren</string>
+    <string name="watch_video">Video ansehen</string>
+    <string name="vip_feature">VIP-Funktion</string>
+    <string name="become_vip">VIP werden</string>
+    <string name="tips">Tipps</string>
+    <string name="exit">Beenden</string>
+    <string name="something_went_wrong_while_saving_photo">Beim Speichern des Fotos ist etwas schief gelaufen</string>
+    <string name="something_went_wrong_while_saving_video">Beim Speichern des Videos ist etwas schief gelaufen</string>
 
 </resources>

@@ -143,8 +143,38 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
 
-    <string name="app_privacy_policy">Nous nous engageons à maintenir l\'exactitude, la confidentialité et la sécurité de vos informations personnelles identifiables (\"Informations personnelles\").\nDans le cadre de cet engagement, notre politique de confidentialité régit nos actions en ce qui concerne la collecte, l\'utilisation et la divulgation des informations personnelles.</string>
-    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
-    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
+    <string name="you_need_to_watch_an_ad">Vous devez regarder une publicité</string>
+    <string name="draw_art_from_sketches_with_ar">Dessinez de l\'art à partir de croquis avec AR</string>
+    <string name="get_access_to">OBTENEZ L\'ACCÈS À</string>
+    <string name="get_access_to_details_1">Tracez facilement des images sur papier</string>
+    <string name="get_access_to_details_2">Téléchargez des images de qualité ou choisissez parmi plus de 1000 modèles</string>
+    <string name="get_access_to_details_3">Dessinez rapidement et créez une œuvre d\'art</string>
+    <string name="choose_a_plan">CHOISISSEZ UN PLAN</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_details_1">Pas de publicités, profitez d\'une expérience 100% sans publicité</string>
+    <string name="faq_details_2">Vos coordonnées de carte de crédit sont sécurisées à 100% avec Google Play</string>
+    <string name="faq_details_3">Vous pouvez annuler à tout moment</string>
+    <string name="trusted_by_over">Fait confiance à plus de</string>
+    <string name="_1_000_000">1 000 000+</string>
+    <string name="average_rating">Note moyenne</string>
+    <string name="_4_5">4,5</string>
+    <string name="continue_">Continuer</string>
+    <string name="restore_subscription">Restaurer l\'abonnement</string>
+    <string name="subscribe">S\'abonner</string>
+    <string name="you_are_already_subscribed">Vous êtes déjà abonné 😄</string>
+    <string name="your_subscription_will_expire_in_n">Votre abonnement expirera dans :\n%1$s</string>
+    <string name="your_are_not_subscribed">Vous n\'êtes pas abonné</string>
+    <string name="unlock_image">Débloquer l\'image</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Devenez VIP ou regardez des publicités pour débloquer gratuitement</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Devenez VIP ou regardez des publicités pour l\'utiliser gratuitement</string>
+    <string name="unlock_all">Débloquer tout</string>
+    <string name="watch_video">Regarder la vidéo</string>
+    <string name="vip_feature">Fonction VIP</string>
+    <string name="become_vip">Devenir VIP</string>
+    <string name="tips">Conseils</string>
+    <string name="exit">Quitter</string>
+    <string name="something_went_wrong_while_saving_photo">Quelque chose s\'est mal passé lors de l\'enregistrement de la photo</string>
+    <string name="something_went_wrong_while_saving_video">Quelque chose s\'est mal passé lors de l\'enregistrement de la vidéo</string>
+
 
 </resources>

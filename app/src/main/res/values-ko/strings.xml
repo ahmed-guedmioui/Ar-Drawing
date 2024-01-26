@@ -141,8 +141,37 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
 
-    <string name="app_privacy_policy">우리는 귀하의 개인 식별 정보("개인 정보")의 정확성, 기밀성 및 보안을 유지하기 위해 노력하고 있습니다.\n이 약속의 일환으로 개인 정보의 수집, 사용 및 공개와 관련된 당사의 개인 정보 처리 방침이 당사의 행동을 규제합니다.</string>
-    <string name="you_need_to_watch_an_ad">You need to watch an ad</string>
-    <string name="draw_art_from_sketches_with_ar">Draw Art From Sketches With AR</string>
+    <string name="you_need_to_watch_an_ad">광고를 시청해야 합니다</string>
+    <string name="draw_art_from_sketches_with_ar">AR로 스케치에서 아트 그리기</string>
+    <string name="get_access_to">접근 권한 얻기</string>
+    <string name="get_access_to_details_1">종이 위에 사진을 쉽게 추적하세요</string>
+    <string name="get_access_to_details_2">고품질 이미지를 업로드하거나 +1000 템플릿에서 선택하세요</string>
+    <string name="get_access_to_details_3">빠르게 그리고 아트를 만드세요</string>
+    <string name="choose_a_plan">플랜 선택하기</string>
+    <string name="faq">자주 묻는 질문</string>
+    <string name="faq_details_1">광고 없이 100% 광고 없이 즐기세요</string>
+    <string name="faq_details_2">당신의 신용 카드 정보는 Google Play에서 100% 안전합니다</string>
+    <string name="faq_details_3">언제든지 취소할 수 있습니다</string>
+    <string name="trusted_by_over">이용자 1000만 이상에게 신뢰 받음</string>
+    <string name="_1_000_000">1,000,000+</string>
+    <string name="average_rating">평균 평점</string>
+    <string name="_4_5">4.5</string>
+    <string name="continue_">계속하기</string>
+    <string name="restore_subscription">구독 복원</string>
+    <string name="subscribe">구독하기</string>
+    <string name="you_are_already_subscribed">이미 구독 중입니다 😄</string>
+    <string name="your_subscription_will_expire_in_n">구독 만료까지:\n%1$s</string>
+    <string name="your_are_not_subscribed">아직 구독 중이 아닙니다</string>
+    <string name="unlock_image">이미지 잠금 해제</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">VIP가 되거나 무료로 잠금을 해제하려면 광고를 시청하세요</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">VIP가 되거나 무료로 사용하려면 광고를 시청하세요</string>
+    <string name="unlock_all">모두 잠금 해제</string>
+    <string name="watch_video">동영상 시청</string>
+    <string name="vip_feature">VIP 기능</string>
+    <string name="become_vip">VIP 되기</string>
+    <string name="tips">팁</string>
+    <string name="exit">종료</string>
+    <string name="something_went_wrong_while_saving_photo">사진 저장 중 오류가 발생했습니다</string>
+    <string name="something_went_wrong_while_saving_video">비디오 저장 중 오류가 발생했습니다</string>
 
 </resources>
