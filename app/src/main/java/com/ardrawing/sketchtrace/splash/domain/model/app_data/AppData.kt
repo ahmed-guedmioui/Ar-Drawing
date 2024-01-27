@@ -44,5 +44,5 @@ data class AppData(
     var showAdsForThisUser: Boolean = false,
     var isSubscribed: Boolean = false,
 
-    var subscriptionInfo: String = ""
+    var subscriptionExpireDate: String = ""
 )

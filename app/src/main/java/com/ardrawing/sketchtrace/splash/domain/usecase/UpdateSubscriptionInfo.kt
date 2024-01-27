@@ -23,17 +23,8 @@ class UpdateSubscriptionInfo(
             val formattedDate: String = dateFormat.format(date)
 
             if (date.after(Date())) {
-                DataManager.appData.subscriptionInfo =
-                    application.getString(
-                        R.string.your_subscription_will_expire_in_n, formattedDate
-                    )
-            } else {
-                DataManager.appData.subscriptionInfo =
-                    application.getString(R.string.your_are_not_subscribed)
+                DataManager.appData.subscriptionExpireDate = formattedDate
             }
-        } else {
-            DataManager.appData.subscriptionInfo =
-                application.getString(R.string.your_are_not_subscribed)
         }
 
     }

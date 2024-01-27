@@ -1,6 +1,9 @@
 package com.ardrawing.sketchtrace
 
 import android.app.Application
+import android.content.Context
+import com.ardrawing.sketchtrace.databinding.ActivitySketchBinding
+import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
@@ -43,6 +46,18 @@ class App : Application() {
                 this, BuildConfig.REVENUECUT_KEY
             ).build()
         )
+    }
+
+    override fun attachBaseContext(base: Context) {
+
+        val prefs = base.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        val newBase = LanguageChanger.changeAppLanguage(languageCode, base)
+
+        super.attachBaseContext(newBase)
+
     }
 
     private fun trimCache() {

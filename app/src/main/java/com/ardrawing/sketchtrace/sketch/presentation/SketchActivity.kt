@@ -454,7 +454,7 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
 
             job.join()
             Toast.makeText(
-                application,
+                this@SketchActivity,
                 if (isSaved) application.getString(R.string.video_saved)
                 else getString(R.string.something_went_wrong_while_saving_video),
                 Toast.LENGTH_SHORT

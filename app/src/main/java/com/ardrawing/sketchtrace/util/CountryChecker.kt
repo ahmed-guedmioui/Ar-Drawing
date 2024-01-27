@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.telephony.TelephonyManager
+import com.ardrawing.sketchtrace.BuildConfig
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
@@ -66,10 +67,10 @@ class CountryChecker(
                 reader.close()
             } catch (e: Exception) {
 
-                    if (onCheckerListener != null) {
-                        onCheckerListener!!.onCheckerCountry(null, isUserFromGG())
-                        onCheckerListener!!.onCheckerError(e.message)
-                    }
+                if (onCheckerListener != null) {
+                    onCheckerListener!!.onCheckerCountry(null, isUserFromGG())
+                    onCheckerListener!!.onCheckerError(e.message)
+                }
             }
         }.start()
     }
@@ -98,9 +99,10 @@ class CountryChecker(
         val installerManager: String?
         return try {
             installerManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                application.packageManager.getInstallSourceInfo(application.packageName).installingPackageName
+                application.packageManager
+                    .getInstallSourceInfo(BuildConfig.APPLICATION_ID).installingPackageName
             } else {
-                application.packageManager.getInstallerPackageName(application.packageName)
+                application.packageManager.getInstallerPackageName(BuildConfig.APPLICATION_ID)
             }
             installerManager != null && validate.contains(installerManager)
         } catch (e: Exception) {

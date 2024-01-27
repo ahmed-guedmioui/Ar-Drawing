@@ -138,7 +138,14 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
             }
         }
 
-        binding.subscribeInfo.text = DataManager.appData.subscriptionInfo
+        if (DataManager.appData.isSubscribed) {
+            binding.subscribeInfo.text = getString(
+                R.string.your_subscription_will_expire_in_n,
+                DataManager.appData.subscriptionExpireDate
+            )
+        } else {
+            binding.subscribeInfo.text = getString(R.string.your_are_not_subscribed)
+        }
     }
 
     override fun onActivityResult(result: PaywallResult) {

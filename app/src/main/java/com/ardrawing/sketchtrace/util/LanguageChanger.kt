@@ -1,6 +1,7 @@
 package com.ardrawing.sketchtrace.util
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.util.Log
 import java.util.Locale
 
@@ -8,7 +9,7 @@ import java.util.Locale
  * @author Ahmed Guedmioui
  */
 object LanguageChanger {
-    fun changeAppLanguage(languageCode: String, context: Context) {
+    fun changeAppLanguage(languageCode: String, context: Context): ContextWrapper {
 
         val config = context.resources.configuration
         val locale = Locale(languageCode)
@@ -17,9 +18,8 @@ object LanguageChanger {
 
         context.createConfigurationContext(config)
 
-        Log.d("tag_language", "languageCode: $languageCode")
-        Log.d("tag_language", "locale: ${locale.language}")
-
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
+
+        return ContextWrapper(context)
     }
 }
