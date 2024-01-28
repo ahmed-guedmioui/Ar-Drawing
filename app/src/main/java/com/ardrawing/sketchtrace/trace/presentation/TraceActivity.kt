@@ -320,11 +320,13 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
         }
     }
 
-    private fun rewarded(onRewComplete: () -> Unit) {
+    private fun rewarded(onRewDone: () -> Unit) {
         RewardedManager.showRewarded(
             activity = this,
             adClosedListener = object : RewardedManager.OnAdClosedListener {
-                override fun onRewClosed() {}
+                override fun onRewClosed() {
+                    onRewDone()
+                }
 
                 override fun onRewFailedToShow() {
                     Toast.makeText(
@@ -335,7 +337,6 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
                 }
 
                 override fun onRewComplete() {
-                    onRewComplete()
                 }
             },
             isImages = false,

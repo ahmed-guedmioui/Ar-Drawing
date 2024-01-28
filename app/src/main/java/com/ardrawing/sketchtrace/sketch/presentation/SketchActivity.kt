@@ -685,10 +685,12 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
         timeDialog.show()
     }
 
-    private fun rewarded(onRewComplete: () -> Unit) {
-        RewardedManager.showRewarded(activity = this,
+    private fun rewarded(onRewDone: () -> Unit) {
+        RewardedManager.showRewarded(
+            activity = this,
             adClosedListener = object : RewardedManager.OnAdClosedListener {
                 override fun onRewClosed() {
+                    onRewDone()
                 }
 
                 override fun onRewFailedToShow() {
@@ -700,7 +702,6 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                 }
 
                 override fun onRewComplete() {
-                    onRewComplete()
                 }
             },
             isImages = false,
@@ -708,7 +709,8 @@ class SketchActivity : AppCompatActivity(), PaywallResultHandler {
                 paywallActivityLauncher.launchIfNeeded(
                     requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
                 )
-            })
+            }
+        )
     }
 
 

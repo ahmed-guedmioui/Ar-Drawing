@@ -53,6 +53,7 @@ object RewardedManager {
         onAdClosedListener = adClosedListener
 
         if (!DataManager.appData.showAdsForThisUser) {
+            onAdClosedListener.onRewClosed()
             onAdClosedListener.onRewComplete()
             return
         }
