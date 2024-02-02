@@ -12,7 +12,7 @@
         android:layout_above="@id/title"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/variant_background"
         app:cardCornerRadius="20dp">
 

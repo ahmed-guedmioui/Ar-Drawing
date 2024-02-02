@@ -1,21 +1,21 @@
 <resources>
-    <string name="app_name" translatable="false">Med Drawing</string>
+    <string name="app_name" translatable="false">Ar Studio: Draw Sketch &amp; Trace</string>
 
-    <string name="tip_title_1">Tip 1</string>
-    <string name="tip_desc_1">Tip desc 1</string>
+    <string name="tip_title_1">Unleash your creativity: draw your first picture today!</string>
+    <string name="tip_desc_1">Unlock your inner artist effortlessly! With the magic of your smartphone camera and state-of-the-art AR technology, creating art has become more intuitive than ever. Elevate your drawing skills to professional levels in just 3 days – an exciting adventure for all skill levels awaits! 🌟🎨</string>
 
-    <string name="tip_title_2">Tip 2</string>
-    <string name="tip_desc_2">Tip desc 2</string>
+    <string name="tip_title_2">Master the art of tracing effortlessly</string>
+    <string name="tip_desc_2">Unleash your creativity with the finesse of an artist – start tracing today!</string>
 
-    <string name="tip_title_3">Tip 3</string>
-    <string name="tip_desc_3">Tip desc 3</string>
+    <string name="tip_title_3">Elevate Your Drawing Experience with Our App\'s Profoundly Diverse and Advanced Effects!</string>
+    <string name="tip_desc_3">Unlock the full potential of your creativity! Our app offers a diverse range of effects, making drawing easy and enjoyable for everyone.</string>
 
-    <string name="tip_title_4">Tip 4</string>
-    <string name="tip_desc_4">Tip desc 4</string>
+    <string name="tip_title_4">Range of Designs</string>
+    <string name="tip_desc_4">Explore an array of creative possibilities with our various templates. Effortlessly elevate your designs with the flexibility and style that our templates offer.</string>
 
 
-    <string name="get_started_title">Med Drawing</string>
-    <string name="get_started_desc">Med drawing desc</string>
+    <string name="get_started_title">Welcome to AR Studio: Draw Sketch &amp; Trace</string>
+    <string name="get_started_desc">The magic trio: pencil, cup, and paper for your creative journey.</string>
 
 
     <string name="privacy_notice">By click start you confirm that you reviewed and accepted our Privacy Policy</string>

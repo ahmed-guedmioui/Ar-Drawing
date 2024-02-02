@@ -18,13 +18,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <ImageView
                     android:id="@+id/tip_image"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/tip_image_1"
-                    app:shapeAppearanceOverlay="@style/ImageView.Corner" />
+                    android:src="@drawable/tip_image_1" />
 
                 <TextView
                     android:id="@+id/tip_title"
@@ -32,11 +31,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tip_image"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/font"
+                    android:gravity="center"
                     android:text="@string/tip_title_1"
                     android:textColor="@color/text"
-                    android:textSize="19sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tip_desc"
@@ -44,8 +46,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tip_title"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/font"
+                    android:gravity="center"
                     android:text="@string/tip_desc_1"
                     android:textColor="@color/text"
                     android:textSize="15.5sp" />
@@ -57,9 +61,9 @@
                 android:id="@+id/dots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tip_parent"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/tip_parent">
+                android:layout_marginTop="10dp">
 
                 <include layout="@layout/four_dots_indicator" />
 
@@ -67,9 +71,9 @@
 
             <TextView
                 android:id="@+id/next_start"
-                android:layout_below="@id/dots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/dots"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
@@ -80,9 +84,9 @@
 
             <RelativeLayout
                 android:id="@+id/ntv"
-                android:layout_below="@id/next_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/next_start"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="8dp">
 
