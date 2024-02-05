@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "1038044636715",
-    "project_id": "walkthrough-app-57dd0",
-    "storage_bucket": "walkthrough-app-57dd0.appspot.com"
+    "project_number": "97471389936",
+    "project_id": "ar-draw-cineday",
+    "storage_bucket": "ar-draw-cineday.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1038044636715:android:6f2e0c12e8e1bff6996c6e",
+        "mobilesdk_app_id": "1:97471389936:android:97c70502a91dd9d7cf2235",
         "android_client_info": {
           "package_name": "com.ardrawing.sketchtrace"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1038044636715-kjuejp1g8hmbjju3h8d7die5prnl28ii.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAEbZVRU1zrf59YPttLDmZNE44ft3fOySk"
+          "current_key": "AIzaSyA2vWRohPMGAsYZ77eOGa5bMtUgMGH_qeE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1038044636715-kjuejp1g8hmbjju3h8d7die5prnl28ii.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

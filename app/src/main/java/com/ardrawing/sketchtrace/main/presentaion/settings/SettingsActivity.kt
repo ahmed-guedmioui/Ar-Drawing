@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -16,50 +15,36 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivitySettingsBinding
 import com.ardrawing.sketchtrace.main.presentaion.follow.FollowActivity
 import com.ardrawing.sketchtrace.main.presentaion.language.LanguageActivity
 import com.ardrawing.sketchtrace.main.presentaion.settings.adapter.RecommendedAppsAdapter
 import com.ardrawing.sketchtrace.main.presentaion.tips.TipsActivity
+import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
 import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.splash.presentation.splash.SplashUiEvent
 import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.openDeveloper
 import com.ardrawing.sketchtrace.util.rateApp
 import com.ardrawing.sketchtrace.util.shareApp
-import com.revenuecat.purchases.CacheFetchPolicy
-import com.revenuecat.purchases.CustomerInfo
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.PurchasesError
-import com.revenuecat.purchases.interfaces.ReceiveCustomerInfoCallback
-import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
+class SettingsActivity : AppCompatActivity() {
 
-    private val splashViewModel: SettingsViewModel by viewModels()
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     private lateinit var settingsState: SettingsState
     private lateinit var binding: ActivitySettingsBinding
 
-    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -74,7 +59,7 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
         setContentView(view)
 
         lifecycleScope.launch {
-            splashViewModel.settingsState.collect {
+            settingsViewModel.settingsState.collect {
                 settingsState = it
                 privacyDialog()
             }
@@ -116,7 +101,7 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
         }
 
         binding.privacy.setOnClickListener {
-            splashViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)
+            settingsViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)
         }
 
         binding.language.setOnClickListener {
@@ -125,16 +110,15 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
             startActivity(intent)
         }
 
-        paywallActivityLauncher = PaywallActivityLauncher(this, this)
         binding.subscribe.setOnClickListener {
             if (DataManager.appData.isSubscribed) {
                 Toast.makeText(
                     this, getString(R.string.you_are_already_subscribed), Toast.LENGTH_SHORT
                 ).show()
             } else {
-                paywallActivityLauncher.launchIfNeeded(
-                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-                )
+                Intent(this, PaywallActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         }
 
@@ -145,47 +129,6 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
             )
         } else {
             binding.subscribeInfo.text = getString(R.string.your_are_not_subscribed)
-        }
-    }
-
-    override fun onActivityResult(result: PaywallResult) {
-        when (result) {
-            PaywallResult.Cancelled -> {
-                Log.d("REVENUE_CUT", "Cancelled")
-                splashViewModel.onEvent(
-                    SettingsUiEvent.Subscribe(isSubscribed = false)
-                )
-            }
-
-            is PaywallResult.Error -> {
-                Log.d("REVENUE_CUT", "Error")
-                splashViewModel.onEvent(
-                    SettingsUiEvent.Subscribe(isSubscribed = false)
-                )
-            }
-
-            is PaywallResult.Purchased -> {
-
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                splashViewModel.onEvent(
-                    SettingsUiEvent.Subscribe(isSubscribed = true, date = date)
-                )
-
-                Log.d("REVENUE_CUT", "Purchased")
-            }
-
-            is PaywallResult.Restored -> {
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                splashViewModel.onEvent(
-                    SettingsUiEvent.Subscribe(isSubscribed = true, date = date)
-                )
-
-                Log.d("REVENUE_CUT", "Restored")
-            }
         }
     }
 
@@ -219,7 +162,7 @@ class SettingsActivity : AppCompatActivity(), PaywallResultHandler {
         webView.loadUrl(DataManager.appData.privacyLink)
 
         privacyDialog.setOnDismissListener {
-            splashViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)
+            settingsViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)
         }
 
         privacyDialog.findViewById<Button>(R.id.okay).setOnClickListener {

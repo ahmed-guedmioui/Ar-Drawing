@@ -23,19 +23,19 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.BROWSABLE" />
+
             <data android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService" />
         </intent>
-
     </queries>
 
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -60,19 +60,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".paywall.presentation.PaywallActivity"
+            android:exported="false" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name="com.ardrawing.sketchtrace.splash.presentation.splash.SplashActivity"
+            android:name=".splash.presentation.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -97,56 +103,54 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ardrawing.sketchtrace.image_list.presentation.categories.CategoriesActivity"
+            android:name=".image_list.presentation.categories.CategoriesActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ardrawing.sketchtrace.image_list.presentation.category.CategoryActivity"
+            android:name=".image_list.presentation.category.CategoryActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ardrawing.sketchtrace.trace.presentation.TraceActivity"
+            android:name=".trace.presentation.TraceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ardrawing.sketchtrace.sketch.presentation.SketchActivity"
+            android:name=".sketch.presentation.SketchActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CameraActivityTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/CameraActivityTheme" />
         <activity
-            android:name="com.ardrawing.sketchtrace.util.other.HelpActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.ardrawing.sketchtrace.util.other.HelpActivity2"
+            android:name=".util.other.HelpActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ardrawing.sketchtrace.util.other.PrivacyPolicyActivity"
+            android:name=".util.other.HelpActivity2"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.other.PrivacyPolicyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".my_creation.presentation.my_creation_list.MyCreationListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"  />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".my_creation.presentation.my_creation_details.MyCreationDetailsActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"  />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".main.presentaion.language.LanguageActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"  />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".advanced_editing.presentation.AdvancedEditingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"  />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.github.dhaval2404.imagepicker.ImagePickerActivity"
             android:screenOrientation="unspecified"
             android:theme="@style/Theme.Transparent.ImagePicker" />
-
 
         <provider
             android:name="com.github.dhaval2404.imagepicker.ImagePickerFileProvider"
@@ -157,7 +161,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/image_picker_provider_paths" />
         </provider>
-
-
     </application>
+
 </manifest>

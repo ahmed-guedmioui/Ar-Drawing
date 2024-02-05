@@ -1,7 +1,6 @@
 package com.ardrawing.sketchtrace.image_list.presentation.categories
 
 import android.app.Activity
-import com.ardrawing.sketchtrace.util.LanguageChanger
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -16,41 +15,33 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ardrawing.sketchtrace.BuildConfig
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.sketch.presentation.SketchActivity
 import com.ardrawing.sketchtrace.databinding.ActivityCategoriesBinding
 import com.ardrawing.sketchtrace.image_list.data.ImagesManager
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.image_list.presentation.category.CategoryActivity
-import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
+import com.ardrawing.sketchtrace.sketch.presentation.SketchActivity
 import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.trace.presentation.TraceActivity
+import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.ads.InterManager
 import com.ardrawing.sketchtrace.util.ads.RewardedManager
 import com.ardrawing.sketchtrace.util.other.AppConstant
 import com.ardrawing.sketchtrace.util.other.FileUtils
 import com.ardrawing.sketchtrace.util.other.HelpActivity
 import com.ardrawing.sketchtrace.util.other.HelpActivity2
-import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
+import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 
 /**
  * @author Ahmed Guedmioui
  */
-@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
+class CategoriesActivity : AppCompatActivity() {
 
     private var isTrace = false
     private var isGallery = false
@@ -67,8 +58,6 @@ class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
     @Inject
     lateinit var imageCategoriesRepository: ImageCategoriesRepository
 
-    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
-
 
     private lateinit var binding: ActivityCategoriesBinding
 
@@ -81,7 +70,6 @@ class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
         val view: View = binding.root
         setContentView(view)
 
-        paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -188,63 +176,6 @@ class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
         writeStoragePermission()
     }
 
-    override fun onActivityResult(result: PaywallResult) {
-        when (result) {
-            PaywallResult.Cancelled -> {
-                Log.d("REVENUE_CUT", "Cancelled")
-                lifecycleScope.launch {
-                    appDataRepository.setAdsVisibilityForUser()
-                }
-            }
-
-            is PaywallResult.Error -> {
-                Log.d("REVENUE_CUT", "Error")
-                lifecycleScope.launch {
-                    appDataRepository.setAdsVisibilityForUser()
-                }
-            }
-
-            is PaywallResult.Purchased -> {
-
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                date?.let {
-                    if (it.after(Date())) {
-                        DataManager.appData.isSubscribed = true
-
-                        lifecycleScope.launch {
-                            appDataRepository.setAdsVisibilityForUser()
-                            imageCategoriesRepository.setUnlockedImages(it)
-                            imageCategoriesRepository.setNativeItems(it)
-                        }
-                    }
-                }
-
-                Log.d("REVENUE_CUT", "Purchased")
-            }
-
-            is PaywallResult.Restored -> {
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                date?.let {
-                    if (it.after(Date())) {
-                        DataManager.appData.isSubscribed = true
-
-                        lifecycleScope.launch {
-                            appDataRepository.setAdsVisibilityForUser()
-                            imageCategoriesRepository.setUnlockedImages(it)
-                            imageCategoriesRepository.setNativeItems(it)
-                        }
-                    }
-                }
-
-                Log.d("REVENUE_CUT", "Restored")
-            }
-        }
-    }
-
 
     private fun rewarded(
         onRewComplete: () -> Unit
@@ -268,9 +199,9 @@ class CategoriesActivity : AppCompatActivity(), PaywallResultHandler {
                 }
             },
             onOpenPaywall = {
-                paywallActivityLauncher.launchIfNeeded(
-                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-                )
+                Intent(this, PaywallActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         )
     }

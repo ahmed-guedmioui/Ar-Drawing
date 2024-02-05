@@ -1,27 +1,23 @@
 package com.ardrawing.sketchtrace.advanced_editing.presentation
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
-import com.ardrawing.sketchtrace.util.LanguageChanger
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityAdvancedBinding
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
+import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.util.Constants
-import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
+import com.ardrawing.sketchtrace.util.LanguageChanger
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter
@@ -30,17 +26,14 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 
 /**
  * @author Ahmed Guedmioui
  */
-@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener,
-    PaywallResultHandler {
+class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -51,7 +44,7 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     @Inject
     lateinit var imageCategoriesRepository: ImageCategoriesRepository
 
-    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
+    
 
     private val advancedEditingViewModel: AdvancedEditingViewModel by viewModels()
     private lateinit var advancedEditingState: AdvancedEditingState
@@ -75,7 +68,7 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
             binding.vipApply.visibility = View.GONE
         }
 
-        paywallActivityLauncher = PaywallActivityLauncher(this, this)
+        
 
         lifecycleScope.launch {
             advancedEditingViewModel.advancedEditingState.collect {
@@ -117,86 +110,14 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                     this, getString(R.string.applied), Toast.LENGTH_SHORT
                 ).show()
             } else {
-                paywallActivityLauncher.launchIfNeeded(
-                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-                )
+                Intent(this, PaywallActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         }
     }
 
-    override fun onActivityResult(result: PaywallResult) {
-        when (result) {
-            PaywallResult.Cancelled -> {
-                Log.d("REVENUE_CUT", "Cancelled")
-                lifecycleScope.launch {
-                    appDataRepository.setAdsVisibilityForUser()
-                }
-            }
 
-            is PaywallResult.Error -> {
-                Log.d("REVENUE_CUT", "Error")
-                lifecycleScope.launch {
-                    appDataRepository.setAdsVisibilityForUser()
-                }
-            }
-
-            is PaywallResult.Purchased -> {
-
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                date?.let {
-                    if (it.after(Date())) {
-                        DataManager.appData.isSubscribed = true
-
-                        lifecycleScope.launch {
-                            appDataRepository.setAdsVisibilityForUser()
-                            imageCategoriesRepository.setUnlockedImages(it)
-                            imageCategoriesRepository.setNativeItems(it)
-                        }
-
-                        Constants.bitmap = Constants.convertedBitmap
-                        Constants.convertedBitmap = null
-
-                        finish()
-                        Toast.makeText(
-                            this, getString(R.string.applied), Toast.LENGTH_SHORT
-                        ).show()
-
-                    }
-                }
-
-                Log.d("REVENUE_CUT", "Purchased")
-            }
-
-            is PaywallResult.Restored -> {
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                date?.let {
-                    if (it.after(Date())) {
-                        DataManager.appData.isSubscribed = true
-
-                        lifecycleScope.launch {
-                            appDataRepository.setAdsVisibilityForUser()
-                            imageCategoriesRepository.setUnlockedImages(it)
-                            imageCategoriesRepository.setNativeItems(it)
-                        }
-
-                        Constants.bitmap = Constants.convertedBitmap
-                        Constants.convertedBitmap = null
-
-                        finish()
-                        Toast.makeText(
-                            this, getString(R.string.applied), Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-                Log.d("REVENUE_CUT", "Restored")
-            }
-        }
-    }
 
     private fun showApplyAlertDialog() {
 
@@ -206,9 +127,9 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
             )
             .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
 
-                paywallActivityLauncher.launchIfNeeded(
-                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-                )
+                Intent(this, PaywallActivity::class.java).also {
+                    startActivity(it)
+                }
 
             }
             .setNegativeButton(getString(R.string.no)) { dialog, _ ->

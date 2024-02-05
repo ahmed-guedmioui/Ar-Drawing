@@ -13,7 +13,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.animation.Animation
@@ -22,36 +21,26 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import com.ardrawing.sketchtrace.util.LanguageChanger
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.ardrawing.sketchtrace.BuildConfig
+import com.ardrawing.sketchtrace.R
+import com.ardrawing.sketchtrace.databinding.ActivityTraceBinding
+import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
+import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
+import com.ardrawing.sketchtrace.splash.data.DataManager
+import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
+import com.ardrawing.sketchtrace.util.LanguageChanger
+import com.ardrawing.sketchtrace.util.ads.RewardedManager
+import com.ardrawing.sketchtrace.util.other.MultiTouch
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.databinding.ActivityTraceBinding
-import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
-import com.ardrawing.sketchtrace.my_creation.domian.repository.CreationRepository
-import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
-import com.ardrawing.sketchtrace.util.Constants
-import com.ardrawing.sketchtrace.util.ads.RewardedManager
-import com.ardrawing.sketchtrace.util.other.MultiTouch
-import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import com.thebluealliance.spectrum.SpectrumDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
-@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class TraceActivity : AppCompatActivity(), PaywallResultHandler {
+class TraceActivity : AppCompatActivity() {
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -61,8 +50,6 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
 
     @Inject
     lateinit var imageCategoriesRepository: ImageCategoriesRepository
-
-    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     private lateinit var binding: ActivityTraceBinding
 
@@ -84,13 +71,10 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
         binding = ActivityTraceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         if (DataManager.appData.isSubscribed) {
             binding.vipPhoto.visibility = View.GONE
             binding.vipVideo.visibility = View.GONE
         }
-
-        paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
         pushanim = AnimationUtils.loadAnimation(this, R.anim.view_push)
         cResolver = contentResolver
@@ -257,69 +241,6 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
 
     }
 
-    override fun onActivityResult(result: PaywallResult) {
-        when (result) {
-            PaywallResult.Cancelled -> {
-                Log.d("REVENUE_CUT", "Cancelled")
-                lifecycleScope.launch {
-                    appDataRepository.setAdsVisibilityForUser()
-                }
-            }
-
-            is PaywallResult.Error -> {
-                Log.d("REVENUE_CUT", "Error")
-                lifecycleScope.launch {
-                    appDataRepository.setAdsVisibilityForUser()
-                }
-            }
-
-            is PaywallResult.Purchased -> {
-
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                date?.let {
-                    if (it.after(Date())) {
-                        DataManager.appData.isSubscribed = true
-
-                        lifecycleScope.launch {
-                            appDataRepository.setAdsVisibilityForUser()
-                            imageCategoriesRepository.setUnlockedImages(it)
-                            imageCategoriesRepository.setNativeItems(it)
-                        }
-                    }
-                }
-
-                binding.vipPhoto.visibility = View.GONE
-                binding.vipVideo.visibility = View.GONE
-
-                Log.d("REVENUE_CUT", "Purchased")
-            }
-
-            is PaywallResult.Restored -> {
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                date?.let {
-                    if (it.after(Date())) {
-                        DataManager.appData.isSubscribed = true
-
-                        lifecycleScope.launch {
-                            appDataRepository.setAdsVisibilityForUser()
-                            imageCategoriesRepository.setUnlockedImages(it)
-                            imageCategoriesRepository.setNativeItems(it)
-                        }
-                    }
-                }
-
-                binding.vipPhoto.visibility = View.GONE
-                binding.vipVideo.visibility = View.GONE
-
-                Log.d("REVENUE_CUT", "Restored")
-            }
-        }
-    }
-
     private fun rewarded(onRewDone: () -> Unit) {
         RewardedManager.showRewarded(
             activity = this,
@@ -341,9 +262,9 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
             },
             isImages = false,
             onOpenPaywall = {
-                paywallActivityLauncher.launchIfNeeded(
-                    requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-                )
+                Intent(this, PaywallActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         )
     }
@@ -440,4 +361,11 @@ class TraceActivity : AppCompatActivity(), PaywallResultHandler {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (DataManager.appData.isSubscribed) {
+            binding.vipPhoto.visibility = View.GONE
+            binding.vipVideo.visibility = View.GONE
+        }
+    }
 }

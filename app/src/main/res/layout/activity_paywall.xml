@@ -5,11 +5,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/trans"
+        android:layout_height="match_parent"/>
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_bar">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,8 +22,8 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:background="@color/white"
                 android:layout_height="270dp"
+                android:background="@color/white"
                 android:src="@drawable/step_by_step"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,61 +147,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="22dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/font"
-                android:text="@string/choose_a_plan"
-                android:textColor="@color/primary_dark"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/variant_background_2"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
-
-                <RadioGroup
-                    android:id="@+id/radio_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginVertical="8dp">
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/font"
-                        android:text="$8 / 1 Months"
-                        android:textColor="@color/text"
-                        android:textSize="17sp" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/font"
-                        android:text="$19 / 6 Months"
-                        android:textColor="@color/text"
-                        android:textSize="17sp" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/font"
-                        android:text="$36 / 1 Year"
-                        android:textColor="@color/text"
-                        android:textSize="17sp" />
-
-                </RadioGroup>
 
             </androidx.cardview.widget.CardView>
 
@@ -327,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="36dp"
                 app:cardBackgroundColor="@color/variant_background_2"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
@@ -420,37 +369,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/variant_background"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/primary_dark"
-            android:fontFamily="@font/font"
-            android:text="@string/continue_"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:fontFamily="@font/font"
-            android:text="@string/restore_subscription"
-            android:textColor="@color/primary_dark"
-            android:textSize="15sp" />
-
-    </LinearLayout>
 
 </RelativeLayout>
 

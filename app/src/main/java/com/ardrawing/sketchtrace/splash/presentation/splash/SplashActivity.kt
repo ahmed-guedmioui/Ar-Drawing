@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -25,6 +24,7 @@ import com.ardrawing.sketchtrace.main.presentaion.get_started.GetStartedActivity
 import com.ardrawing.sketchtrace.main.presentaion.home.HomeActivity
 import com.ardrawing.sketchtrace.main.presentaion.language.LanguageActivity
 import com.ardrawing.sketchtrace.main.presentaion.tips.TipsActivity
+import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.util.AppAnimation
 import com.ardrawing.sketchtrace.util.LanguageChanger
@@ -38,26 +38,20 @@ import com.google.ads.consent.ConsentInfoUpdateListener
 import com.google.ads.consent.ConsentInformation
 import com.google.ads.consent.ConsentStatus
 import com.onesignal.OneSignal
-import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
-import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.net.MalformedURLException
 import java.net.URL
 import javax.inject.Inject
 
-@OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
 @AndroidEntryPoint
-class SplashActivity : AppCompatActivity(), PaywallResultHandler {
+class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()
 
     private lateinit var splashState: SplashState
     private lateinit var binding: ActivitySplashBinding
 
-    private lateinit var paywallActivityLauncher: PaywallActivityLauncher
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -90,8 +84,6 @@ class SplashActivity : AppCompatActivity(), PaywallResultHandler {
             }
         }
 
-
-        paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
         val admobAppOpenManager = AdmobAppOpenManager(
             this@SplashActivity.application, prefs
@@ -258,53 +250,8 @@ class SplashActivity : AppCompatActivity(), PaywallResultHandler {
             splashViewModel.onEvent(SplashUiEvent.AlreadySubscribed)
             goToHome()
         } else {
-            paywallActivityLauncher.launchIfNeeded(
-                requiredEntitlementIdentifier = BuildConfig.ENTITLEMENT
-            )
-        }
-    }
-
-    override fun onActivityResult(result: PaywallResult) {
-        when (result) {
-            PaywallResult.Cancelled -> {
-                Log.d("REVENUE_CUT", "Cancelled")
-                splashViewModel.onEvent(
-                    SplashUiEvent.Subscribe(isSubscribed = false)
-                )
-                goToHome()
-            }
-
-            is PaywallResult.Error -> {
-                Log.d("REVENUE_CUT", "Error")
-                splashViewModel.onEvent(
-                    SplashUiEvent.Subscribe(isSubscribed = false)
-                )
-                goToHome()
-            }
-
-            is PaywallResult.Purchased -> {
-
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                splashViewModel.onEvent(
-                    SplashUiEvent.Subscribe(isSubscribed = true, date = date)
-                )
-
-                Log.d("REVENUE_CUT", "Purchased")
-                goToHome()
-            }
-
-            is PaywallResult.Restored -> {
-                val date =
-                    result.customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
-
-                splashViewModel.onEvent(
-                    SplashUiEvent.Subscribe(isSubscribed = true, date = date)
-                )
-
-                Log.d("REVENUE_CUT", "Restored")
-                goToHome()
+            Intent(this, PaywallActivity::class.java).also {
+                startActivity(it)
             }
         }
     }
