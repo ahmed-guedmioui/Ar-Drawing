@@ -85,7 +85,7 @@ class GetStartedActivity : AppCompatActivity() {
             goToHome()
         } else {
             Intent(this, PaywallActivity::class.java).also {
-                it.putExtra("isFromGetStarted", true)
+                it.putExtra("toHome", true)
                 startActivity(it)
                 finish()
             }

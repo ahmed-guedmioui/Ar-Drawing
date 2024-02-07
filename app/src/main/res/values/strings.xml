@@ -152,9 +152,6 @@
     <string name="get_access_to_details_3">Quick draw and create an art</string>
     <string name="choose_a_plan">CHOOSE A PLAN</string>
     <string name="faq">FAQ</string>
-    <string name="faq_details_1">No ads, enjoy 100% ad-free experience</string>
-    <string name="faq_details_2">Your credit card details are 100% secure with Google Play</string>
-    <string name="faq_details_3">You can cancel at any time</string>
     <string name="trusted_by_over">Trusted by over</string>
     <string name="_1_000_000">1.000.000+</string>
     <string name="average_rating">Average rating</string>
@@ -177,4 +174,23 @@
     <string name="something_went_wrong_while_saving_photo">Something went wrong while saving photo</string>
     <string name="something_went_wrong_while_saving_video">Something went wrong while saving video</string>
 
+    <string name="q1">Why do we charge for this?</string>
+    <string name="a1">AR models require significant server and computational resource, leading to high operational costs. However, we strive to keep our prices as affordable as possible to allow everyone to experience this AR technology.</string>
+
+    <string name="q2">Can I cancel my subscription?</string>
+    <string name="a2">You have the freedom to cancel your subscription at any time, without being subjected to any inquiries.</string>
+
+    <string name="q3">How are the payments processed?</string>
+    <string name="a3">The payments are processed through your Google Play accounts, where you have already registered your payment details.</string>
+
+    <string name="q4">You are already subscribed?</string>
+    <string name="a4">Make sure that the Google account you used to subscribe is logged in on your device. And click on \'Restore\' below 👇🏻 to restore your subscription.</string>
+    <string name="no_ads_enjoy_100_ad_free_experience">No Ads: Enjoy 100% ad-free experience</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">Your payments are safe and secured with Google Play</string>
+    <string name="cancel_at_any_time">Cancel at any time</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">I was able to sketch a picture of my friend so easily :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">Everyone was amazed with my drawing and I\'m so proud!</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">I highly recommend this app for those who want to learn drawing.</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">Sketching was always my passion, and this app really boosted my drawing skills!</string>
+    <string name="user_reviews">User Reviews</string>
 </resources>

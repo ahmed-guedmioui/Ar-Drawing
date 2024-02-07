@@ -10,7 +10,8 @@
     <color name="primary_dark">#A566B5</color>
     <color name="primary_selected">#FFCFF3</color>
     <color name="variant_background">#FFF7FD</color>
-    <color name="variant_background_2">#FFEFFB</color>
+    <color name="variant_background_light">#FFEAFA</color>
+    <color name="variant_background_lighter">#FFEFFB</color>
 
     <color name="dark_button_start">#7C51EF</color>
     <color name="dark_button_end">#9187EC</color>

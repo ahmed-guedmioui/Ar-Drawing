@@ -223,24 +223,23 @@ class SplashActivity : AppCompatActivity() {
                 Intent(this@SplashActivity, LanguageActivity::class.java).also {
                     it.putExtra("from_splash", true)
                     startActivity(it)
-                    finish()
                 }
 
             } else if (!prefs.getBoolean("tipsShown", false)) {
                 Intent(this@SplashActivity, TipsActivity::class.java).also {
                     startActivity(it)
-                    finish()
                 }
 
             } else if (!prefs.getBoolean("getStartedShown", false)) {
                 Intent(this@SplashActivity, GetStartedActivity::class.java).also {
                     startActivity(it)
-                    finish()
                 }
 
             } else {
                 checkSubscriptionBeforeGoingHome()
             }
+
+            finish()
 
         }
     }
@@ -251,6 +250,7 @@ class SplashActivity : AppCompatActivity() {
             goToHome()
         } else {
             Intent(this, PaywallActivity::class.java).also {
+                it.putExtra("toHome", true)
                 startActivity(it)
             }
         }
@@ -259,7 +259,6 @@ class SplashActivity : AppCompatActivity() {
     private fun goToHome() {
         Intent(this, HomeActivity::class.java).also {
             startActivity(it)
-            finish()
         }
     }
 
