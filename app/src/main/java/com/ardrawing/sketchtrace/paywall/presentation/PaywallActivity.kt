@@ -15,6 +15,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.cardview.widget.CardView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,6 +48,7 @@ import com.revenuecat.purchases.ui.revenuecatui.PaywallListener
 import com.revenuecat.purchases.ui.revenuecatui.PaywallOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class PaywallActivity : AppCompatActivity() {
@@ -67,10 +69,12 @@ class PaywallActivity : AppCompatActivity() {
     private val paywallViewModel: PaywallViewModel by viewModels()
     private lateinit var paywallState: PaywallState
 
+    private var toHome by Delegates.notNull<Boolean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val toHome = intent?.extras?.getBoolean("toHome") ?: false
+        toHome = intent?.extras?.getBoolean("toHome") ?: false
 
         lifecycleScope.launch {
             paywallViewModel.paywallState.collect {
@@ -206,6 +210,24 @@ class PaywallActivity : AppCompatActivity() {
             },
             update = {
                 view = it
+
+                if (toHome) {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        it.findViewById<CardView>(R.id.close).visibility = View.VISIBLE
+                    }, 3000)
+                } else {
+                    it.findViewById<CardView>(R.id.close).visibility = View.VISIBLE
+                }
+
+                it.findViewById<CardView>(R.id.close).setOnClickListener {
+                    if (toHome) {
+                        Intent(this, HomeActivity::class.java).also { intent ->
+                            startActivity(intent)
+                        }
+                    }
+
+                    finish()
+                }
 
                 imagesViewPager = it.findViewById(R.id.imagesViewPager)
                 imagesViewPagerAdapter = ImagesViewPagerAdapter(this, images)

@@ -68,8 +68,6 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
             binding.vipApply.visibility = View.GONE
         }
 
-        
-
         lifecycleScope.launch {
             advancedEditingViewModel.advancedEditingState.collect {
                 advancedEditingState = it
@@ -126,11 +124,19 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                 getString(R.string.do_you_want_to_apply_the_editing)
             )
             .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                if (DataManager.appData.isSubscribed) {
+                    Constants.bitmap = Constants.convertedBitmap
+                    Constants.convertedBitmap = null
 
-                Intent(this, PaywallActivity::class.java).also {
-                    startActivity(it)
+                    finish()
+                    Toast.makeText(
+                        this, getString(R.string.applied), Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Intent(this, PaywallActivity::class.java).also {
+                        startActivity(it)
+                    }
                 }
-
             }
             .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 finish()

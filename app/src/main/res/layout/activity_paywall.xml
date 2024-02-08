@@ -20,10 +20,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/imagesViewPager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/imagesViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_margin="12dp"
+                    app:cardBackgroundColor="@color/primary"
+                    app:cardCornerRadius="8dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/close"
+                        app:tint="@color/white" />
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -151,13 +174,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
                 android:layout_gravity="center"
-                android:textStyle="bold"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/font"
                 android:text="@string/user_reviews"
                 android:textColor="@color/primary_dark"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/reviewsViewPager"
