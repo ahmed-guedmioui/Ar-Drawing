@@ -38,21 +38,23 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Error loading images"))
+                emit(Resource.Loading(false))
                 return@flow
             } catch (e: HttpException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Error loading images"))
+                emit(Resource.Loading(false))
                 return@flow
             } catch (e: Exception) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Error loading images"))
+                emit(Resource.Loading(false))
                 return@flow
             }
 
             ImagesManager.imageCategoryList = categoryListDto.toImageCategoryList().toMutableList()
 
             emit(Resource.Success())
-
             emit(Resource.Loading(false))
             return@flow
 

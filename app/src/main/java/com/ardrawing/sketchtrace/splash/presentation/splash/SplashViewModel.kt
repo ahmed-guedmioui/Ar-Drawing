@@ -40,7 +40,6 @@ class SplashViewModel @Inject constructor(
     init {
         getData()
         getImages()
-
     }
 
     fun onEvent(splashUiEvent: SplashUiEvent) {

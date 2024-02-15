@@ -120,7 +120,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun getConsent(admobAppOpenManager: AdmobAppOpenManager) {
         val consentInformation = ConsentInformation.getInstance(
-            baseContext
+            this@SplashActivity
         )
         val publisherIds = arrayOf(DataManager.appData.admobPublisherId)
         consentInformation.requestConsentInfoUpdate(
@@ -128,7 +128,7 @@ class SplashActivity : AppCompatActivity() {
             object : ConsentInfoUpdateListener {
                 override fun onConsentInfoUpdated(consentStatus: ConsentStatus) {
                     // User's consent status successfully updated.
-                    if (ConsentInformation.getInstance(baseContext).isRequestLocationInEeaOrUnknown) {
+                    if (ConsentInformation.getInstance(this@SplashActivity).isRequestLocationInEeaOrUnknown) {
                         //inside EU
                         when (consentStatus) {
                             ConsentStatus.UNKNOWN -> {
@@ -137,8 +137,6 @@ class SplashActivity : AppCompatActivity() {
 
                             ConsentStatus.PERSONALIZED -> {
                                 Shared.setBoolean(this@SplashActivity, "personalized", true)
-                                navigate(admobAppOpenManager)
-                                Shared.setBoolean(this@SplashActivity, "personalized", false)
                                 navigate(admobAppOpenManager)
                             }
 
@@ -164,9 +162,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun displayConsentForm(admobAppOpenManager: AdmobAppOpenManager) {
         try {
-            val privacyUrl =
-                URL(Shared.getString(application, DataManager.appData.privacyLink))
-            form = ConsentForm.Builder(baseContext, privacyUrl)
+            val privacyUrl = URL(DataManager.appData.privacyLink)
+            form = ConsentForm.Builder(this@SplashActivity, privacyUrl)
                 .withListener(object : ConsentFormListener() {
                     override fun onConsentFormLoaded() {
                         // Consent form loaded successfully.
