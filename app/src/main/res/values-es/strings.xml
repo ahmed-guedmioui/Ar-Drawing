@@ -1,30 +1,22 @@
 <resources>
-    <string name="app_name">Med Drawing</string>
+    <string name="app_name">Ar Draw Studio: Boceto y Rastro</string>
 
-    <string name="tip_title_1">Consejo 1</string>
-    <string name="tip_desc_1">Descripción del consejo 1</string>
+    <string name="tip_title_1">¡Libera tu creatividad: dibuja tu primera imagen hoy mismo!</string>
+    <string name="tip_desc_1">¡Desbloquea tu artista interior sin esfuerzo! Con la magia de la cámara de tu smartphone y la tecnología AR de última generación, crear arte se ha vuelto más intuitivo que nunca. ¡Eleva tus habilidades de dibujo a niveles profesionales en solo 3 días, una emocionante aventura para todos los niveles de habilidad te espera! 🌟🎨</string>
 
-    <string name="tip_title_2">Consejo 2</string>
-    <string name="tip_desc_2">Descripción del consejo 2</string>
+    <string name="tip_title_2">Domina el arte del trazado sin esfuerzo</string>
+    <string name="tip_desc_2">Libera tu creatividad con la destreza de un artista: ¡comienza a trazar hoy mismo!</string>
 
-    <string name="tip_title_3">Consejo 3</string>
-    <string name="tip_desc_3">Descripción del consejo 3</string>
+    <string name="tip_title_3">Eleva tu experiencia de dibujo con los efectos avanzados y diversos de nuestra aplicación</string>
+    <string name="tip_desc_3">¡Desbloquea todo el potencial de tu creatividad! Nuestra aplicación ofrece una amplia gama de efectos, haciendo que dibujar sea fácil y agradable para todos.</string>
 
-    <string name="tip_title_4">Consejo 4</string>
-    <string name="tip_desc_4">Descripción del consejo 4</string>
+    <string name="tip_title_4">Variedad de diseños</string>
+    <string name="tip_desc_4">Explora una variedad de posibilidades creativas con nuestras diversas plantillas. Eleva tus diseños sin esfuerzo con la flexibilidad y el estilo que ofrecen nuestras plantillas.</string>
 
-    <string name="get_started_title">Med Drawing</string>
-    <string name="get_started_desc">Descripción de Med Drawing</string>
+    <string name="get_started_title">Bienvenido a AR Draw Studio: Boceto y Rastro</string>
+    <string name="get_started_desc">El trío mágico: lápiz, taza y papel para tu viaje creativo.</string>
 
     <string name="privacy_notice">Al hacer clic en iniciar, confirmas que revisaste y aceptaste nuestra Política de privacidad</string>
-
-    <string name="action_cancel">Cancelar</string>
-    <string name="label">Etiqueta</string>
-    <string name="lbl_header_settings">Configuración</string>
-    <string name="lbl_permission_denied">Permiso denegado</string>
-    <string name="lbl_permission_denied_message">Si rechazas todos estos permisos, no podrás usar la aplicación correctamente. \n\nActiva los permisos en [Configuración] &gt; [Permiso]</string>
-    <string name="lbl_setting">Configuración</string>
-    <string name="learn_more">Privacidad y política\nCómo la aplicación y nuestros socios utilizan tus datos.</string>
 
     <string name="share_app">Compartir aplicación</string>
     <string name="title_camera">Cámara</string>
@@ -127,7 +119,7 @@
     <string name="saving_was_canceled">Guardado cancelado</string>
     <string name="saving_failed">Error al guardar</string>
     <string name="fast_video">Video rápido</string>
-    <string name="speeding_up_and_saving_video">Acelerando y guardando el video...</string>
+    <string name="speeding_up_and_saving_video">Acelerando y guardando el video…</string>
     <string name="share">Compartir</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">Califica esta aplicación con 5 estrellas si te gusta.</string>
     <string name="update">Actualizar</string>
@@ -167,11 +159,31 @@
     <string name="unlock_all">Desbloquear todo</string>
     <string name="watch_video">Ver video</string>
     <string name="vip_feature">Función VIP</string>
-    <string name="become_vip">Convertirse en VIP</string>
+    <string name="become_vip">Desbloquear todas las características</string>
     <string name="tips">Consejos</string>
     <string name="exit">Salir</string>
     <string name="something_went_wrong_while_saving_photo">Algo salió mal al guardar la foto</string>
     <string name="something_went_wrong_while_saving_video">Algo salió mal al guardar el video</string>
+    <string name="q1">¿Por qué cobramos por esto?</string>
+    <string name="a1">Los modelos AR requieren recursos significativos de servidor y computación, lo que conlleva altos costos operativos. Sin embargo, nos esforzamos por mantener nuestros precios lo más accesibles posible para permitir que todos experimenten esta tecnología AR.</string>
+
+    <string name="q2">¿Puedo cancelar mi suscripción?</string>
+    <string name="a2">Tienes la libertad de cancelar tu suscripción en cualquier momento, sin estar sujeto a ninguna pregunta.</string>
+
+    <string name="q3">¿Cómo se procesan los pagos?</string>
+    <string name="a3">Los pagos se procesan a través de tus cuentas de Google Play, donde ya has registrado tus datos de pago.</string>
+
+    <string name="q4">¿Ya estás suscrito?</string>
+    <string name="a4">Asegúrate de que la cuenta de Google que utilizaste para suscribirte esté iniciada en tu dispositivo. Y haz clic en \'Restaurar\' a continuación 👇🏻 para restaurar tu suscripción.</string>
+
+    <string name="no_ads_enjoy_100_ad_free_experience">Sin anuncios: Disfruta de una experiencia 100% sin anuncios</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">Tus pagos están seguros y protegidos con Google Play</string>
+    <string name="cancel_at_any_time">Cancela en cualquier momento</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">Pude dibujar un retrato de mi amigo tan fácilmente :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">Todos quedaron asombrados con mi dibujo y estoy muy orgulloso/a.</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">Recomiendo encarecidamente esta aplicación para aquellos que quieran aprender a dibujar.</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">Dibujar siempre fue mi pasión, ¡y esta aplicación realmente impulsó mis habilidades de dibujo!</string>
+    <string name="user_reviews">Opiniones de los usuarios</string>
 
 
 </resources>

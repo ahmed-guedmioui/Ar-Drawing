@@ -1,30 +1,22 @@
 <resources>
-    <string name="app_name">Med Drawing</string>
+    <string name="app_name">AR Draw Studio: Sketch &amp; Trace</string>
 
-    <string name="tip_title_1">Conseil 1</string>
-    <string name="tip_desc_1">Description du conseil 1</string>
+    <string name="tip_title_1">Libérez votre créativité : dessinez votre première image aujourd\'hui !</string>
+    <string name="tip_desc_1">Libérez l\'artiste qui sommeille en vous sans effort ! Avec la magie de l\'appareil photo de votre smartphone et la technologie AR de pointe, créer de l\'art est devenu plus intuitif que jamais. Faites évoluer vos compétences en dessin à des niveaux professionnels en seulement 3 jours - une aventure passionnante pour tous les niveaux de compétence vous attend ! 🌟🎨</string>
 
-    <string name="tip_title_2">Conseil 2</string>
-    <string name="tip_desc_2">Description du conseil 2</string>
+    <string name="tip_title_2">Maîtrisez l\'art du tracé sans effort</string>
+    <string name="tip_desc_2">Libérez votre créativité avec la finesse d\'un artiste - commencez à tracer dès aujourd\'hui !</string>
 
-    <string name="tip_title_3">Conseil 3</string>
-    <string name="tip_desc_3">Description du conseil 3</string>
+    <string name="tip_title_3">Élevez votre expérience de dessin avec les effets profondément diversifiés et avancés de notre application !</string>
+    <string name="tip_desc_3">Débloquez tout le potentiel de votre créativité ! Notre application propose une gamme diversifiée d\'effets, rendant le dessin facile et agréable pour tout le monde.</string>
 
-    <string name="tip_title_4">Conseil 4</string>
-    <string name="tip_desc_4">Description du conseil 4</string>
+    <string name="tip_title_4">Gamme de Designs</string>
+    <string name="tip_desc_4">Explorez une multitude de possibilités créatives avec nos différents modèles. Élevez facilement vos designs avec la flexibilité et le style que nos modèles offrent.</string>
 
-    <string name="get_started_title">Dessin Médical</string>
-    <string name="get_started_desc">Description du dessin médical</string>
+    <string name="get_started_title">Bienvenue dans AR Draw Studio : Sketch &amp; Trace</string>
+    <string name="get_started_desc">Le trio magique : crayon, tasse et papier pour votre voyage créatif.</string>
 
     <string name="privacy_notice">En cliquant sur Démarrer, vous confirmez avoir examiné et accepté notre politique de confidentialité</string>
-
-    <string name="action_cancel">Annuler</string>
-    <string name="label">Étiquette</string>
-    <string name="lbl_header_settings">Paramètres</string>
-    <string name="lbl_permission_denied">Autorisation refusée</string>
-    <string name="lbl_permission_denied_message">Si vous refusez toutes ces autorisations, vous ne pourrez pas utiliser l\'application correctement. \n\nVeuillez activer les autorisations dans [Paramètres] &gt; [Autorisation]</string>
-    <string name="lbl_setting">Paramètres</string>
-    <string name="learn_more">Confidentialité et politique\nComment l\'application et nos partenaires utilisent vos données !</string>
 
     <string name="share_app">Partager l\'application</string>
     <string name="title_camera">Appareil photo</string>
@@ -127,7 +119,7 @@
     <string name="saving_was_canceled">La sauvegarde a été annulée</string>
     <string name="saving_failed">Échec de la sauvegarde</string>
     <string name="fast_video">Vidéo rapide</string>
-    <string name="speeding_up_and_saving_video">Accélération et sauvegarde de la vidéo...</string>
+    <string name="speeding_up_and_saving_video">Accélération et sauvegarde de la vidéo…</string>
     <string name="share">Partager</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">Notez cette application avec 5 étoiles si vous l\'appréciez.</string>
     <string name="update">Mise à jour</string>
@@ -162,16 +154,35 @@
     <string name="your_subscription_will_expire_in_n">Votre abonnement expirera dans :\n%1$s</string>
     <string name="your_are_not_subscribed">Vous n\'êtes pas abonné</string>
     <string name="unlock_image">Débloquer l\'image</string>
-    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Devenez VIP ou regardez des publicités pour débloquer gratuitement</string>
-    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Devenez VIP ou regardez des publicités pour l\'utiliser gratuitement</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Débloquez le contenu avec l\'adhésion ou regardez des publicités pour un accès gratuit.</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Débloquez le contenu avec l\'adhésion ou regardez des publicités pour un accès gratuit.</string>
     <string name="unlock_all">Débloquer tout</string>
     <string name="watch_video">Regarder la vidéo</string>
-    <string name="vip_feature">Fonction VIP</string>
-    <string name="become_vip">Devenir VIP</string>
+    <string name="vip_feature">Débloquer tout</string>
+    <string name="become_vip">Débloquer toutes les fonctionnalités</string>
     <string name="tips">Conseils</string>
     <string name="exit">Quitter</string>
     <string name="something_went_wrong_while_saving_photo">Quelque chose s\'est mal passé lors de l\'enregistrement de la photo</string>
     <string name="something_went_wrong_while_saving_video">Quelque chose s\'est mal passé lors de l\'enregistrement de la vidéo</string>
+    <string name="q1">Pourquoi facturons-nous cela ?</string>
+    <string name="a1">Les modèles AR nécessitent des ressources serveur et computationnelles importantes, entraînant des coûts opérationnels élevés. Cependant, nous nous efforçons de maintenir nos prix aussi abordables que possible pour permettre à tout le monde de découvrir cette technologie AR.</string>
+
+    <string name="q2">Puis-je annuler mon abonnement ?</string>
+    <string name="a2">Vous avez la liberté d\'annuler votre abonnement à tout moment, sans être soumis à aucune enquête.</string>
+
+    <string name="q3">Comment les paiements sont-ils traités ?</string>
+    <string name="a3">Les paiements sont traités via votre compte Google Play, où vous avez déjà enregistré vos informations de paiement.</string>
+
+    <string name="q4">Vous êtes déjà abonné ?</string>
+    <string name="a4">Assurez-vous que le compte Google que vous avez utilisé pour vous abonner est connecté sur votre appareil. Et cliquez sur \'Restaurer\' ci-dessous 👇🏻 pour restaurer votre abonnement.</string>
+    <string name="no_ads_enjoy_100_ad_free_experience">Pas de publicité : Profitez d\'une expérience 100% sans publicité</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">Vos paiements sont sécurisés avec Google Play</string>
+    <string name="cancel_at_any_time">Annulez à tout moment</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">J\'ai pu esquisser une image de mon ami si facilement :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">Tout le monde était émerveillé par mon dessin et je suis tellement fier !</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">Je recommande vivement cette application à ceux qui veulent apprendre à dessiner.</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">Le dessin a toujours été ma passion, et cette application a vraiment stimulé mes compétences en dessin !</string>
+    <string name="user_reviews">Avis des utilisateurs</string>
 
 
 </resources>

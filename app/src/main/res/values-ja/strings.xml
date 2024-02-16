@@ -1,30 +1,22 @@
 <resources>
-    <string name="app_name">Med Drawing</string>
+    <string name="app_name">Ar Draw Studio: スケッチ＆トレース</string>
 
-    <string name="tip_title_1">ヒント1</string>
-    <string name="tip_desc_1">ヒントの説明1</string>
+    <string name="tip_title_1">創造力を解放しましょう：今日最初の絵を描こう！</string>
+    <string name="tip_desc_1">内なるアーティストを難なく解き放ってください！スマートフォンのカメラと最新のAR技術の魔法で、アートを作成することは今まで以上に直感的になりました。わずか3日間であなたの描画スキルをプロレベルに引き上げる - すべてのスキルレベルの方にとって刺激的な冒険が待っています！🌟🎨</string>
 
-    <string name="tip_title_2">ヒント2</string>
-    <string name="tip_desc_2">ヒントの説明2</string>
+    <string name="tip_title_2">トレースの芸術を難なくマスターしよう</string>
+    <string name="tip_desc_2">アーティストの繊細さで創造力を解放しましょう - 今日トレースを始めましょう！</string>
 
-    <string name="tip_title_3">ヒント3</string>
-    <string name="tip_desc_3">ヒントの説明3</string>
+    <string name="tip_title_3">アプリの多様かつ高度なエフェクトであなたの描画体験を向上させましょう！</string>
+    <string name="tip_desc_3">創造力のフルポテンシャルを解き放ってください！当アプリは多彩なエフェクトを提供し、誰もが描画を簡単かつ楽しめるようにします。</string>
 
-    <string name="tip_title_4">ヒント4</string>
-    <string name="tip_desc_4">ヒントの説明4</string>
+    <string name="tip_title_4">デザインの範囲</string>
+    <string name="tip_desc_4">さまざまなテンプレートで創造的な可能性を探求してください。テンプレートが提供する柔軟性とスタイルで、デザインを手軽に引き上げましょう。</string>
 
-    <string name="get_started_title">Med Drawing</string>
-    <string name="get_started_desc">Med Drawingの説明</string>
+    <string name="get_started_title">AR Draw Studio: スケッチ＆トレースへようこそ</string>
+    <string name="get_started_desc">あなたの創造的な旅のための魔法の三つ組：鉛筆、カップ、そして紙。</string>
 
     <string name="privacy_notice">開始をクリックすると、プライバシーポリシーを確認して承認したことになります</string>
-
-    <string name="action_cancel">キャンセル</string>
-    <string name="label">ラベル</string>
-    <string name="lbl_header_settings">設定</string>
-    <string name="lbl_permission_denied">許可が拒否されました</string>
-    <string name="lbl_permission_denied_message">これらのすべての権限を拒否すると、アプリを正しく使用できません。\n\n[設定] &gt; [権限]で権限をオンにしてください。</string>
-    <string name="lbl_setting">設定</string>
-    <string name="learn_more">プライバシーとポリシー\nアプリとパートナーがデータをどのように使用するかについて詳しく知る！</string>
 
     <string name="share_app">アプリを共有</string>
     <string name="title_camera">カメラ</string>
@@ -127,7 +119,7 @@
     <string name="saving_was_canceled">保存がキャンセルされました</string>
     <string name="saving_failed">保存に失敗しました</string>
     <string name="fast_video">高速ビデオ</string>
-    <string name="speeding_up_and_saving_video">ビデオの高速化と保存...</string>
+    <string name="speeding_up_and_saving_video">ビデオの高速化と保存…</string>
     <string name="share">共有</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">気に入ったら5つ星でアプリを評価してください。</string>
     <string name="update">アップデート</string>
@@ -162,16 +154,35 @@
     <string name="your_subscription_will_expire_in_n">購読が終了するまで:\n%1$s</string>
     <string name="your_are_not_subscribed">購読されていません</string>
     <string name="unlock_image">画像のロックを解除</string>
-    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">VIPになるか広告を視聴して無料でロックを解除</string>
-    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">VIPになるか広告を視聴して無料で使用</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">メンバーシップでコンテンツをアンロックするか、無料でアクセスするために広告を視聴します。</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">メンバーシップでコンテンツをアンロックするか、無料でアクセスするために広告を視聴します。</string>
     <string name="unlock_all">すべてのロックを解除</string>
     <string name="watch_video">ビデオを視聴</string>
-    <string name="vip_feature">VIP機能</string>
-    <string name="become_vip">VIPになる</string>
+    <string name="vip_feature">すべての機能を解除する</string>
+    <string name="become_vip">すべての機能をアンロックする</string>
     <string name="tips">ヒント</string>
     <string name="exit">終了</string>
     <string name="something_went_wrong_while_saving_photo">写真を保存する際に問題が発生しました</string>
     <string name="something_went_wrong_while_saving_video">動画を保存する際に問題が発生しました</string>
+    <string name="q1">なぜこれに料金を請求するのですか？</string>
+    <string name="a1">ARモデルには大規模なサーバーおよび計算リソースが必要で、運用コストが高くなります。しかし、私たちは当社の価格をできるだけ手頃に保つことを目指しています。これにより、誰もがこのAR技術を体験できるようにしています。</string>
+
+    <string name="q2">定期購読をキャンセルできますか？</string>
+    <string name="a2">いつでもお気軽に定期購読をキャンセルすることができます。いかなる問い合わせにも従う必要はありません。</string>
+
+    <string name="q3">支払いはどのように処理されますか？</string>
+    <string name="a3">支払いは、すでに支払い詳細を登録しているGoogle Playアカウントを介して処理されます。</string>
+
+    <string name="q4">すでに定期購読をしていますか？</string>
+    <string name="a4">定期購読に使用したGoogleアカウントがデバイスにログインしていることを確認してください。そして、以下の「Restore」をクリックして、定期購読を復元してください。</string>
+    <string name="no_ads_enjoy_100_ad_free_experience">広告なし：100％広告非表示の体験をお楽しみください</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">お支払いはGoogle Playで安全かつ安全に処理されます</string>
+    <string name="cancel_at_any_time">いつでもキャンセル</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">友達の絵を簡単にスケッチできました :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">みんなが私の絵に驚き、私はとても誇りに思っています！</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">絵を学びたい人には、このアプリを強くお勧めします。</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">スケッチはいつも私の情熱でしたが、このアプリは本当に私の絵のスキルを向上させました！</string>
+    <string name="user_reviews">ユーザーレビュー</string>
 
 
 </resources>

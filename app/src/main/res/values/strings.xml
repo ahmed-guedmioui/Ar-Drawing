@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Ar Studio: Draw Sketch &amp; Trace</string>
+    <string name="app_name">Ar Studio: Draw Sketch &amp; Trace</string>
 
     <string name="tip_title_1">Unleash your creativity: draw your first picture today!</string>
     <string name="tip_desc_1">Unlock your inner artist effortlessly! With the magic of your smartphone camera and state-of-the-art AR technology, creating art has become more intuitive than ever. Elevate your drawing skills to professional levels in just 3 days – an exciting adventure for all skill levels awaits! 🌟🎨</string>
@@ -19,14 +19,6 @@
 
 
     <string name="privacy_notice">By click start you confirm that you reviewed and accepted our Privacy Policy</string>
-
-    <string name="action_cancel">Cancel</string>
-    <string name="label">Label</string>
-    <string name="lbl_header_settings">Settings</string>
-    <string name="lbl_permission_denied">Permission Denied</string>
-    <string name="lbl_permission_denied_message">If you reject this all permission, you cannot use the application properly. \n\nPlease turn on permissions at [Setting] &gt; [Permission]</string>
-    <string name="lbl_setting">Settings</string>
-    <string name="learn_more">Privacy &amp; Policy\nHow App &amp; our partners use your data!</string>
 
     <string name="share_app">Share App</string>
     <string name="title_camera">Camera</string>
@@ -128,7 +120,7 @@
     <string name="saving_was_canceled">Saving was canceled</string>
     <string name="saving_failed">Saving failed</string>
     <string name="fast_video">Fast Video</string>
-    <string name="speeding_up_and_saving_video">Speeding up and saving video...</string>
+    <string name="speeding_up_and_saving_video">Speeding up and saving video…</string>
     <string name="share">Share</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">Rate this app with 5 start if you like it.</string>
     <string name="update">Update</string>
@@ -163,12 +155,12 @@
     <string name="your_subscription_will_expire_in_n">Your subscription will expire in:\n%1$s</string>
     <string name="your_are_not_subscribed">Your are not subscribed</string>
     <string name="unlock_image">Unlock Image</string>
-    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Become a VIP or watch ads to unlock for free</string>
-    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Become a VIP or watch ads to use it for free</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Unlock content with membership or watch ads for free access.</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Unlock content with membership or watch ads for free access.</string>
     <string name="unlock_all">Unlock All</string>
     <string name="watch_video">Watch Video</string>
-    <string name="vip_feature">VIP Feature</string>
-    <string name="become_vip">Become VIP</string>
+    <string name="vip_feature">Unlock Everything</string>
+    <string name="become_vip">Unlock All Features</string>
     <string name="tips">Tips</string>
     <string name="exit">Exit</string>
     <string name="something_went_wrong_while_saving_photo">Something went wrong while saving photo</string>

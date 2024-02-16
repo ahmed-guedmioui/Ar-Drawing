@@ -1,29 +1,22 @@
 <resources>
 
-    <string name="tip_title_1">팁 1</string>
-    <string name="tip_desc_1">팁 설명 1</string>
+    <string name="app_name">AR 그리기 스튜디오: 스케치 &amp; 추적</string>
+    <string name="tip_title_1">창의력을 발휘하세요: 오늘 첫 그림을 그려보세요!</string>
+    <string name="tip_desc_1">내면의 예술가를 손쉽게 발휘하세요! 스마트폰 카메라의 마법과 최신 AR 기술로 미술 창작이 이전보다 더 직관적해졌습니다. 단 3일 만에 프로 수준의 그림 기술을 향상시키세요 - 모든 실력 수준을 위한 흥미진진한 모험이 여러분을 기다리고 있습니다! 🌟🎨</string>
 
-    <string name="tip_title_2">팁 2</string>
-    <string name="tip_desc_2">팁 설명 2</string>
+    <string name="tip_title_2">흔들림 없이 추적 기술을 마스터하세요</string>
+    <string name="tip_desc_2">예술가의 섬세함으로 창의력을 발휘하세요 - 오늘부터 추적을 시작하세요!</string>
 
-    <string name="tip_title_3">팁 3</string>
-    <string name="tip_desc_3">팁 설명 3</string>
+    <string name="tip_title_3">우리 앱의 다양하고 고급 효과로 그림 체험을 높이세요!</string>
+    <string name="tip_desc_3">창의력의 전체 잠재력을 발휘하세요! 저희 앱은 다양한 효과를 제공하여 모든 사람이 쉽고 즐겁게 그림을 그릴 수 있습니다.</string>
 
-    <string name="tip_title_4">팁 4</string>
-    <string name="tip_desc_4">팁 설명 4</string>
+    <string name="tip_title_4">디자인의 범위</string>
+    <string name="tip_desc_4">다양한 템플릿으로 창의적인 가능성을 탐험하세요. 저희 템플릿이 제공하는 유연성과 스타일로 손쉽게 디자인을 높이세요.</string>
 
-    <string name="get_started_title">의료 그림</string>
-    <string name="get_started_desc">의료 그림 설명</string>
+    <string name="get_started_title">AR 그리기 스튜디오: 스케치 &amp; 추적에 오신 것을 환영합니다</string>
+    <string name="get_started_desc">창의적인 여정을 위한 연필, 컵, 종이의 마법 세트.</string>
 
     <string name="privacy_notice">시작을 클릭하면 개인정보 보호정책을 검토하고 수락했다는 것을 확인합니다.</string>
-
-    <string name="action_cancel">취소</string>
-    <string name="label">라벨</string>
-    <string name="lbl_header_settings">설정</string>
-    <string name="lbl_permission_denied">권한 거부</string>
-    <string name="lbl_permission_denied_message">거부하면 모든 권한을 사용할 수 없으며, 애플리케이션을 올바르게 사용할 수 없습니다. [설정] &gt; [권한]에서 권한을 켜주세요.</string>
-    <string name="lbl_setting">설정</string>
-    <string name="learn_more">개인정보 및 정책\n앱 및 협력사가 귀하의 데이터를 사용하는 방법에 대해 알아보기!</string>
 
     <string name="share_app">앱 공유</string>
     <string name="title_camera">카메라</string>
@@ -37,7 +30,7 @@
     <string name="help2">그리려는 이미지를 선택하세요.</string>
     <string name="help3">화면에 투명도를 추가하여 모바일 화면에서 책을 볼 수 있게하세요.</string>
     <string name="help4">연필을 이미지의 테두리 위에 놓고 그리기 시작하세요. 모바일 화면이 그리는 방법을 안내할 것입니다.</string>
-    <string name="help5" /> 이러한
+    <string name="help5" />
 
     <string name="try_again">다시 시도</string>
     <string name="error_connect_to_a_network_and_try_again">네트워크에 연결하고 다시 시도하세요</string>
@@ -125,7 +118,7 @@
     <string name="saving_was_canceled">저장이 취소되었습니다</string>
     <string name="saving_failed">저장 실패</string>
     <string name="fast_video">빠른 비디오</string>
-    <string name="speeding_up_and_saving_video">비디오 빠르게 재생 중...</string>
+    <string name="speeding_up_and_saving_video">비디오 빠르게 재생 중…</string>
     <string name="share">공유</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">이 앱을 좋아하신다면 5점으로 평가해주세요.</string>
     <string name="update">업데이트</string>
@@ -160,15 +153,34 @@
     <string name="your_subscription_will_expire_in_n">구독 만료까지:\n%1$s</string>
     <string name="your_are_not_subscribed">아직 구독 중이 아닙니다</string>
     <string name="unlock_image">이미지 잠금 해제</string>
-    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">VIP가 되거나 무료로 잠금을 해제하려면 광고를 시청하세요</string>
-    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">VIP가 되거나 무료로 사용하려면 광고를 시청하세요</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">멤버십으로 콘텐츠 잠금 해제하거나 광고 시청하여 무료로 액세스하세요.</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">멤버십으로 콘텐츠 잠금 해제하거나 광고 시청하여 무료로 액세스하세요.</string>
     <string name="unlock_all">모두 잠금 해제</string>
     <string name="watch_video">동영상 시청</string>
-    <string name="vip_feature">VIP 기능</string>
-    <string name="become_vip">VIP 되기</string>
+    <string name="vip_feature">모든 것 해제</string>
+    <string name="become_vip">모든 기능 잠금 해제</string>
     <string name="tips">팁</string>
     <string name="exit">종료</string>
     <string name="something_went_wrong_while_saving_photo">사진 저장 중 오류가 발생했습니다</string>
     <string name="something_went_wrong_while_saving_video">비디오 저장 중 오류가 발생했습니다</string>
+    <string name="q1">왜 우리는 이것에 대해 요금을 청구합니까?</string>
+    <string name="a1">AR 모델은 상당한 서버 및 계산 리소스가 필요하여 높은 운영 비용이 발생합니다. 그러나 우리는 가능한 한 모든 사람이 이 AR 기술을 경험할 수 있도록 가격을 합리적으로 유지하기 위해 노력하고 있습니다.</string>
+
+    <string name="q2">내 구독을 취소할 수 있나요?</string>
+    <string name="a2">언제든지 조사를 받지 않고도 구독을 취소할 수 있습니다.</string>
+
+    <string name="q3">지불은 어떻게 처리됩니까?</string>
+    <string name="a3">지불은 이미 지불 세부 정보를 등록한 Google Play 계정을 통해 처리됩니다.</string>
+
+    <string name="q4">이미 구독 중이십니까?</string>
+    <string name="a4">구독한 Google 계정이 기기에 로그인되어 있는지 확인하십시오. 그리고 아래의 \'복원\'을 클릭하여 구독을 복원하십시오. 👇🏻</string>
+    <string name="no_ads_enjoy_100_ad_free_experience">광고 없음: 100% 광고 없는 경험 즐기기</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">Google Play를 통해 지불이 안전하고 보호됩니다.</string>
+    <string name="cancel_at_any_time">언제든지 취소</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">내 친구의 그림을 너무 쉽게 그려낼 수 있었습니다 :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">모두가 내 그림에 놀라워하고 저는 정말 자랑스럽습니다!</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">그림을 배우고 싶은 사람들에게 이 앱을 강력 추천합니다.</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">스케치는 항상 제 열정이었고, 이 앱은 제 그림 실력을 실제로 향상시켰습니다!</string>
+    <string name="user_reviews">사용자 리뷰</string>
 
 </resources>

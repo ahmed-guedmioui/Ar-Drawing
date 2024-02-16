@@ -1,30 +1,22 @@
 <resources>
-    <string name="app_name">Med Drawing</string>
+    <string name="app_name">AR Draw Studio: Skizze &amp; Nachzeichnen</string>
 
-    <string name="tip_title_1">Tipp 1</string>
-    <string name="tip_desc_1">Tipp Beschreibung 1</string>
+    <string name="tip_title_1">Entfesseln Sie Ihre Kreativität: Zeichnen Sie noch heute Ihr erstes Bild!</string>
+    <string name="tip_desc_1">Entdecken Sie mühelos Ihren inneren Künstler! Mit der Magie Ihrer Smartphone-Kamera und modernster AR-Technologie ist das Erstellen von Kunst intuitiver denn je geworden. Verbessern Sie Ihre Zeichenfähigkeiten in nur 3 Tagen auf professionelle Ebene - ein aufregendes Abenteuer für alle Fähigkeitsstufen erwartet Sie! 🌟🎨</string>
 
-    <string name="tip_title_2">Tipp 2</string>
-    <string name="tip_desc_2">Tipp Beschreibung 2</string>
+    <string name="tip_title_2">Meistern Sie die Kunst des Nachzeichnens mühelos</string>
+    <string name="tip_desc_2">Entfesseln Sie Ihre Kreativität mit der Finesse eines Künstlers - beginnen Sie noch heute mit dem Nachzeichnen!</string>
 
-    <string name="tip_title_3">Tipp 3</string>
-    <string name="tip_desc_3">Tipp Beschreibung 3</string>
+    <string name="tip_title_3">Verbessern Sie Ihr Zeichenerlebnis mit den vielfältigen und fortgeschrittenen Effekten unserer App!</string>
+    <string name="tip_desc_3">Entfesseln Sie das volle Potenzial Ihrer Kreativität! Unsere App bietet eine vielfältige Palette von Effekten, die das Zeichnen für jeden einfach und angenehm machen.</string>
 
-    <string name="tip_title_4">Tipp 4</string>
-    <string name="tip_desc_4">Tipp Beschreibung 4</string>
+    <string name="tip_title_4">Auswahl an Designs</string>
+    <string name="tip_desc_4">Erkunden Sie eine Vielzahl von kreativen Möglichkeiten mit unseren verschiedenen Vorlagen. Verbessern Sie Ihre Designs mühelos mit der Flexibilität und dem Stil, den unsere Vorlagen bieten.</string>
 
-    <string name="get_started_title">Med Drawing</string>
-    <string name="get_started_desc">Med Zeichnung Beschreibung</string>
+    <string name="get_started_title">Willkommen bei AR Draw Studio: Skizze &amp; Nachzeichnen</string>
+    <string name="get_started_desc">Das magische Trio: Bleistift, Tasse und Papier für Ihre kreative Reise.</string>
 
     <string name="privacy_notice">Durch Klicken auf Start bestätigen Sie, dass Sie unsere Datenschutzbestimmungen überprüft und akzeptiert haben</string>
-
-    <string name="action_cancel">Abbrechen</string>
-    <string name="label">Label</string>
-    <string name="lbl_header_settings">Einstellungen</string>
-    <string name="lbl_permission_denied">Berechtigung verweigert</string>
-    <string name="lbl_permission_denied_message">Wenn Sie diese Berechtigung ablehnen, können Sie die Anwendung nicht ordnungsgemäß verwenden. \n\nBitte aktivieren Sie die Berechtigungen unter [Einstellungen] &gt; [Berechtigung]</string>
-    <string name="lbl_setting">Einstellungen</string>
-    <string name="learn_more">Datenschutz &amp; Richtlinie\nWie die App &amp; unsere Partner Ihre Daten verwenden!</string>
 
     <string name="share_app">App teilen</string>
     <string name="title_camera">Kamera</string>
@@ -126,7 +118,7 @@
     <string name="saving_was_canceled">Speichern wurde abgebrochen</string>
     <string name="saving_failed">Speichern fehlgeschlagen</string>
     <string name="fast_video">Schnelles Video</string>
-    <string name="speeding_up_and_saving_video">Video wird beschleunigt und gespeichert...</string>
+    <string name="speeding_up_and_saving_video">Video wird beschleunigt und gespeichert…</string>
     <string name="share">Teilen</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">Bewerten Sie diese App mit 5 Sternen, wenn sie Ihnen gefällt.</string>
     <string name="update">Aktualisieren</string>
@@ -161,15 +153,34 @@
     <string name="your_subscription_will_expire_in_n">Ihr Abonnement läuft ab in:\n%1$s</string>
     <string name="your_are_not_subscribed">Sie sind nicht abonniert</string>
     <string name="unlock_image">Bild entsperren</string>
-    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Werden Sie VIP oder sehen Sie Anzeigen an, um es kostenlos zu entsperren</string>
-    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Werden Sie VIP oder sehen Sie Anzeigen an, um es kostenlos zu verwenden</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">Entsperren Sie Inhalte mit einer Mitgliedschaft oder sehen Sie sich Anzeigen an, um kostenlosen Zugriff zu erhalten.</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">Entsperren Sie Inhalte mit einer Mitgliedschaft oder sehen Sie sich Anzeigen an, um kostenlosen Zugriff zu erhalten.</string>
     <string name="unlock_all">Alles entsperren</string>
     <string name="watch_video">Video ansehen</string>
-    <string name="vip_feature">VIP-Funktion</string>
-    <string name="become_vip">VIP werden</string>
+    <string name="vip_feature">Alles freischalten</string>
+    <string name="become_vip">Alle Funktionen freischalten</string>
     <string name="tips">Tipps</string>
     <string name="exit">Beenden</string>
     <string name="something_went_wrong_while_saving_photo">Beim Speichern des Fotos ist etwas schief gelaufen</string>
     <string name="something_went_wrong_while_saving_video">Beim Speichern des Videos ist etwas schief gelaufen</string>
+    <string name="q1">Warum verlangen wir dafür Geld?</string>
+    <string name="a1">AR-Modelle erfordern erhebliche Server- und Rechenressourcen, was zu hohen Betriebskosten führt. Wir bemühen uns jedoch, unsere Preise so erschwinglich wie möglich zu halten, um jedem die Erfahrung mit dieser AR-Technologie zu ermöglichen.</string>
+
+    <string name="q2">Kann ich mein Abonnement kündigen?</string>
+    <string name="a2">Sie haben die Freiheit, Ihr Abonnement jederzeit ohne weitere Nachfragen zu kündigen.</string>
+
+    <string name="q3">Wie werden die Zahlungen verarbeitet?</string>
+    <string name="a3">Die Zahlungen werden über Ihr Google Play-Konto abgewickelt, in dem Sie bereits Ihre Zahlungsdetails hinterlegt haben.</string>
+
+    <string name="q4">Sind Sie bereits abonniert?</string>
+    <string name="a4">Stellen Sie sicher, dass das Google-Konto, mit dem Sie sich abonniert haben, auf Ihrem Gerät angemeldet ist. Und klicken Sie unten auf \'Wiederherstellen\' 👇🏻, um Ihr Abonnement wiederherzustellen.</string>
+    <string name="no_ads_enjoy_100_ad_free_experience">Keine Anzeigen: Genießen Sie eine werbefreie Erfahrung zu 100%</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">Ihre Zahlungen sind sicher und geschützt bei Google Play</string>
+    <string name="cancel_at_any_time">Jederzeit kündbar</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">Ich konnte so einfach ein Bild von meinem Freund skizzieren :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">Alle waren von meiner Zeichnung begeistert, und ich bin so stolz!</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">Ich empfehle diese App sehr für diejenigen, die das Zeichnen lernen möchten.</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">Skizzieren war schon immer meine Leidenschaft, und diese App hat meine Zeichenfähigkeiten wirklich verbessert!</string>
+    <string name="user_reviews">Benutzerbewertungen</string>
 
 </resources>

@@ -1,30 +1,22 @@
 <resources>
-    <string name="app_name">Med Dwaring</string>
+    <string name="app_name">AR绘图工作室：素描与追踪</string>
 
-    <string name="tip_title_1">提示 1</string>
-    <string name="tip_desc_1">提示描述 1</string>
+    <string name="tip_title_1">释放你的创造力：今天画出你的第一幅图画！</string>
+    <string name="tip_desc_1">毫不费力地释放你内心的艺术家！借助智能手机相机的魔力和最先进的AR技术，创作艺术比以往任何时候都更加直观。在短短3天内，将您的绘画技巧提升至专业水平 - 一个令人兴奋的冒险等待着所有技能水平的人！🌟🎨</string>
 
-    <string name="tip_title_2">提示 2</string>
-    <string name="tip_desc_2">提示描述 2</string>
+    <string name="tip_title_2">轻松掌握追踪艺术</string>
+    <string name="tip_desc_2">以艺术家的技巧释放你的创造力 - 今天开始追踪吧！</string>
 
-    <string name="tip_title_3">提示 3</string>
-    <string name="tip_desc_3">提示描述 3</string>
+    <string name="tip_title_3">用我们应用程序的深度多样化和先进效果提升您的绘画体验！</string>
+    <string name="tip_desc_3">释放您的创造力的全部潜力！我们的应用程序提供各种效果，使绘画对每个人都变得简单而愉快。</string>
 
-    <string name="tip_title_4">提示 4</string>
-    <string name="tip_desc_4">提示描述 4</string>
+    <string name="tip_title_4">设计范围</string>
+    <string name="tip_desc_4">通过我们的各种模板探索各种创意可能性。轻松地利用我们的模板所提供的灵活性和风格提升您的设计。</string>
 
-    <string name="get_started_title">医学绘画</string>
-    <string name="get_started_desc">医学绘画描述</string>
+    <string name="get_started_title">欢迎来到AR绘图工作室：素描与追踪</string>
+    <string name="get_started_desc">创造之旅的魔法三重奏：铅笔、杯子和纸张。</string>
 
     <string name="privacy_notice">点击开始即表示您已审阅并接受我们的隐私政策</string>
-
-    <string name="action_cancel">取消</string>
-    <string name="label">标签</string>
-    <string name="lbl_header_settings">设置</string>
-    <string name="lbl_permission_denied">权限被拒绝</string>
-    <string name="lbl_permission_denied_message">如果您拒绝所有权限，您将无法正常使用该应用。\n\n请在[设置] &gt; [权限]中打开权限。</string>
-    <string name="lbl_setting">设置</string>
-    <string name="learn_more">隐私政策\n应用及合作伙伴如何使用您的数据！</string>
 
     <string name="share_app">分享应用</string>
     <string name="title_camera">相机</string>
@@ -127,7 +119,7 @@
     <string name="saving_was_canceled">保存已取消</string>
     <string name="saving_failed">保存失败</string>
     <string name="fast_video">快速视频</string>
-    <string name="speeding_up_and_saving_video">加速和保存视频...</string>
+    <string name="speeding_up_and_saving_video">加速和保存视频…</string>
     <string name="share">分享</string>
     <string name="rate_this_app_with_5_start_if_you_like_it">如果您喜欢这款应用，请给予5星评价。</string>
     <string name="update">更新</string>
@@ -161,15 +153,35 @@
     <string name="your_subscription_will_expire_in_n">您的订阅将在:\n%1$s过期</string>
     <string name="your_are_not_subscribed">您未订阅</string>
     <string name="unlock_image">解锁图片</string>
-    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">成为VIP或观看广告以免费解锁</string>
-    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">成为VIP或观看广告以免费使用</string>
+    <string name="become_a_vip_or_watch_ads_to_unlock_for_free">使用会员解锁内容或观看广告以免费获取访问权限。</string>
+    <string name="become_a_vip_or_watch_ads_to_use_it_for_free">使用会员解锁内容或观看广告以免费获取访问权限。</string>
     <string name="unlock_all">全部解锁</string>
     <string name="watch_video">观看视频</string>
-    <string name="vip_feature">VIP功能</string>
-    <string name="become_vip">成为VIP</string>
+    <string name="vip_feature">解锁一切</string>
+    <string name="become_vip">解锁所有功能</string>
     <string name="tips">提示</string>
     <string name="exit">退出</string>
     <string name="something_went_wrong_while_saving_photo">保存照片时出错</string>
     <string name="something_went_wrong_while_saving_video">保存视频时出错</string>
+    <string name="q1">为什么我们要收费呢？</string>
+    <string name="a1">AR模型需要大量的服务器和计算资源，导致运营成本很高。然而，我们努力保持价格尽可能地合理，以让每个人都能体验到这种AR技术。</string>
+
+    <string name="q2">我可以取消订阅吗？</string>
+    <string name="a2">您可以随时取消您的订阅，无需接受任何询问。</string>
+
+    <string name="q3">付款是如何进行的？</string>
+    <string name="a3">付款是通过您的Google Play帐户进行的，您已在其中注册了您的付款信息。</string>
+
+    <string name="q4">您已经订阅了吗？</string>
+    <string name="a4">请确保您用于订阅的Google帐户已登录到您的设备上。然后点击下面的“恢复”👇🏻以恢复您的订阅。</string>
+    <string name="no_ads_enjoy_100_ad_free_experience">无广告：享受100%无广告体验</string>
+    <string name="your_payments_are_safe_and_secured_with_google_play">您的付款安全可靠，使用Google Play</string>
+    <string name="cancel_at_any_time">随时取消</string>
+    <string name="i_was_able_to_sketch_a_picture_of_my_friend_so_easily">我能够如此轻松地勾画出我朋友的画像 :)</string>
+    <string name="everyone_was_amazed_with_my_drawing_and_i_m_so_proud">每个人都对我的画作感到惊讶，我感到非常自豪！</string>
+    <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">我强烈推荐这款应用给那些想学习绘画的人。</string>
+    <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">素描一直是我的热情所在，这款应用真的提升了我的绘画技能！</string>
+    <string name="user_reviews">用户评价</string>
+    <string name="trusted_by_over">受到信赖</string>
 
 </resources>
