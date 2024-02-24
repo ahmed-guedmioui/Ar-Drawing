@@ -2,6 +2,7 @@ package com.ardrawing.sketchtrace.paywall.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,8 +36,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
+import com.ardrawing.sketchtrace.databinding.ActivitySplashBinding
 import com.ardrawing.sketchtrace.main.presentaion.home.HomeActivity
 import com.ardrawing.sketchtrace.paywall.theme.ArDrawingTheme
+import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Offering
 import com.revenuecat.purchases.Purchases
@@ -48,10 +52,14 @@ import com.revenuecat.purchases.ui.revenuecatui.PaywallListener
 import com.revenuecat.purchases.ui.revenuecatui.PaywallOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class PaywallActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var reviews: List<String>
     private lateinit var images: List<Drawable?>
@@ -65,6 +73,7 @@ class PaywallActivity : AppCompatActivity() {
 
     private val autoSwipeHandler = Handler(Looper.getMainLooper())
     private lateinit var autoSwipeRunnable: Runnable
+    private var isAutoSwipeRunnable = false
 
     private val paywallViewModel: PaywallViewModel by viewModels()
     private lateinit var paywallState: PaywallState
@@ -73,6 +82,8 @@ class PaywallActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val languageCode = prefs.getString("language", "en") ?: "en"
+        LanguageChanger.changeAppLanguage(languageCode, this)
 
         toHome = intent?.extras?.getBoolean("toHome") ?: false
 
@@ -103,22 +114,15 @@ class PaywallActivity : AppCompatActivity() {
                     modifier = Modifier.background(MaterialTheme.colorScheme.background)
                 ) {
 
-                    var offering by remember {
-                        mutableStateOf<Offering?>(null)
+                    LaunchedEffect(paywallViewModel.finishActivityChannel) {
+                        paywallViewModel.finishActivityChannel.collect { finish ->
+                            if (finish) {
+                                finish()
+                            }
+                        }
                     }
 
-                    Purchases.sharedInstance.getOfferingsWith(
-                        onError = { error ->
-                            finish()
-                        },
-                        onSuccess = { offerings ->
-                            offerings.current?.let { currentOffering ->
-                                offering = currentOffering
-                            }
-                        },
-                    )
-
-                    offering?.let {
+                    paywallState.offering?.let {
                         PaywallDialogScreen2(it) {
 
                             if (toHome) {
@@ -308,6 +312,7 @@ class PaywallActivity : AppCompatActivity() {
     }
 
     private fun startAutoSwipe() {
+        isAutoSwipeRunnable = true
         autoSwipeRunnable = Runnable {
             var reviewsCurrentItem = reviewsViewPager.currentItem
             reviewsCurrentItem++
@@ -333,7 +338,9 @@ class PaywallActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        autoSwipeHandler.removeCallbacks(autoSwipeRunnable)
+        if (isAutoSwipeRunnable) {
+            autoSwipeHandler.removeCallbacks(autoSwipeRunnable)
+        }
     }
 
     companion object {

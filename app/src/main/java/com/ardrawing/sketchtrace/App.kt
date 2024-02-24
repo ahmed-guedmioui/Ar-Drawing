@@ -37,7 +37,6 @@ class App : Application() {
         FirebaseApp.initializeApp(this)
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 
-        MobileAds.initialize(this)
         AudienceNetworkAds.initialize(this)
 
         Purchases.logLevel = LogLevel.DEBUG

@@ -1,6 +1,7 @@
 package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.util.Shared
@@ -27,7 +28,11 @@ object InterManager {
     private var counter = 1
 
     fun loadInterstitial(activity: Activity) {
-        if (!DataManager.appData.showAdsForThisUser) {
+        val prefs = activity.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
+
+        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             return
         }
 
@@ -39,8 +44,11 @@ object InterManager {
 
     fun showInterstitial(activity: Activity, adClosedListener: OnAdClosedListener) {
         onAdClosedListener = adClosedListener
+        val prefs = activity.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
 
-        if (!DataManager.appData.showAdsForThisUser) {
+        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             onAdClosedListener.onAdClosed()
             return
         }
@@ -106,17 +114,7 @@ object InterManager {
     private fun loadAdmobInter(activity: Activity) {
         isAdmobInterLoaded = false
 
-        val personalized = Shared.getBoolean(activity, "personalized", true)
-
-        val adRequest = if (personalized) {
-            AdRequest.Builder().build()
-        } else {
-            val bundle = Bundle()
-            bundle.putString("npa", "1")
-            AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
-                .build()
-        }
+        val adRequest = AdRequest.Builder().build()
 
         InterstitialAd.load(
             activity,

@@ -2,6 +2,7 @@ package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -34,7 +35,11 @@ object RewardedManager {
 
 
     fun loadRewarded(activity: Activity) {
-        if (!DataManager.appData.showAdsForThisUser) {
+        val prefs = activity.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
+
+        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             return
         }
 
@@ -52,7 +57,11 @@ object RewardedManager {
     ) {
         onAdClosedListener = adClosedListener
 
-        if (!DataManager.appData.showAdsForThisUser) {
+        val prefs = activity.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
+
+        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             onAdClosedListener.onRewClosed()
             onAdClosedListener.onRewComplete()
             return
@@ -111,17 +120,7 @@ object RewardedManager {
 
         isAdmobRewardedLoaded = false
 
-        val personalized = Shared.getBoolean(activity, "personalized", true)
-
-        val adRequest = if (personalized) {
-            AdRequest.Builder().build()
-        } else {
-            val bundle = Bundle()
-            bundle.putString("npa", "1")
-            AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
-                .build()
-        }
+        val adRequest = AdRequest.Builder().build()
 
         com.google.android.gms.ads.rewarded.RewardedAd.load(
             activity,

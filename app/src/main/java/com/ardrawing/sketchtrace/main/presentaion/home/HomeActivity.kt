@@ -1,10 +1,13 @@
 package com.ardrawing.sketchtrace.main.presentaion.home
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.Gravity
@@ -18,6 +21,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.ardrawing.sketchtrace.BuildConfig
@@ -65,7 +70,6 @@ class HomeActivity : AppCompatActivity() {
         if (!prefs.getBoolean("is_rated", false)) {
             rateDialog()
         }
-
 
         RewardedManager.loadRewarded(this)
 

@@ -5,9 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getOfferingsWith
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -25,6 +29,32 @@ class PaywallViewModel @Inject constructor(
     private val _paywallState = MutableStateFlow(PaywallState())
     val paywallState = _paywallState.asStateFlow()
 
+    private val _finishActivityChannel = Channel<Boolean>()
+    val finishActivityChannel = _finishActivityChannel.receiveAsFlow()
+
+    init {
+        try {
+            Purchases.sharedInstance.getOfferingsWith(
+                onError = { error ->
+                    viewModelScope.launch {
+                        _finishActivityChannel.send(true)
+                    }
+                },
+                onSuccess = { offerings ->
+                    offerings.current?.let { currentOffering ->
+                        _paywallState.update {
+                            it.copy(offering = currentOffering)
+                        }
+                    }
+                },
+            )
+        } catch (e: Exception) {
+            viewModelScope.launch {
+                _finishActivityChannel.send(true)
+            }
+        }
+
+    }
 
     fun onEvent(paywallUiEvent: PaywallUiEvent) {
         when (paywallUiEvent) {

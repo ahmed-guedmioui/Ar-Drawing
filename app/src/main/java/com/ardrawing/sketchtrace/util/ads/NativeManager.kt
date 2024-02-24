@@ -1,6 +1,7 @@
 package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +38,12 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean = false
     ) {
-        if (!DataManager.appData.showAdsForThisUser) {
+
+        val prefs = activity.getSharedPreferences(
+            "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
+        )
+
+        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             nativeTemp.visibility = View.GONE
             return
         }
@@ -101,17 +107,7 @@ object NativeManager {
             }
         }).build()
 
-        val personalized = Shared.getBoolean(activity, "personalized", true)
-
-        val adRequest = if (personalized) {
-            AdRequest.Builder().build()
-        } else {
-            val bundle = Bundle()
-            bundle.putString("npa", "1")
-            AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
-                .build()
-        }
+        val adRequest = AdRequest.Builder().build()
 
         adLoader.loadAd(adRequest)
     }

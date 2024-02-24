@@ -1,11 +1,15 @@
 package com.ardrawing.sketchtrace.splash.presentation.splash
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -16,6 +20,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
@@ -28,21 +34,21 @@ import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
 import com.ardrawing.sketchtrace.splash.data.DataManager
 import com.ardrawing.sketchtrace.util.AppAnimation
 import com.ardrawing.sketchtrace.util.LanguageChanger
-import com.ardrawing.sketchtrace.util.Shared
 import com.ardrawing.sketchtrace.util.UrlOpener
 import com.ardrawing.sketchtrace.util.ads.AdmobAppOpenManager
 import com.ardrawing.sketchtrace.util.ads.InterManager
-import com.google.ads.consent.ConsentForm
-import com.google.ads.consent.ConsentFormListener
-import com.google.ads.consent.ConsentInfoUpdateListener
-import com.google.ads.consent.ConsentInformation
-import com.google.ads.consent.ConsentStatus
+import com.google.android.gms.ads.MobileAds
+import com.google.android.ump.ConsentDebugSettings
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentInformation.PrivacyOptionsRequirementStatus
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
 import com.onesignal.OneSignal
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.net.MalformedURLException
-import java.net.URL
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -52,11 +58,14 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var splashState: SplashState
     private lateinit var binding: ActivitySplashBinding
 
-
     @Inject
     lateinit var prefs: SharedPreferences
 
-    private lateinit var form: ConsentForm
+    private lateinit var admobAppOpenManager: AdmobAppOpenManager
+
+    private var isNotificationDialogCalled = AtomicBoolean(false)
+    private var canShowAds = AtomicBoolean(false)
+    private lateinit var consentInformation: ConsentInformation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +76,13 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
+
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+
+        // Show a privacy options button if required.
+        val isPrivacyOptionsRequired = consentInformation.privacyOptionsRequirementStatus ==
+                PrivacyOptionsRequirementStatus.REQUIRED
 
         AppAnimation().startRepeatingAnimation(binding.animationImage)
 
@@ -85,14 +101,14 @@ class SplashActivity : AppCompatActivity() {
         }
 
 
-        val admobAppOpenManager = AdmobAppOpenManager(
+        admobAppOpenManager = AdmobAppOpenManager(
             this@SplashActivity.application, prefs
         )
 
         lifecycleScope.launch {
             splashViewModel.continueAppChannel.collect { continueApp ->
                 if (continueApp) {
-                    getConsent(admobAppOpenManager)
+                    getConsent()
                 }
             }
         }
@@ -118,93 +134,112 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
-    private fun getConsent(admobAppOpenManager: AdmobAppOpenManager) {
-        val consentInformation = ConsentInformation.getInstance(
-            this@SplashActivity
-        )
-        val publisherIds = arrayOf(DataManager.appData.admobPublisherId)
+    private fun getConsent() {
+
+        val debugSettings = ConsentDebugSettings.Builder(this)
+            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+            .addTestDeviceHashedId("EC63707298751E23CCEB09A07FCB3B1F")
+            .build()
+
+        val params = ConsentRequestParameters
+            .Builder()
+            .build()
+
         consentInformation.requestConsentInfoUpdate(
-            publisherIds,
-            object : ConsentInfoUpdateListener {
-                override fun onConsentInfoUpdated(consentStatus: ConsentStatus) {
-                    // User's consent status successfully updated.
-                    if (ConsentInformation.getInstance(this@SplashActivity).isRequestLocationInEeaOrUnknown) {
-                        //inside EU
-                        when (consentStatus) {
-                            ConsentStatus.UNKNOWN -> {
-                                displayConsentForm(admobAppOpenManager)
-                            }
-
-                            ConsentStatus.PERSONALIZED -> {
-                                Shared.setBoolean(this@SplashActivity, "personalized", true)
-                                navigate(admobAppOpenManager)
-                            }
-
-                            ConsentStatus.NON_PERSONALIZED -> {
-                                Shared.setBoolean(this@SplashActivity, "personalized", false)
-                                navigate(admobAppOpenManager)
-                            }
-                        }
+            this,
+            params,
+            {
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                    this@SplashActivity
+                ) { loadAndShowError ->
+                    // Consent gathering failed.
+                    if (loadAndShowError != null) {
+                        Log.d("tag_admob", loadAndShowError.message)
+                    }
+                    // Consent has been gathered.
+                    if (consentInformation.canRequestAds()) {
+                        Log.d("tag_admob", "canRequestAds 2")
+                        canShowAds.set(true)
+                        notificationPermissionDialog()
                     } else {
-                        //outside EU
-                        Shared.setBoolean(this@SplashActivity, "personalized", true)
-                        navigate(admobAppOpenManager)
+                        canShowAds.set(false)
+                        Log.d("tag_admob", "navigate 1")
+                        notificationPermissionDialog()
                     }
                 }
+            },
+            { requestConsentError ->
+                // Consent gathering failed.
+                Log.d("tag_admob", requestConsentError.message)
+                canShowAds.set(false)
+                Log.d("tag_admob", "navigate 2")
+                notificationPermissionDialog()
+            }
+        )
 
-                override fun onFailedToUpdateConsentInfo(errorDescription: String) {
-                    // User's consent status failed to update.
-                    Shared.setBoolean(this@SplashActivity, "personalized", true)
-                    navigate(admobAppOpenManager)
-                }
-            })
-    }
-
-    private fun displayConsentForm(admobAppOpenManager: AdmobAppOpenManager) {
-        try {
-            val privacyUrl = URL(DataManager.appData.privacyLink)
-            form = ConsentForm.Builder(this@SplashActivity, privacyUrl)
-                .withListener(object : ConsentFormListener() {
-                    override fun onConsentFormLoaded() {
-                        // Consent form loaded successfully.
-                        form.show()
-                    }
-
-                    override fun onConsentFormOpened() {
-                        // Consent form was displayed.
-                    }
-
-                    override fun onConsentFormClosed(
-                        consentStatus: ConsentStatus,
-                        userPrefersAdFree: Boolean
-                    ) {
-                        // Consent form was closed.
-                        Shared.setBoolean(
-                            this@SplashActivity,
-                            "personalized",
-                            consentStatus != ConsentStatus.NON_PERSONALIZED
-                        )
-                        navigate(admobAppOpenManager)
-                    }
-
-                    override fun onConsentFormError(errorDescription: String) {
-                        // Consent form error.
-                        Shared.setBoolean(this@SplashActivity, "personalized", true)
-                        navigate(admobAppOpenManager)
-                    }
-                })
-                .withPersonalizedAdsOption()
-                .withNonPersonalizedAdsOption()
-                .build()
-            form.load()
-        } catch (e: MalformedURLException) {
-            e.printStackTrace()
-            Shared.setBoolean(this@SplashActivity, "personalized", true)
-            navigate(admobAppOpenManager)
+        if (consentInformation.canRequestAds()) {
+            canShowAds.set(true)
+            Log.d("tag_admob", "canRequestAds 1")
+            notificationPermissionDialog()
         }
     }
 
-    private fun navigate(admobAppOpenManager: AdmobAppOpenManager) {
+    private fun notificationPermissionDialog() {
+        if (isNotificationDialogCalled.getAndSet(true)) {
+            return
+        }
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101
+                )
+            } else {
+                if (canShowAds.get()) {
+                    loadAds()
+                } else {
+                    navigate()
+                }
+            }
+        } else {
+            if (canShowAds.get()) {
+                loadAds()
+            } else {
+                navigate()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        if (requestCode == 101) {
+            if (canShowAds.get()) {
+                loadAds()
+            } else {
+                navigate()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun loadAds() {
+
+        prefs.edit().putBoolean("can_show_ads", canShowAds.get()).apply()
+
+        MobileAds.initialize(this)
+        InterManager.loadInterstitial(this@SplashActivity)
+
+        admobAppOpenManager.showSplashAd {
+            navigate()
+        }
+    }
+
+    private fun navigate() {
+
         tryAgainButtonVisibility(false)
 
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
@@ -212,34 +247,29 @@ class SplashActivity : AppCompatActivity() {
         OneSignal.setAppId(DataManager.appData.onesignalId)
         OneSignal.promptForPushNotifications()
 
-        InterManager.loadInterstitial(this@SplashActivity)
-
-        admobAppOpenManager.showSplashAd {
-
-            if (!prefs.getBoolean("language_chosen", false)) {
-                Intent(this@SplashActivity, LanguageActivity::class.java).also {
-                    it.putExtra("from_splash", true)
-                    startActivity(it)
-                }
-
-            } else if (!prefs.getBoolean("tipsShown", false)) {
-                Intent(this@SplashActivity, TipsActivity::class.java).also {
-                    startActivity(it)
-                }
-
-            } else if (!prefs.getBoolean("getStartedShown", false)) {
-                Intent(this@SplashActivity, GetStartedActivity::class.java).also {
-                    startActivity(it)
-                }
-
-            } else {
-                checkSubscriptionBeforeGoingHome()
+        if (!prefs.getBoolean("language_chosen", false)) {
+            Intent(this@SplashActivity, LanguageActivity::class.java).also {
+                it.putExtra("from_splash", true)
+                startActivity(it)
             }
 
-            finish()
+        } else if (!prefs.getBoolean("tipsShown", false)) {
+            Intent(this@SplashActivity, TipsActivity::class.java).also {
+                startActivity(it)
+            }
 
+        } else if (!prefs.getBoolean("getStartedShown", false)) {
+            Intent(this@SplashActivity, GetStartedActivity::class.java).also {
+                startActivity(it)
+            }
+
+        } else {
+            checkSubscriptionBeforeGoingHome()
         }
+
+        finish()
     }
+
 
     private fun checkSubscriptionBeforeGoingHome() {
         if (DataManager.appData.isSubscribed) {

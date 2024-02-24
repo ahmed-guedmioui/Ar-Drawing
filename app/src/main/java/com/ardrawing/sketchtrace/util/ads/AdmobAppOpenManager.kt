@@ -40,7 +40,7 @@ class AdmobAppOpenManager(
         return dateDifference < numMilliSecondsPerHour * numHours
     }
 
-    val isAdAvailable: Boolean
+    private val isAdAvailable: Boolean
         /**
          * Utility method that checks if ad exists and can be shown.
          */
@@ -89,20 +89,9 @@ class AdmobAppOpenManager(
                 }
             }
         }
-        val personalized = Shared.getBoolean(
-            app.applicationContext, "personalized", true
-        )
 
-        val adRequest = if (personalized) {
-            AdRequest.Builder().build()
-        } else {
-            val bundle = Bundle()
-            bundle.putString("npa", "1")
-            AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
-                .build()
-        }
 
+        val adRequest = AdRequest.Builder().build()
         AppOpenAd.load(
             app, id, adRequest, loadCallback
         )
@@ -200,7 +189,8 @@ class AdmobAppOpenManager(
     }
 
     fun showSplashAd(onAdClosed: () -> Unit) {
-        if (!DataManager.appData.showAdsForThisUser) {
+
+        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             onAdClosed()
             return
         }
