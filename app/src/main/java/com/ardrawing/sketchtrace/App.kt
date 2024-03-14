@@ -8,10 +8,14 @@ import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.onesignal.OneSignal
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -45,6 +49,17 @@ class App : Application() {
                 this, BuildConfig.REVENUECUT_KEY
             ).build()
         )
+
+        OneSignal.Debug.logLevel = com.onesignal.debug.LogLevel.VERBOSE
+        // OneSignal Initialization
+        OneSignal.initWithContext(
+            this.baseContext, "016473e9-27ee-4bc9-8789-d20057f3dea5"
+        )
+        // requestPermission will show the native Android notification permission prompt.
+        // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
+        CoroutineScope(Dispatchers.IO).launch {
+            OneSignal.Notifications.requestPermission(true)
+        }
     }
 
     override fun attachBaseContext(base: Context) {

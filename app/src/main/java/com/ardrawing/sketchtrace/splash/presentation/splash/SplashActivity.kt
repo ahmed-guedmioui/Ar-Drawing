@@ -44,7 +44,10 @@ import com.google.android.ump.ConsentInformation.PrivacyOptionsRequirementStatus
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import com.onesignal.OneSignal
+import com.onesignal.debug.LogLevel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
@@ -242,10 +245,7 @@ class SplashActivity : AppCompatActivity() {
 
         tryAgainButtonVisibility(false)
 
-        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
-        OneSignal.initWithContext(this@SplashActivity)
-        OneSignal.setAppId(DataManager.appData.onesignalId)
-        OneSignal.promptForPushNotifications()
+
 
         if (!prefs.getBoolean("language_chosen", false)) {
             Intent(this@SplashActivity, LanguageActivity::class.java).also {

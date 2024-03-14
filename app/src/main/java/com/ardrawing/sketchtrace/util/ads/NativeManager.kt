@@ -178,7 +178,9 @@ object NativeManager {
                 }
                 nativeTemp.visibility = View.GONE
                 nativeFrame.visibility = View.VISIBLE
-                populateFacebookNative(nativeFrame, nativeAd, activity, isButtonTop)
+                populateFacebookNative(
+                    nativeFrame, nativeTemp, nativeAd, activity, isButtonTop
+                )
             }
 
             override fun onAdClicked(ad: Ad) {}
@@ -189,10 +191,13 @@ object NativeManager {
 
     private fun populateFacebookNative(
         nativeFrame: FrameLayout,
+        nativeTemp: TextView,
         nativeAd: com.facebook.ads.NativeAd,
         activity: Activity,
         isButtonTop: Boolean
     ) {
+
+
         nativeAd.unregisterView()
         val nativeAdLayout = NativeAdLayout(activity)
 
@@ -206,12 +211,15 @@ object NativeManager {
         }
         nativeFrame.addView(adView)
 
+        try {
 
-        // Add the AdOptionsView
-        val adChoicesContainer = activity.findViewById<LinearLayout>(R.id.ad_choices_container)
-        val adOptionsView = AdOptionsView(activity, nativeAd, nativeAdLayout)
-        adChoicesContainer.removeAllViews()
-        adChoicesContainer.addView(adOptionsView, 0)
+            // Add the AdOptionsView
+            val adChoicesContainer = activity.findViewById<LinearLayout>(R.id.ad_choices_container)
+            val adOptionsView = AdOptionsView(activity, nativeAd, nativeAdLayout)
+            adChoicesContainer.removeAllViews()
+            adChoicesContainer.addView(adOptionsView, 0)
+        } catch (e: Exception) {
+        }
 
         // Create native UI using the ad metadata.
         val nativeAdIcon = adView.findViewById<MediaView>(R.id.native_ad_icon)
@@ -240,6 +248,7 @@ object NativeManager {
         nativeAd.registerViewForInteraction(
             adView, nativeAdMedia, nativeAdIcon, clickableViews
         )
+
     }
 }
 

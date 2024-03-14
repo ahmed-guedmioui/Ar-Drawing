@@ -57,7 +57,9 @@ class CategoriesAdapter(
 
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, categoryPosition: Int) {
+    override fun onBindViewHolder(
+        viewHolder: RecyclerView.ViewHolder, categoryPosition: Int
+    ) {
 
         if (ImagesManager.imageCategoryList[categoryPosition].imageCategoryName == "native") {
             return
@@ -105,7 +107,10 @@ class CategoriesAdapter(
 
 
     override fun getItemCount(): Int {
-        return ImagesManager.imageCategoryList.size
+        return if (ImagesManager.imageCategoryList.size > 0)
+            ImagesManager.imageCategoryList.size
+        else 0
+
     }
 
     private class CategoriesViewHolder(itemView: View, activity: Activity) :

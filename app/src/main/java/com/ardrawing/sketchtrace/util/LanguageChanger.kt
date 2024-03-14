@@ -9,17 +9,15 @@ import java.util.Locale
  * @author Ahmed Guedmioui
  */
 object LanguageChanger {
-    fun changeAppLanguage(languageCode: String, context: Context): ContextWrapper {
+    fun changeAppLanguage(languageCode: String, context: Context): Context {
 
         val config = context.resources.configuration
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
         config.setLocale(locale)
 
-        context.createConfigurationContext(config)
-
+        val newContext = context.createConfigurationContext(config)
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
-
-        return ContextWrapper(context)
+        return newContext
     }
 }
