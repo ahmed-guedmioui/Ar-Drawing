@@ -236,7 +236,7 @@ class SplashActivity : AppCompatActivity() {
         MobileAds.initialize(this)
         InterManager.loadInterstitial(this@SplashActivity)
 
-        admobAppOpenManager.showSplashAd {
+        admobAppOpenManager.showSplashAd(this) {
             navigate()
         }
     }

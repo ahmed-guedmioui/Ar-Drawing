@@ -50,6 +50,7 @@ class AdmobAppOpenManager(
      * Request an ad
      */
     fun fetchAd(
+        activity: Activity? = null,
         onAdClosed: () -> Unit
     ) {
         // Have unused ad, no need to fetch another.
@@ -71,7 +72,7 @@ class AdmobAppOpenManager(
                 Log.d(LOG_TAG, "\n\n")
 
                 if (isSplash) {
-                    showAdIfAvailable {
+                    showAdIfAvailable(activity) {
                         onAdClosed()
                     }
                 }
@@ -109,6 +110,7 @@ class AdmobAppOpenManager(
      * Shows the ad if one isn't already showing.
      */
     private fun showAdIfAvailable(
+        activity: Activity? = null,
         onAdClosed: () -> Unit
     ) {
         // Only show ad if there is not already an app open ad currently showing
@@ -140,11 +142,16 @@ class AdmobAppOpenManager(
             appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
             if (currentActivity != null) {
                 appOpenAd?.show(currentActivity!!)
+
+            } else if (activity != null && isSplash) {
+                appOpenAd?.show(activity)
+
             } else {
                 Log.d(LOG_TAG, "currentActivity = null")
                 if (isSplash) {
                     onAdClosed()
                 }
+
             }
         } else {
             Log.d(LOG_TAG, "Can not show ad.")
@@ -188,7 +195,10 @@ class AdmobAppOpenManager(
         }
     }
 
-    fun showSplashAd(onAdClosed: () -> Unit) {
+    fun showSplashAd(
+        activity: Activity,
+        onAdClosed: () -> Unit
+    ) {
 
         if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             onAdClosed()
@@ -197,7 +207,7 @@ class AdmobAppOpenManager(
 
         if (isSplash) {
             Log.d(LOG_TAG, "showSplashAd: fetchAd")
-            fetchAd {
+            fetchAd(activity) {
                 onAdClosed()
                 isSplash = false
             }
