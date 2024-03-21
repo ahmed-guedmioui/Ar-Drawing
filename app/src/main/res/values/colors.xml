@@ -35,6 +35,7 @@
 
 
 
+    <color name="native_ad_bg">#FFF0FB</color>
     <color name="gold">#EFAC00</color>
     <color name="background">#FAFAFA</color>
     <color name="text">#000000</color>

@@ -37,7 +37,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivitySplashBinding
-import com.ardrawing.sketchtrace.main.presentaion.home.HomeActivity
+import com.ardrawing.sketchtrace.core.presentation.home.HomeActivity
 import com.ardrawing.sketchtrace.paywall.theme.ArDrawingTheme
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.revenuecat.purchases.CustomerInfo

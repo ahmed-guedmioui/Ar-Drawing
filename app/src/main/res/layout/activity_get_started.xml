@@ -95,7 +95,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_margin="8dp">
 
-                <include layout="@layout/include_native_button_top" />
+                <include layout="@layout/include_native" />
 
             </RelativeLayout>
 

@@ -430,7 +430,7 @@
                 android:src="@drawable/ic_close"
                 app:tint="@color/text" />
 
-            <include layout="@layout/include_native_button_top" />
+            <include layout="@layout/include_native" />
 
         </LinearLayout>
 

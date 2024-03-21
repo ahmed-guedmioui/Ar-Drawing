@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/native_temp"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:textColor="@color/primary_3"
-        android:alpha="0.7"
-        android:background="@drawable/native_temp_bg"
-        android:text="@string/ad" />
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="@color/native_ad_bg"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp">
 
-    <FrameLayout
-        android:id="@+id/native_frame"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/native_temp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:alpha="0.7"
+            android:background="@drawable/native_temp_bg"
+            android:gravity="center"
+            android:text="@string/ad"
+            android:textColor="@color/primary_3"
+            android:textSize="18sp" />
 
+        <FrameLayout
+            android:id="@+id/native_frame"
+            android:background="@drawable/native_ad_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
 

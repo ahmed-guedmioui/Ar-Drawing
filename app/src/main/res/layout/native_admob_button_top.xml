@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="18sp"
             android:textColor="@color/text"
             android:fontFamily="@font/font"
             app:layout_constraintStart_toEndOf="@+id/textView"
@@ -86,7 +86,7 @@
         <com.google.android.gms.ads.nativead.MediaView
             android:id="@+id/ad_media"
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

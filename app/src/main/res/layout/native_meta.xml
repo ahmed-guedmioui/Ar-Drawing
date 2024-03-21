@@ -47,13 +47,13 @@
                 <TextView
                     android:id="@+id/native_ad_title"
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/font"
                     android:lines="1"
                     android:textColor="@color/text"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -81,7 +81,7 @@
     <com.facebook.ads.MediaView
         android:id="@+id/native_ad_media"
         android:layout_width="wrap_content"
-        android:layout_height="170dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
         android:gravity="center" />
 

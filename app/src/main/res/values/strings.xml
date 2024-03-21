@@ -2,7 +2,7 @@
     <string name="app_name">Ar Studio: Draw Sketch &amp; Trace</string>
 
     <string name="tip_title_1">Unleash your creativity: draw your first picture today!</string>
-    <string name="tip_desc_1">Unlock your inner artist effortlessly! With the magic of your smartphone camera and state-of-the-art AR technology, creating art has become more intuitive than ever. Elevate your drawing skills to professional levels in just 3 days – an exciting adventure for all skill levels awaits! 🌟🎨</string>
+    <string name="tip_desc_1">Unlock your inner artist effortlessly! With the magic of your smartphone camera and state-of-the-art AR technology, Unlock your inner artist effortlessly! With the magic of your smartphone camera and state-of-the-art AR technology, creating art has become more intuitive than ever. Elevate your drawing skills to professional levels in just 3 days – an exciting adventure for all skill levels awaits! 🌟🎨</string>
 
     <string name="tip_title_2">Master the art of tracing effortlessly</string>
     <string name="tip_desc_2">Unleash your creativity with the finesse of an artist – start tracing today!</string>
@@ -185,4 +185,5 @@
     <string name="i_highly_recommend_this_app_for_those_who_want_to_learn_drawing">I highly recommend this app for those who want to learn drawing.</string>
     <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">Sketching was always my passion, and this app really boosted my drawing skills!</string>
     <string name="user_reviews">User Reviews</string>
+    <string name="back">Back</string>
 </resources>

@@ -8,8 +8,8 @@ import com.ardrawing.sketchtrace.image_list.data.mapper.toImageCategoryList
 import com.ardrawing.sketchtrace.image_list.data.remote.ImageCategoryApi
 import com.ardrawing.sketchtrace.image_list.domain.model.images.ImageCategory
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
-import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.splash.domain.usecase.UpdateSubscriptionInfo
+import com.ardrawing.sketchtrace.core.data.DataManager
+import com.ardrawing.sketchtrace.core.domain.usecase.UpdateSubscriptionInfo
 import com.ardrawing.sketchtrace.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

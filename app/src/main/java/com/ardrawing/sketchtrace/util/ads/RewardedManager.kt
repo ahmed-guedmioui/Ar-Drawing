@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
@@ -19,9 +18,7 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.util.Shared
-import com.google.ads.mediation.admob.AdMobAdapter
+import com.ardrawing.sketchtrace.core.data.DataManager
 
 object RewardedManager {
 

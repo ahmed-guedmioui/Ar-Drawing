@@ -13,22 +13,22 @@
         android:layout_height="55dp"
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="3dp"
-        android:text="@string/app_name"
         android:backgroundTint="@color/primary"
-        android:textColor="@color/white"
-        android:fontFamily="@font/font"/>
+        android:fontFamily="@font/font"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <com.facebook.ads.MediaView
             android:id="@+id/native_ad_icon"
             android:layout_width="35dp"
             android:layout_height="35dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,13 +57,13 @@
                 <TextView
                     android:id="@+id/native_ad_title"
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/font"
                     android:lines="1"
                     android:textColor="@color/text"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -72,9 +72,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:fontFamily="@font/font"
                 android:lines="1"
                 android:textColor="@color/text"
-                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -91,7 +91,7 @@
     <com.facebook.ads.MediaView
         android:id="@+id/native_ad_media"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:gravity="center" />
 
     <LinearLayout
@@ -111,9 +111,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:fontFamily="@font/font"
                 android:lines="1"
                 android:textColor="@color/text"
-                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
             <TextView
@@ -121,14 +121,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:fontFamily="@font/font"
                 android:gravity="center_vertical"
                 android:lines="2"
                 android:textColor="@color/text"
-                android:fontFamily="@font/font"
                 android:textSize="12sp" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>

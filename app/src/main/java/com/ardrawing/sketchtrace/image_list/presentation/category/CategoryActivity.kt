@@ -16,7 +16,7 @@ import com.ardrawing.sketchtrace.image_list.domain.model.images.Image
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
 import com.ardrawing.sketchtrace.sketch.presentation.SketchActivity
-import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
+import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.trace.presentation.TraceActivity
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.ads.InterManager

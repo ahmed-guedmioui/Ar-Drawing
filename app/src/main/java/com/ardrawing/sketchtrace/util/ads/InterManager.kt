@@ -1,14 +1,14 @@
 package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
-import android.os.Bundle
-import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.util.Shared
+import android.os.Handler
+import android.os.Looper
+import com.ardrawing.sketchtrace.core.data.DataManager
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
-import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -56,11 +56,20 @@ object InterManager {
         if (DataManager.appData.clicksToShowInter == counter) {
             counter = 1
 
-            when (DataManager.appData.interstitial) {
-                AdType.admob -> showAdmobInter(activity)
-                AdType.facebook -> showFacebookInter(activity)
-                else -> onAdClosedListener.onAdClosed()
-            }
+            val progressDialog = ProgressDialog(activity)
+            progressDialog.setCancelable(false)
+            progressDialog.setMessage("Loading Ads...")
+            progressDialog.show()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                when (DataManager.appData.interstitial) {
+                    AdType.admob -> showAdmobInter(activity)
+                    AdType.facebook -> showFacebookInter(activity)
+                    else -> onAdClosedListener.onAdClosed()
+                }
+                progressDialog.dismiss()
+
+            }, 2000)
 
         } else {
             counter++
@@ -118,7 +127,7 @@ object InterManager {
 
         InterstitialAd.load(
             activity,
-            DataManager.appData.admobInterstitial,
+            "ca-app-pub-3940256099942544/1033173712",
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {

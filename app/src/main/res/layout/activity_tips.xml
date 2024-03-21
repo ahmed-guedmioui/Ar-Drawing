@@ -6,96 +6,117 @@
     android:background="@drawable/background">
 
     <ScrollView
+        android:id="@+id/tip_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom"
+        android:layout_centerHorizontal="true"
+        android:background="@color/native_ad_bg">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/tip_parent"
+
+            <ImageView
+                android:id="@+id/tipImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/tip_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/tip_image_1" />
-
-                <TextView
-                    android:id="@+id/tip_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tip_image"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/font"
-                    android:gravity="center"
-                    android:text="@string/tip_title_1"
-                    android:textColor="@color/text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tip_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tip_title"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/font"
-                    android:gravity="center"
-                    android:text="@string/tip_desc_1"
-                    android:textColor="@color/text"
-                    android:textSize="15.5sp" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/dots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tip_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp">
-
-                <include layout="@layout/four_dots_indicator" />
-
-            </RelativeLayout>
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/tip_image_1" />
 
             <TextView
-                android:id="@+id/next_start"
+                android:id="@+id/tip_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dots"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="30dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/font"
-                android:text="@string/next"
-                android:textColor="@color/text" />
+                android:gravity="center"
+                android:text="@string/tip_title_1"
+                android:textColor="@color/text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-
-            <RelativeLayout
-                android:id="@+id/ntv"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tip_desc"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/next_start"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="8dp">
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="@string/tip_desc_1"
+                android:textColor="@color/text"
+                android:textSize="15.5sp" />
 
-                <include layout="@layout/include_native_button_top" />
+        </LinearLayout>
 
-            </RelativeLayout>
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:id="@+id/dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp">
+
+            <include layout="@layout/four_dots_indicator" />
 
         </RelativeLayout>
 
-    </ScrollView>
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dots"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/font"
+            android:text="@string/back"
+            android:textColor="@color/text"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/next_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dots"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/font"
+            android:text="@string/next"
+            android:textColor="@color/text"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_below="@id/next_start"
+            android:layout_margin="4dp"
+            android:layout_height="300dp"/>
+
+        <RelativeLayout
+            android:id="@+id/ntv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/next_start"
+            android:layout_margin="4dp">
+
+            <include layout="@layout/include_native" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

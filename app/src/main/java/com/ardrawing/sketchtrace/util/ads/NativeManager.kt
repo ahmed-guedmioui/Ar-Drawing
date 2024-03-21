@@ -2,7 +2,6 @@ package com.ardrawing.sketchtrace.util.ads
 
 import android.app.Activity
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -24,9 +23,7 @@ import com.google.android.gms.ads.VideoController.VideoLifecycleCallbacks
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.util.Shared
-import com.google.ads.mediation.admob.AdMobAdapter
+import com.ardrawing.sketchtrace.core.data.DataManager
 
 object NativeManager {
 
@@ -73,7 +70,10 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean
     ) {
-        val builder = AdLoader.Builder(activity, DataManager.appData.admobNative)
+        val builder = AdLoader.Builder(
+            activity,
+            "ca-app-pub-3940256099942544/2247696110"
+        )
         builder.forNativeAd { nativeAd: NativeAd ->
             val isDestroyed = activity.isDestroyed
             if (isDestroyed || activity.isFinishing || activity.isChangingConfigurations) {

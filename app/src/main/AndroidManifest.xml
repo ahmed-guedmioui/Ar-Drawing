@@ -73,7 +73,7 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name=".splash.presentation.splash.SplashActivity"
+            android:name=".core.presentation.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -83,23 +83,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.presentaion.tips.TipsActivity"
+            android:name=".core.presentation.tips.TipsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.presentaion.get_started.GetStartedActivity"
+            android:name=".core.presentation.get_started.GetStartedActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.presentaion.home.HomeActivity"
+            android:name=".core.presentation.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.presentaion.settings.SettingsActivity"
+            android:name=".core.presentation.settings.SettingsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.presentaion.follow.FollowActivity"
+            android:name=".core.presentation.follow.FollowActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -140,7 +140,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.presentaion.language.LanguageActivity"
+            android:name=".core.presentation.language.LanguageActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

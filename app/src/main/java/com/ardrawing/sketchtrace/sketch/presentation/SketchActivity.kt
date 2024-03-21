@@ -45,8 +45,8 @@ import com.ardrawing.sketchtrace.databinding.ActivitySketchBinding
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.my_creation.domian.repository.CreationRepository
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.splash.data.DataManager
-import com.ardrawing.sketchtrace.splash.domain.repository.AppDataRepository
+import com.ardrawing.sketchtrace.core.data.DataManager
+import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.PermissionUtils

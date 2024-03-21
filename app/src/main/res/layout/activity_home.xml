@@ -204,7 +204,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="8dp">
 
-                        <include layout="@layout/include_native_button_top" />
+                        <include layout="@layout/include_native" />
                     </RelativeLayout>
 
                 </LinearLayout>
