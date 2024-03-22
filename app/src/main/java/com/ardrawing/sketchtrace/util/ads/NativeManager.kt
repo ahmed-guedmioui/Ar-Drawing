@@ -72,7 +72,7 @@ object NativeManager {
     ) {
         val builder = AdLoader.Builder(
             activity,
-            "ca-app-pub-3940256099942544/2247696110"
+            DataManager.appData.admobNative
         )
         builder.forNativeAd { nativeAd: NativeAd ->
             val isDestroyed = activity.isDestroyed

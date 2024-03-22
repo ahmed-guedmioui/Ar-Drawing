@@ -127,7 +127,7 @@ object InterManager {
 
         InterstitialAd.load(
             activity,
-            "ca-app-pub-3940256099942544/1033173712",
+            DataManager.appData.admobInterstitial,
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
