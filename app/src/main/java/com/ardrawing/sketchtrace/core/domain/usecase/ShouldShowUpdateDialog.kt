@@ -10,9 +10,9 @@ class ShouldShowUpdateDialog {
 
     operator fun invoke(): Int {
 
-//        if (App.appData.isAppSuspended) {
-//            return 2
-//        }
+        if (App.appData.isAppSuspended) {
+            return 2
+        }
 
         if (BuildConfig.VERSION_CODE < App.appData.appLatestVersion) {
             return 1
