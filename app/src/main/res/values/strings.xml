@@ -186,4 +186,5 @@
     <string name="sketching_was_always_my_passion_and_this_app_really_boosted_my_drawing_skills">Sketching was always my passion, and this app really boosted my drawing skills!</string>
     <string name="user_reviews">User Reviews</string>
     <string name="back">Back</string>
+    <string name="error_picking_image">Error picking image</string>
 </resources>

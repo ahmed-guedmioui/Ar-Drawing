@@ -298,13 +298,26 @@ class CategoriesActivity : AppCompatActivity() {
                     FileUtils.getPath(fileUri)
                 }
 
-                if (isTrace) {
-                    traceDrawingScreen(selectedImagePath)
+                if (selectedImagePath != null) {
+                    if (isTrace) {
+                        traceDrawingScreen(selectedImagePath)
+                    } else {
+                        sketchDrawingScreen(selectedImagePath)
+                    }
                 } else {
-                    sketchDrawingScreen(selectedImagePath)
+                    Toast.makeText(
+                        this,
+                        getString(R.string.error_picking_image),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
             } else {
-                Toast.makeText(this, "Error picking image", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.error_picking_image),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
