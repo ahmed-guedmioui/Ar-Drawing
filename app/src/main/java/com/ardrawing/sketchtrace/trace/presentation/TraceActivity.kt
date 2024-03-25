@@ -22,11 +22,11 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityTraceBinding
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.ads.RewardedManager
@@ -71,7 +71,7 @@ class TraceActivity : AppCompatActivity() {
         binding = ActivityTraceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             binding.vipPhoto.visibility = View.GONE
             binding.vipVideo.visibility = View.GONE
         }
@@ -288,12 +288,25 @@ class TraceActivity : AppCompatActivity() {
         return when (i) {
             1 -> {
                 matrix.preScale(1.0f, -1.0f)
-                Bitmap.createBitmap(bitmap!!, 0, 0, bitmap.width, bitmap.height, matrix, true)
+                try {
+                    Bitmap.createBitmap(
+                        bitmap!!, 0, 0, bitmap.width, bitmap.height, matrix, true
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+
             }
 
             2 -> {
                 matrix.preScale(-1.0f, 1.0f)
-                Bitmap.createBitmap(bitmap!!, 0, 0, bitmap.width, bitmap.height, matrix, true)
+                try {
+                    Bitmap.createBitmap(
+                        bitmap!!, 0, 0, bitmap.width, bitmap.height, matrix, true
+                    )
+                } catch (e: Exception) {
+                    null
+                }
             }
 
             else -> null
@@ -363,7 +376,7 @@ class TraceActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             binding.vipPhoto.visibility = View.GONE
             binding.vipVideo.visibility = View.GONE
         }

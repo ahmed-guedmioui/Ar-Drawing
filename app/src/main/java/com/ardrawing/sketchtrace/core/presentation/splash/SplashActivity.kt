@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.BuildConfig
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivitySplashBinding
@@ -31,7 +32,6 @@ import com.ardrawing.sketchtrace.core.presentation.home.HomeActivity
 import com.ardrawing.sketchtrace.core.presentation.language.LanguageActivity
 import com.ardrawing.sketchtrace.core.presentation.tips.TipsActivity
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.util.AppAnimation
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.UrlOpener
@@ -268,7 +268,7 @@ class SplashActivity : AppCompatActivity() {
 
 
     private fun checkSubscriptionBeforeGoingHome() {
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             splashViewModel.onEvent(SplashUiEvent.AlreadySubscribed)
             goToHome()
         } else {
@@ -306,7 +306,7 @@ class SplashActivity : AppCompatActivity() {
 
         updateDialog.findViewById<Button>(R.id.update).setOnClickListener {
             if (isSuspended) {
-                UrlOpener.open(this, DataManager.appData.suspendedURL)
+                UrlOpener.open(this, App.appData.suspendedURL)
             } else {
                 UrlOpener.open(this, BuildConfig.APPLICATION_ID)
             }
@@ -316,9 +316,9 @@ class SplashActivity : AppCompatActivity() {
             updateDialog.findViewById<ImageView>(R.id.close).visibility = View.VISIBLE
         } else {
             updateDialog.findViewById<TextView>(R.id.title).text =
-                DataManager.appData.suspendedTitle
+                App.appData.suspendedTitle
             updateDialog.findViewById<TextView>(R.id.msg).text =
-                DataManager.appData.suspendedMessage
+                App.appData.suspendedMessage
         }
 
         updateDialog.setOnDismissListener {

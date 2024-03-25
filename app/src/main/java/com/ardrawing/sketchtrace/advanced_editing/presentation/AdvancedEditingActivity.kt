@@ -10,11 +10,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityAdvancedBinding
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.LanguageChanger
@@ -64,7 +64,7 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         binding = ActivityAdvancedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             binding.vipApply.visibility = View.GONE
         }
 
@@ -99,7 +99,7 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         binding.sharpnessSeek.setOnSeekBarChangeListener(this)
 
         binding.apply.setOnClickListener {
-            if (DataManager.appData.isSubscribed) {
+            if (App.appData.isSubscribed) {
                 Constants.bitmap = Constants.convertedBitmap
                 Constants.convertedBitmap = null
 
@@ -124,7 +124,7 @@ class AdvancedEditingActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                 getString(R.string.do_you_want_to_apply_the_editing)
             )
             .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
-                if (DataManager.appData.isSubscribed) {
+                if (App.appData.isSubscribed) {
                     Constants.bitmap = Constants.convertedBitmap
                     Constants.convertedBitmap = null
 

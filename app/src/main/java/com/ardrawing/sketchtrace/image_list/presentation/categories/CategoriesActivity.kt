@@ -16,9 +16,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityCategoriesBinding
-import com.ardrawing.sketchtrace.image_list.data.ImagesManager
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.image_list.presentation.category.CategoryActivity
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
@@ -105,12 +105,12 @@ class CategoriesActivity : AppCompatActivity() {
             override fun oClick(categoryPosition: Int, imagePosition: Int) {
 
                 val imageItem =
-                    ImagesManager.imageCategoryList[categoryPosition].imageList[imagePosition]
+                    App.imageCategoryList[categoryPosition].imageList[imagePosition]
 
                 if (imageItem.locked) {
                     rewarded {
                         imageItem.locked = false
-                        ImagesManager.imageCategoryList[categoryPosition]
+                        App.imageCategoryList[categoryPosition]
                             .adapter?.notifyItemChanged(imagePosition)
                         prefs.edit().putBoolean(imageItem.prefsId, false).apply()
                     }

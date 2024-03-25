@@ -2,8 +2,8 @@ package com.ardrawing.sketchtrace.core.data.repository
 
 import android.app.Application
 import android.content.SharedPreferences
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.BuildConfig
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.core.data.mapper.toAppData
 import com.ardrawing.sketchtrace.core.data.remote.AppDataApi
 import com.ardrawing.sketchtrace.core.data.remote.respnod.app_data.AppDataDto
@@ -54,10 +54,10 @@ class AppDataRepositoryImpl @Inject constructor(
                 return@flow
             }
 
-            DataManager.appData = appDataDto.toAppData()
+            App.appData = appDataDto.toAppData()
 
             prefs.edit()
-                .putString("admobOpenApp", DataManager.appData.admobOpenApp)
+                .putString("admobOpenApp", App.appData.admobOpenApp)
                 .apply()
 
             subscription()
@@ -85,7 +85,7 @@ class AppDataRepositoryImpl @Inject constructor(
                     val date = customerInfo.getExpirationDateForEntitlement(BuildConfig.ENTITLEMENT)
                     date?.let {
                         if (it.after(Date())) {
-                            DataManager.appData.isSubscribed = true
+                            App.appData.isSubscribed = true
                         }
                     }
                     UpdateSubscriptionInfo(application, date).invoke()
@@ -105,7 +105,7 @@ class AppDataRepositoryImpl @Inject constructor(
 
             delay(3000)
 
-            DataManager.appData = AppDataDto(
+            App.appData = AppDataDto(
                 null,
                 null,
                 null,
@@ -134,7 +134,7 @@ class AppDataRepositoryImpl @Inject constructor(
             ).toAppData()
 
             prefs.edit()
-                .putString("admobOpenApp", DataManager.appData.admobOpenApp)
+                .putString("admobOpenApp", App.appData.admobOpenApp)
                 .apply()
 
             ShouldShowAdsForUser(application).invoke()

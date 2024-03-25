@@ -18,11 +18,11 @@ import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityGetStartedBinding
 import com.ardrawing.sketchtrace.core.presentation.home.HomeActivity
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.ads.InterManager
 import com.ardrawing.sketchtrace.util.ads.NativeManager
@@ -83,7 +83,7 @@ class GetStartedActivity : AppCompatActivity() {
     }
 
     private fun move() {
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             goToHome()
         } else {
             Intent(this, PaywallActivity::class.java).also {
@@ -124,11 +124,11 @@ class GetStartedActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(
                 view: WebView?, request: WebResourceRequest?
             ): Boolean {
-                view?.loadUrl(DataManager.appData.privacyLink)
+                view?.loadUrl(App.appData.privacyLink)
                 return super.shouldOverrideUrlLoading(view, request)
             }
         }
-        webView.loadUrl(DataManager.appData.privacyLink)
+        webView.loadUrl(App.appData.privacyLink)
 
         privacyDialog.setOnDismissListener {
             getStartedViewModel.onEvent(GetStartedUiEvent.ShowHidePrivacyDialog)

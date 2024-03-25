@@ -1,7 +1,7 @@
 package com.ardrawing.sketchtrace.core.domain.usecase
 
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.BuildConfig
-import com.ardrawing.sketchtrace.core.data.DataManager
 
 /**
  * @author Ahmed Guedmioui
@@ -10,11 +10,11 @@ class ShouldShowUpdateDialog {
 
     operator fun invoke(): Int {
 
-        if (DataManager.appData.isAppSuspended) {
-            return 2
-        }
+//        if (App.appData.isAppSuspended) {
+//            return 2
+//        }
 
-        if (BuildConfig.VERSION_CODE < DataManager.appData.appLatestVersion) {
+        if (BuildConfig.VERSION_CODE < App.appData.appLatestVersion) {
             return 1
         }
 

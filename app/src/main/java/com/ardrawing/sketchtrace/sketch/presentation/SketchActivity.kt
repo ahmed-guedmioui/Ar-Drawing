@@ -39,13 +39,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.advanced_editing.presentation.AdvancedEditingActivity
 import com.ardrawing.sketchtrace.databinding.ActivitySketchBinding
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.my_creation.domian.repository.CreationRepository
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
 import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.LanguageChanger
@@ -127,7 +127,7 @@ class SketchActivity : AppCompatActivity() {
 
         updateMainTimerText("05:00", 500000)
 
-        if (!DataManager.appData.isSubscribed) {
+        if (!App.appData.isSubscribed) {
             countDown()
         } else {
             binding.mainTempContainer.visibility = View.GONE
@@ -463,7 +463,7 @@ class SketchActivity : AppCompatActivity() {
 
 
     private fun subscribe() {
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             handler?.removeCallbacks(timerRunnable)
             countDownTimer?.cancel()
 
@@ -577,7 +577,7 @@ class SketchActivity : AppCompatActivity() {
             override fun onFinish() {
                 isTimeIsUp = true
                 updateMainTimerText("00:00", 0)
-                if (!isDialogShowing && !isTimeIsUpDialogShowing && !DataManager.appData.isSubscribed) {
+                if (!isDialogShowing && !isTimeIsUpDialogShowing && !App.appData.isSubscribed) {
                     timeDialog()
                 }
             }
@@ -805,7 +805,7 @@ class SketchActivity : AppCompatActivity() {
             binding.objImage.setImageBitmap(Constants.bitmap)
         }
 
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             binding.mainTempContainer.visibility = View.GONE
             binding.vipPhoto.visibility = View.GONE
             binding.vipVideo.visibility = View.GONE
@@ -846,7 +846,7 @@ class SketchActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (!DataManager.appData.isSubscribed) {
+        if (!App.appData.isSubscribed) {
             handler?.removeCallbacks(timerRunnable)
             countDownTimer?.cancel()
             Constants.bitmap = null

@@ -10,6 +10,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import com.ardrawing.sketchtrace.App
 import com.facebook.ads.Ad
 import com.facebook.ads.RewardedVideoAd
 import com.facebook.ads.RewardedVideoAdListener
@@ -18,7 +19,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.core.data.DataManager
 
 object RewardedManager {
 
@@ -36,11 +36,11 @@ object RewardedManager {
             "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
         )
 
-        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
+        if (!App.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             return
         }
 
-        when (DataManager.appData.rewarded) {
+        when (App.appData.rewarded) {
             AdType.admob -> loadAdmobRewarded(activity)
             AdType.facebook -> loadFacebookRewarded(activity)
         }
@@ -58,7 +58,7 @@ object RewardedManager {
             "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
         )
 
-        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
+        if (!App.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             onAdClosedListener.onRewClosed()
             onAdClosedListener.onRewComplete()
             return
@@ -95,7 +95,7 @@ object RewardedManager {
         }
 
         dialog.findViewById<CardView>(R.id.watch).setOnClickListener {
-            when (DataManager.appData.rewarded) {
+            when (App.appData.rewarded) {
                 AdType.admob -> showAdmobRewarded(activity)
                 AdType.facebook -> showFacebookRewarded(activity)
                 else -> onAdClosedListener.onRewFailedToShow()
@@ -121,7 +121,7 @@ object RewardedManager {
 
         com.google.android.gms.ads.rewarded.RewardedAd.load(
             activity,
-            DataManager.appData.admobRewarded,
+            App.appData.admobRewarded,
             adRequest,
             object : RewardedAdLoadCallback() {
 
@@ -168,7 +168,7 @@ object RewardedManager {
     private fun loadFacebookRewarded(activity: Activity) {
 
         isFacebookRewardedLoaded = false
-        facebookRewardedAd = RewardedVideoAd(activity, DataManager.appData.facebookRewarded)
+        facebookRewardedAd = RewardedVideoAd(activity, App.appData.facebookRewarded)
 
         val rewardedVideoAdListener: RewardedVideoAdListener =
             object : RewardedVideoAdListener {

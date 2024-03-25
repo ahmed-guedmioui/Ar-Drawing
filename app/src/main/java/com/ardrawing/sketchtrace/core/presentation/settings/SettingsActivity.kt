@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivitySettingsBinding
 import com.ardrawing.sketchtrace.core.presentation.follow.FollowActivity
@@ -27,7 +28,6 @@ import com.ardrawing.sketchtrace.core.presentation.language.LanguageActivity
 import com.ardrawing.sketchtrace.core.presentation.settings.adapter.RecommendedAppsAdapter
 import com.ardrawing.sketchtrace.core.presentation.tips.TipsActivity
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.util.Constants
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.openDeveloper
@@ -65,7 +65,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        if (DataManager.appData.showRecommendedApps) {
+        if (App.appData.showRecommendedApps) {
             binding.recommendedAppsRecyclerView.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
@@ -114,7 +114,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.subscribe.setOnClickListener {
-            if (DataManager.appData.isSubscribed) {
+            if (App.appData.isSubscribed) {
                 Toast.makeText(
                     this, getString(R.string.you_are_already_subscribed), Toast.LENGTH_SHORT
                 ).show()
@@ -125,10 +125,10 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
             binding.subscribeInfo.text = getString(
                 R.string.your_subscription_will_expire_in_n,
-                DataManager.appData.subscriptionExpireDate
+                App.appData.subscriptionExpireDate
             )
         } else {
             binding.subscribeInfo.text = getString(R.string.your_are_not_subscribed)
@@ -158,11 +158,11 @@ class SettingsActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(
                 view: WebView?, request: WebResourceRequest?
             ): Boolean {
-                view?.loadUrl(DataManager.appData.privacyLink)
+                view?.loadUrl(App.appData.privacyLink)
                 return super.shouldOverrideUrlLoading(view, request)
             }
         }
-        webView.loadUrl(DataManager.appData.privacyLink)
+        webView.loadUrl(App.appData.privacyLink)
 
         privacyDialog.setOnDismissListener {
             settingsViewModel.onEvent(SettingsUiEvent.ShowHidePrivacyDialog)

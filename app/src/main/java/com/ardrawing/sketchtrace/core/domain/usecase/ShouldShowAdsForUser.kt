@@ -2,7 +2,7 @@ package com.ardrawing.sketchtrace.core.domain.usecase
 
 import android.app.Application
 import android.util.Log
-import com.ardrawing.sketchtrace.core.data.DataManager
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.util.CountryChecker
 
 /**
@@ -14,14 +14,14 @@ class ShouldShowAdsForUser(
 
     operator fun invoke() {
 
-        if (DataManager.appData.isSubscribed) {
-            DataManager.appData.showAdsForThisUser = false
+        if (App.appData.isSubscribed) {
+            App.appData.showAdsForThisUser = false
             Log.d("REVENUE_CUT", "ShouldShowAdsForUser: isSubscribed")
             return
         }
 
-        if (!DataManager.appData.areAdsForOnlyWhiteListCountries) {
-            DataManager.appData.showAdsForThisUser = true
+        if (!App.appData.areAdsForOnlyWhiteListCountries) {
+            App.appData.showAdsForThisUser = true
             Log.d("REVENUE_CUT", "ShouldShowAdsForUser: not AdsForOnlyWhiteListCountries")
             return
         }
@@ -29,18 +29,18 @@ class ShouldShowAdsForUser(
         val countryChecker = CountryChecker(application, CountryChecker.CheckerType.SpeedServer)
         countryChecker.setOnCheckerListener(object : CountryChecker.OnCheckerListener {
             override fun onCheckerCountry(country: String?, userFromGG: Boolean) {
-                DataManager.appData.countriesWhiteList.forEach { countryInWhiteList ->
+                App.appData.countriesWhiteList.forEach { countryInWhiteList ->
                     if (countryInWhiteList == country) {
                         Log.d("REVENUE_CUT", "ShouldShowAdsForUser: countryInWhiteList")
-                        DataManager.appData.showAdsForThisUser = true
+                        App.appData.showAdsForThisUser = true
                     }
                 }
             }
 
             override fun onCheckerError(error: String?) {
-                if (!DataManager.appData.areAdsForOnlyWhiteListCountries) {
+                if (!App.appData.areAdsForOnlyWhiteListCountries) {
                     Log.d("REVENUE_CUT", "ShouldShowAdsForUser: onChecker Country Error")
-                    DataManager.appData.showAdsForThisUser = true
+                    App.appData.showAdsForThisUser = true
                 }
             }
         })

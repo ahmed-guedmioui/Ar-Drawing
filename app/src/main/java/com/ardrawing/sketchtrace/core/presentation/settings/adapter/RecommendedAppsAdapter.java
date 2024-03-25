@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ardrawing.sketchtrace.App;
 import com.bumptech.glide.Glide;
 import com.ardrawing.sketchtrace.R;
-import com.ardrawing.sketchtrace.core.data.DataManager;
 
 public class RecommendedAppsAdapter extends RecyclerView.Adapter<RecommendedAppsAdapter.ListHolder> {
     private final Activity activity;
@@ -39,7 +39,7 @@ public class RecommendedAppsAdapter extends RecyclerView.Adapter<RecommendedApps
 
     @Override
     public int getItemCount() {
-        return DataManager.appData.getRecommendedApps().size();
+        return App.appData.getRecommendedApps().size();
     }
 
 
@@ -54,23 +54,23 @@ public class RecommendedAppsAdapter extends RecyclerView.Adapter<RecommendedApps
         void bind(int position) {
             try {
                 Glide.with(activity)
-                        .load(DataManager.appData.getRecommendedApps().get(position).getImage())
+                        .load(App.appData.getRecommendedApps().get(position).getImage())
                         .into(((ImageView) view.findViewById(R.id.app_cover)));
 
                 Glide.with(activity)
-                        .load(DataManager.appData.getRecommendedApps().get(position).getIcon())
+                        .load(App.appData.getRecommendedApps().get(position).getIcon())
                         .into(((ImageView) view.findViewById(R.id.app_icon)));
 
                 ((TextView) view.findViewById(R.id.app_title))
-                        .setText(DataManager.appData.getRecommendedApps().get(position).getName());
+                        .setText(App.appData.getRecommendedApps().get(position).getName());
 
                 ((TextView) view.findViewById(R.id.app_desc))
-                        .setText(DataManager.appData.getRecommendedApps().get(position).getShortDescription());
+                        .setText(App.appData.getRecommendedApps().get(position).getShortDescription());
 
                 view.setOnClickListener(v -> {
                     rateApp(
                             activity,
-                            DataManager.appData.getRecommendedApps().get(position).getUrlOrPackage()
+                            App.appData.getRecommendedApps().get(position).getUrlOrPackage()
                     );
                 });
 

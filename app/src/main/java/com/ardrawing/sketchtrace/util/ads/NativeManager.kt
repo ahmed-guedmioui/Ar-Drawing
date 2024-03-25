@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.ardrawing.sketchtrace.App
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.AdOptionsView
@@ -23,7 +24,6 @@ import com.google.android.gms.ads.VideoController.VideoLifecycleCallbacks
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.ardrawing.sketchtrace.R
-import com.ardrawing.sketchtrace.core.data.DataManager
 
 object NativeManager {
 
@@ -40,12 +40,12 @@ object NativeManager {
             "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
         )
 
-        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
+        if (!App.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             nativeTemp.visibility = View.GONE
             return
         }
 
-        when (DataManager.appData.native) {
+        when (App.appData.native) {
             AdType.admob -> loadAdmobNative(
                 nativeFrame, nativeTemp, activity, isButtonTop
             )
@@ -72,7 +72,7 @@ object NativeManager {
     ) {
         val builder = AdLoader.Builder(
             activity,
-            DataManager.appData.admobNative
+            App.appData.admobNative
         )
         builder.forNativeAd { nativeAd: NativeAd ->
             val isDestroyed = activity.isDestroyed
@@ -164,7 +164,7 @@ object NativeManager {
         activity: Activity,
         isButtonTop: Boolean
     ) {
-        val nativeAd = com.facebook.ads.NativeAd(activity, DataManager.appData.facebookNative)
+        val nativeAd = com.facebook.ads.NativeAd(activity, App.appData.facebookNative)
         val nativeAdListener: NativeAdListener = object : NativeAdListener {
             override fun onMediaDownloaded(ad: Ad) {}
             override fun onError(ad: Ad, adError: AdError) {

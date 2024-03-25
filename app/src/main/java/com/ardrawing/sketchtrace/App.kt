@@ -2,7 +2,9 @@ package com.ardrawing.sketchtrace
 
 import android.app.Application
 import android.content.Context
+import com.ardrawing.sketchtrace.core.domain.model.app_data.AppData
 import com.ardrawing.sketchtrace.databinding.ActivitySketchBinding
+import com.ardrawing.sketchtrace.image_list.domain.model.images.ImageCategory
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
@@ -31,6 +33,9 @@ class App : Application() {
         const val facebook = "RealMadrid"
         const val instagram = "realmadrid"
         const val twitter = "realmadrid"
+
+        lateinit var imageCategoryList: MutableList<ImageCategory>
+        lateinit var appData: AppData
 
     }
 

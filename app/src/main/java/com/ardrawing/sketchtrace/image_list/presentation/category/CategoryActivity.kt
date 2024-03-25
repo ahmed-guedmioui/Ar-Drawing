@@ -9,9 +9,9 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.databinding.ActivityCategoryBinding
-import com.ardrawing.sketchtrace.image_list.data.ImagesManager
 import com.ardrawing.sketchtrace.image_list.domain.model.images.Image
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
@@ -66,7 +66,7 @@ class CategoryActivity : AppCompatActivity(){
             categoryPosition = bundle.getInt("categoryPosition", 0)
             isTrace = bundle.getBoolean("isTrace", true)
 
-            binding.title.text = ImagesManager.imageCategoryList[categoryPosition].imageCategoryName
+            binding.title.text = App.imageCategoryList[categoryPosition].imageCategoryName
         }
 
         NativeManager.loadNative(
@@ -86,14 +86,14 @@ class CategoryActivity : AppCompatActivity(){
 
 
         categoryAdapter = CategoryAdapter(
-            this, ImagesManager.imageCategoryList[categoryPosition], 2
+            this, App.imageCategoryList[categoryPosition], 2
         )
 
         categoryAdapter.setClickListener(object : CategoryAdapter.ClickListener {
             override fun oClick(imagePosition: Int) {
 
                 val imageItem =
-                    ImagesManager.imageCategoryList[categoryPosition].imageList[imagePosition]
+                    App.imageCategoryList[categoryPosition].imageList[imagePosition]
 
                 if (imageItem.locked) {
                     rewarded(categoryPosition, imagePosition, imageItem)
@@ -131,7 +131,7 @@ class CategoryActivity : AppCompatActivity(){
                 }
 
                 override fun onRewComplete() {
-                    ImagesManager.imageCategoryList[categoryPosition]
+                    App.imageCategoryList[categoryPosition]
                         .imageList[imagePosition].locked = false
                     categoryAdapter.notifyItemChanged(imagePosition)
                     prefs.edit().putBoolean(imageItem.prefsId, false).apply()

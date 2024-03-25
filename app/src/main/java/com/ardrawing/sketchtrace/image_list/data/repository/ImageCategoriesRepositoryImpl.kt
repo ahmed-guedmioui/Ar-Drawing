@@ -3,12 +3,11 @@ package com.ardrawing.sketchtrace.image_list.data.repository
 import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
-import com.ardrawing.sketchtrace.image_list.data.ImagesManager
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.image_list.data.mapper.toImageCategoryList
 import com.ardrawing.sketchtrace.image_list.data.remote.ImageCategoryApi
 import com.ardrawing.sketchtrace.image_list.domain.model.images.ImageCategory
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.core.domain.usecase.UpdateSubscriptionInfo
 import com.ardrawing.sketchtrace.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -52,7 +51,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
                 return@flow
             }
 
-            ImagesManager.imageCategoryList = categoryListDto.toImageCategoryList().toMutableList()
+            App.imageCategoryList = categoryListDto.toImageCategoryList().toMutableList()
 
             emit(Resource.Success())
             emit(Resource.Loading(false))
@@ -67,11 +66,11 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             UpdateSubscriptionInfo(application, it).invoke()
         }
 
-        Log.d("tag_setUnlockedImages", "setUnlockedImages: ${DataManager.appData.isSubscribed}")
+        Log.d("tag_setUnlockedImages", "setUnlockedImages: ${App.appData.isSubscribed}")
 
         // When user is subscribed all images will be unlocked
-        if (DataManager.appData.isSubscribed) {
-            ImagesManager.imageCategoryList.forEach { categoryItem ->
+        if (App.appData.isSubscribed) {
+            App.imageCategoryList.forEach { categoryItem ->
                 categoryItem.imageList.forEach { image ->
                     image.locked = false
                 }
@@ -81,7 +80,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
         }
 
         // When user is not subscribed unlock only the image the user manually unlocked by watching an ad
-        ImagesManager.imageCategoryList.forEach { categoryItem ->
+        App.imageCategoryList.forEach { categoryItem ->
             categoryItem.imageList.forEach { image ->
                 if (image.locked) {
                     prefs.getBoolean(image.prefsId, true).let { locked ->
@@ -97,9 +96,9 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             UpdateSubscriptionInfo(application, it).invoke()
         }
 
-        if (DataManager.appData.isSubscribed) {
+        if (App.appData.isSubscribed) {
 
-            val iterator: MutableIterator<ImageCategory> = ImagesManager.imageCategoryList.iterator()
+            val iterator: MutableIterator<ImageCategory> = App.imageCategoryList.iterator()
 
             while (iterator.hasNext()) {
                 val categoryItem: ImageCategory = iterator.next()
@@ -118,15 +117,15 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             imageList = emptyList()
         )
 
-        var index = DataManager.appData.nativeRate
-        while (index < ImagesManager.imageCategoryList.size) {
-            ImagesManager.imageCategoryList.add(index, nativeItem)
-            index += DataManager.appData.nativeRate + 1
+        var index = App.appData.nativeRate
+        while (index < App.imageCategoryList.size) {
+            App.imageCategoryList.add(index, nativeItem)
+            index += App.appData.nativeRate + 1
         }
     }
 
     override suspend fun setGalleryAndCameraItems() {
-        ImagesManager.imageCategoryList.add(
+        App.imageCategoryList.add(
             0,
             ImageCategory(
                 imageCategoryName = "gallery and camera",
@@ -135,7 +134,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
             )
         )
 
-        ImagesManager.imageCategoryList.add(
+        App.imageCategoryList.add(
             1,
             ImageCategory(
                 imageCategoryName = "explore",

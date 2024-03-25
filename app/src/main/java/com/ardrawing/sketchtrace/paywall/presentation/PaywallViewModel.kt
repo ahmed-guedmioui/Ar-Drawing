@@ -2,8 +2,8 @@ package com.ardrawing.sketchtrace.paywall.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
-import com.ardrawing.sketchtrace.core.data.DataManager
 import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getOfferingsWith
@@ -65,7 +65,7 @@ class PaywallViewModel @Inject constructor(
 
                     paywallUiEvent.date?.let {
                         if (it.after(Date())) {
-                            DataManager.appData.isSubscribed = true
+                            App.appData.isSubscribed = true
 
                             viewModelScope.launch {
                                 appDataRepository.setAdsVisibilityForUser()

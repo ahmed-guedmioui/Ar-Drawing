@@ -5,7 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import com.ardrawing.sketchtrace.core.data.DataManager
+import com.ardrawing.sketchtrace.App
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
@@ -32,11 +32,11 @@ object InterManager {
             "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
         )
 
-        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
+        if (!App.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             return
         }
 
-        when (DataManager.appData.interstitial) {
+        when (App.appData.interstitial) {
             AdType.admob -> loadAdmobInter(activity)
             AdType.facebook -> loadFacebookInter(activity)
         }
@@ -48,12 +48,12 @@ object InterManager {
             "ar_drawing_med_prefs_file", Context.MODE_PRIVATE
         )
 
-        if (!DataManager.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
+        if (!App.appData.showAdsForThisUser || !prefs.getBoolean("can_show_ads", true)) {
             onAdClosedListener.onAdClosed()
             return
         }
 
-        if (DataManager.appData.clicksToShowInter == counter) {
+        if (App.appData.clicksToShowInter == counter) {
             counter = 1
 
             val progressDialog = ProgressDialog(activity)
@@ -62,12 +62,14 @@ object InterManager {
             progressDialog.show()
 
             Handler(Looper.getMainLooper()).postDelayed({
-                when (DataManager.appData.interstitial) {
+                when (App.appData.interstitial) {
                     AdType.admob -> showAdmobInter(activity)
                     AdType.facebook -> showFacebookInter(activity)
                     else -> onAdClosedListener.onAdClosed()
                 }
-                progressDialog.dismiss()
+                try {
+                    progressDialog.dismiss()
+                } catch (_: Exception) {}
 
             }, 2000)
 
@@ -83,7 +85,7 @@ object InterManager {
     private fun loadFacebookInter(activity: Activity) {
         isFacebookInterLoaded = false
         facebookInterstitialAd =
-            com.facebook.ads.InterstitialAd(activity, DataManager.appData.facebookInterstitial)
+            com.facebook.ads.InterstitialAd(activity, App.appData.facebookInterstitial)
         val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
             override fun onInterstitialDisplayed(ad: Ad) {}
             override fun onInterstitialDismissed(ad: Ad) {
@@ -127,7 +129,7 @@ object InterManager {
 
         InterstitialAd.load(
             activity,
-            DataManager.appData.admobInterstitial,
+            App.appData.admobInterstitial,
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
