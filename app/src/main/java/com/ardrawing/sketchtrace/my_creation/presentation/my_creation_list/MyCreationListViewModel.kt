@@ -25,7 +25,7 @@ class MyCreationListViewModel @Inject constructor(
         getCreationList()
     }
 
-    fun getCreationList() {
+    private fun getCreationList() {
         viewModelScope.launch {
             creationRepository.getCreationList().collect { creationList ->
                 _myCreationListState.update {

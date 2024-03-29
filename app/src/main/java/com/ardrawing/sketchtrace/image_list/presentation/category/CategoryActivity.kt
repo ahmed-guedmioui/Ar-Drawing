@@ -38,14 +38,6 @@ class CategoryActivity : AppCompatActivity(){
     @Inject
     lateinit var prefs: SharedPreferences
 
-    @Inject
-    lateinit var appDataRepository: AppDataRepository
-
-    @Inject
-    lateinit var imageCategoriesRepository: ImageCategoriesRepository
-
-    
-
     private lateinit var binding: ActivityCategoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +48,6 @@ class CategoryActivity : AppCompatActivity(){
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
-
-        
 
         var categoryPosition = 0
 

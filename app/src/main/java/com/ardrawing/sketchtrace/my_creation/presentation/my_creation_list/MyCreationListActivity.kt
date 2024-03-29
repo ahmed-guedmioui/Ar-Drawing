@@ -28,8 +28,8 @@ class MyCreationListActivity : AppCompatActivity() {
     lateinit var prefs: SharedPreferences
 
     private val myCreationListViewModel: MyCreationListViewModel by viewModels()
-
     private lateinit var myCreationListState: MyCreationListState
+
     private lateinit var binding: ActivityMyCreationLsitBinding
 
     private var myCreationListAdapter: MyCreationListAdapter? = null
@@ -51,7 +51,6 @@ class MyCreationListActivity : AppCompatActivity() {
             myCreationListViewModel.myCreationState.collect {
                 myCreationListState = it
                 myCreationListAdapter?.notifyDataSetChanged()
-                Log.d("tag_creation", "onCreate: ${myCreationListState.creationList.size}")
             }
         }
 

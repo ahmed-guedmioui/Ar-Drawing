@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
+import com.ardrawing.sketchtrace.image_list.domain.model.images.ImageCategory
 import com.ardrawing.sketchtrace.image_list.presentation.category.CategoryAdapter
 import com.ardrawing.sketchtrace.util.ads.NativeManager
 
@@ -17,27 +18,22 @@ import com.ardrawing.sketchtrace.util.ads.NativeManager
  * @author Ahmed Guedmioui
  */
 class CategoriesAdapter(
+    private val imageCategoryList: List<ImageCategory>,
     private val activity: Activity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(i: Int): Int {
-        return when (App.imageCategoryList[i].imageCategoryName) {
-            "native" -> {
-                0
-            }
-            "gallery and camera" -> {
-                1
-            }
-            "explore" -> {
-                2
-            }
-            else -> {
-                3
-            }
+        return when (imageCategoryList[i].imageCategoryName) {
+            "native" -> 0
+            "gallery and camera" -> 1
+            "explore" -> 2
+            else -> 3
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): RecyclerView.ViewHolder {
         if (viewType == 0) {
             val view: View = LayoutInflater.from(activity)
                 .inflate(R.layout.include_native, parent, false)
@@ -66,12 +62,12 @@ class CategoriesAdapter(
         viewHolder: RecyclerView.ViewHolder, categoryPosition: Int
     ) {
 
-        if (App.imageCategoryList[categoryPosition].imageCategoryName == "native") {
+        if (imageCategoryList[categoryPosition].imageCategoryName == "native") {
             return
         }
 
 
-        if (App.imageCategoryList[categoryPosition].imageCategoryName == "gallery and camera") {
+        if (imageCategoryList[categoryPosition].imageCategoryName == "gallery and camera") {
             val holder = viewHolder as GalleryAndCameraViewHolder
             holder.gallery.setOnClickListener {
                 galleryAndCameraClickListener.oClick(true)
@@ -82,14 +78,14 @@ class CategoriesAdapter(
             return
         }
 
-        if (App.imageCategoryList[categoryPosition].imageCategoryName == "explore") {
+        if (imageCategoryList[categoryPosition].imageCategoryName == "explore") {
             return
         }
 
         val holder = viewHolder as CategoriesViewHolder
 
         val categoryAdapter = CategoryAdapter(
-            activity, App.imageCategoryList[categoryPosition], 1
+            activity, imageCategoryList[categoryPosition], 1
         )
 
         categoryAdapter.setClickListener(object : CategoryAdapter.ClickListener {
@@ -99,11 +95,11 @@ class CategoriesAdapter(
 
         })
         holder.categoryName.text =
-            App.imageCategoryList[categoryPosition].imageCategoryName
+            imageCategoryList[categoryPosition].imageCategoryName
 
         holder.categoryRecyclerView.adapter = categoryAdapter
-        App.imageCategoryList[categoryPosition].adapter = categoryAdapter
-        App.imageCategoryList[categoryPosition].recyclerView = holder.categoryRecyclerView
+        imageCategoryList[categoryPosition].adapter = categoryAdapter
+        imageCategoryList[categoryPosition].recyclerView = holder.categoryRecyclerView
 
         holder.viewMore.setOnClickListener {
             viewMoreClickListener.oClick(categoryPosition)
@@ -112,8 +108,8 @@ class CategoriesAdapter(
 
 
     override fun getItemCount(): Int {
-        return if (App.imageCategoryList.size > 0)
-            App.imageCategoryList.size
+        return if (imageCategoryList.isNotEmpty())
+            imageCategoryList.size
         else 0
 
     }

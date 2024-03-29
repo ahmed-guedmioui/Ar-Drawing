@@ -114,7 +114,7 @@ class SplashViewModel @Inject constructor(
 
     private fun getImages() {
         viewModelScope.launch {
-            imageCategoriesRepository.getImageCategoryList().collect { imagesResult ->
+            imageCategoriesRepository.loadImageCategoryList().collect { imagesResult ->
                 when (imagesResult) {
                     is Resource.Error -> {
                         _showErrorToastChannel.send(true)

@@ -4,11 +4,13 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
 import com.ardrawing.sketchtrace.App
+import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.image_list.data.mapper.toImageCategoryList
 import com.ardrawing.sketchtrace.image_list.data.remote.ImageCategoryApi
 import com.ardrawing.sketchtrace.image_list.domain.model.images.ImageCategory
 import com.ardrawing.sketchtrace.image_list.domain.repository.ImageCategoriesRepository
 import com.ardrawing.sketchtrace.core.domain.usecase.UpdateSubscriptionInfo
+import com.ardrawing.sketchtrace.image_list.domain.model.images.Image
 import com.ardrawing.sketchtrace.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -27,7 +29,7 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
     private val prefs: SharedPreferences
 ) : ImageCategoriesRepository {
 
-    override suspend fun getImageCategoryList(): Flow<Resource<Unit>> {
+    override suspend fun loadImageCategoryList(): Flow<Resource<Unit>> {
         return flow {
 
             emit(Resource.Loading(true))
@@ -36,29 +38,47 @@ class ImageCategoriesRepositoryImpl @Inject constructor(
                 imageCategoryApi.getImageCategoryList()
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = "Error loading images"))
+                emit(
+                    Resource.Error(application.getString(R.string.error_loading_images))
+                )
                 emit(Resource.Loading(false))
                 return@flow
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = "Error loading images"))
+                emit(
+                    Resource.Error(application.getString(R.string.error_loading_images))
+                )
                 emit(Resource.Loading(false))
                 return@flow
             } catch (e: Exception) {
                 e.printStackTrace()
-                emit(Resource.Error(message = "Error loading images"))
+                emit(
+                    Resource.Error(application.getString(R.string.error_loading_images))
+                )
                 emit(Resource.Loading(false))
                 return@flow
             }
 
-            App.imageCategoryList = categoryListDto.toImageCategoryList().toMutableList()
+            categoryListDto?.let {
+                App.imageCategoryList = it.toImageCategoryList().toMutableList()
+                emit(Resource.Success())
+                emit(Resource.Loading(false))
+                return@flow
+            }
 
-            emit(Resource.Success())
+            emit(
+                Resource.Error(application.getString(R.string.error_loading_images))
+            )
             emit(Resource.Loading(false))
-            return@flow
-
-
         }
+    }
+
+    override suspend fun getImageCategoryList(): List<ImageCategory> {
+        return App.imageCategoryList
+    }
+
+    override suspend fun unlockImageItem(imageItem: Image) {
+        prefs.edit().putBoolean(imageItem.prefsId, false).apply()
     }
 
     override suspend fun setUnlockedImages(date: Date?) {

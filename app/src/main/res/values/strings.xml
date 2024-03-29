@@ -187,4 +187,6 @@
     <string name="user_reviews">User Reviews</string>
     <string name="back">Back</string>
     <string name="error_picking_image">Error picking image</string>
+    <string name="error_loading_images">Error loading images</string>
+    <string name="error_loading_data">Error loading data</string>
 </resources>

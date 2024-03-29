@@ -185,6 +185,15 @@ class SettingsActivity : AppCompatActivity() {
             recreate()
             Constants.languageChanged1 = false
         }
+        
+        if (App.appData.isSubscribed) {
+            binding.subscribeInfo.text = getString(
+                R.string.your_subscription_will_expire_in_n,
+                App.appData.subscriptionExpireDate
+            )
+        } else {
+            binding.subscribeInfo.text = getString(R.string.your_are_not_subscribed)
+        }
     }
 
 }

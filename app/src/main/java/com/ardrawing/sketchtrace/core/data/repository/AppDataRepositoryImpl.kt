@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.BuildConfig
+import com.ardrawing.sketchtrace.R
 import com.ardrawing.sketchtrace.core.data.mapper.toAppData
 import com.ardrawing.sketchtrace.core.data.remote.AppDataApi
 import com.ardrawing.sketchtrace.core.data.remote.respnod.app_data.AppDataDto
@@ -42,30 +43,45 @@ class AppDataRepositoryImpl @Inject constructor(
                 appDataApi.getAppData()
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = "Error loading data"))
+                emit(
+                    Resource.Error(application.getString(R.string.error_loading_data))
+                )
+                emit(Resource.Loading(false))
                 return@flow
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = "Error loading data"))
+                emit(
+                    Resource.Error(application.getString(R.string.error_loading_data))
+                )
+                emit(Resource.Loading(false))
                 return@flow
             } catch (e: Exception) {
                 e.printStackTrace()
-                emit(Resource.Error(message = "Error loading data"))
+                emit(
+                    Resource.Error(application.getString(R.string.error_loading_data))
+                )
+                emit(Resource.Loading(false))
                 return@flow
             }
 
-            App.appData = appDataDto.toAppData()
+            appDataDto?.let {
+                App.appData = it.toAppData()
 
-            prefs.edit()
-                .putString("admobOpenApp", App.appData.admobOpenApp)
-                .apply()
+                prefs.edit()
+                    .putString("admobOpenApp", App.appData.admobOpenApp)
+                    .apply()
 
-            subscription()
+                subscription()
 
-            emit(Resource.Success())
+                emit(Resource.Success())
+                emit(Resource.Loading(false))
+                return@flow
+            }
 
+            emit(
+                Resource.Error(application.getString(R.string.error_loading_data))
+            )
             emit(Resource.Loading(false))
-            return@flow
 
         }
     }
@@ -94,7 +110,6 @@ class AppDataRepositoryImpl @Inject constructor(
             }
         )
     }
-
 
 
     // Only for testing

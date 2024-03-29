@@ -13,8 +13,10 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ardrawing.sketchtrace.App
 import com.ardrawing.sketchtrace.R
@@ -24,6 +26,8 @@ import com.ardrawing.sketchtrace.image_list.presentation.category.CategoryActivi
 import com.ardrawing.sketchtrace.paywall.presentation.PaywallActivity
 import com.ardrawing.sketchtrace.sketch.presentation.SketchActivity
 import com.ardrawing.sketchtrace.core.domain.repository.AppDataRepository
+import com.ardrawing.sketchtrace.my_creation.presentation.my_creation_list.MyCreationListState
+import com.ardrawing.sketchtrace.my_creation.presentation.my_creation_list.MyCreationListViewModel
 import com.ardrawing.sketchtrace.trace.presentation.TraceActivity
 import com.ardrawing.sketchtrace.util.LanguageChanger
 import com.ardrawing.sketchtrace.util.ads.InterManager
@@ -34,6 +38,7 @@ import com.ardrawing.sketchtrace.util.other.HelpActivity
 import com.ardrawing.sketchtrace.util.other.HelpActivity2
 import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -43,21 +48,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CategoriesActivity : AppCompatActivity() {
 
-    private var isTrace = false
-    private var isGallery = false
     private var storagePermissionRequestCode = 12
 
-    private lateinit var pushAnimation: Animation
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
+    private lateinit var categoriesState: CategoriesState
 
     @Inject
     lateinit var prefs: SharedPreferences
 
-    @Inject
-    lateinit var appDataRepository: AppDataRepository
-
-    @Inject
-    lateinit var imageCategoriesRepository: ImageCategoriesRepository
-
+    private var categoriesAdapter: CategoriesAdapter? = null
 
     private lateinit var binding: ActivityCategoriesBinding
 
@@ -68,21 +67,55 @@ class CategoriesActivity : AppCompatActivity() {
         LanguageChanger.changeAppLanguage(languageCode, this)
         binding = ActivityCategoriesBinding.inflate(layoutInflater)
         val view: View = binding.root
-        setContentView(view)
 
+        setContentView(view)
 
         val bundle = intent.extras
         if (bundle != null) {
-            isTrace = bundle.getBoolean("isTrace", true)
-            if (isTrace) {
-                binding.title.text = getString(R.string.trace)
-            } else {
-                binding.title.text = getString(R.string.sketch)
-            }
+            val isTrace = bundle.getBoolean("isTrace", true)
 
+            categoriesViewModel.onEvent(CategoriesUiEvents.UpdateIsTrace(isTrace))
         }
 
-        pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
+        lifecycleScope.launch {
+            categoriesViewModel.categoriesState.collect {
+                categoriesState = it
+                categoriesAdapter?.notifyDataSetChanged()
+                if (categoriesState.isTrace) {
+                    binding.title.text = getString(R.string.trace)
+                } else {
+                    binding.title.text = getString(R.string.sketch)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            categoriesViewModel.navigateToDrawingChannel.collect { navigate ->
+                if (navigate) {
+                    categoriesState.clickedImageItem?.let { clickedImageItem ->
+                        if (categoriesState.isTrace) {
+                            traceDrawingScreen(clickedImageItem.image)
+                        } else {
+                            sketchDrawingScreen(clickedImageItem.image)
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            categoriesViewModel.unlockImageChannel.collect { unlock ->
+                if (unlock) {
+                    rewarded {
+                        categoriesState.clickedImageItem?.locked = false
+                        categoriesState.imageCategory?.adapter?.notifyItemChanged(
+                            categoriesState.imagePosition
+                        )
+                    }
+                }
+            }
+        }
+
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -91,46 +124,43 @@ class CategoriesActivity : AppCompatActivity() {
             super.onBackPressed()
         }
 
+
+        val pushAnimation = AnimationUtils.loadAnimation(this, R.anim.view_push)
+
         binding.relHelp.setOnClickListener {
             it.startAnimation(pushAnimation)
-            if (isTrace) {
+            if (categoriesState.isTrace) {
                 helpScreen()
             } else {
                 helpScreen2()
             }
         }
 
-        val categoriesAdapter = CategoriesAdapter(this)
-        categoriesAdapter.setClickListener(object : CategoriesAdapter.ClickListener {
+        categoriesAdapter = CategoriesAdapter(
+            imageCategoryList = categoriesState.imageCategoryList,
+            activity = this
+        )
+        categoriesAdapter?.setClickListener(object : CategoriesAdapter.ClickListener {
             override fun oClick(categoryPosition: Int, imagePosition: Int) {
 
-                val imageItem =
-                    App.imageCategoryList[categoryPosition].imageList[imagePosition]
-
-                if (imageItem.locked) {
-                    rewarded {
-                        imageItem.locked = false
-                        App.imageCategoryList[categoryPosition]
-                            .adapter?.notifyItemChanged(imagePosition)
-                        prefs.edit().putBoolean(imageItem.prefsId, false).apply()
-                    }
-                } else {
-                    if (isTrace) {
-                        traceDrawingScreen(imageItem.image)
-                    } else {
-                        sketchDrawingScreen(imageItem.image)
-                    }
-                }
+                categoriesViewModel.onEvent(
+                    CategoriesUiEvents.OnImageClick(
+                        categoryPosition = categoryPosition,
+                        imagePosition = imagePosition
+                    )
+                )
             }
         })
 
-        categoriesAdapter.setGalleryAndCameraClickListener(object :
+        categoriesAdapter?.setGalleryAndCameraClickListener(object :
             CategoriesAdapter.GalleryAndCameraClickListener {
             override fun oClick(isGallery: Boolean) {
-                this@CategoriesActivity.isGallery = isGallery
+                categoriesViewModel.onEvent(
+                    CategoriesUiEvents.UpdateIsGallery(isGallery)
+                )
                 rewarded {
                     if (isWriteStoragePermissionGranted()) {
-                        if (isGallery) {
+                        if (categoriesState.isGallery) {
                             ImagePicker.with(this@CategoriesActivity)
                                 .galleryOnly()
                                 .createIntent { intent ->
@@ -152,7 +182,7 @@ class CategoriesActivity : AppCompatActivity() {
             }
         })
 
-        categoriesAdapter.setViewMoreClickListener(object :
+        categoriesAdapter?.setViewMoreClickListener(object :
             CategoriesAdapter.ViewMoreClickListener {
             override fun oClick(categoryPosition: Int) {
                 InterManager.showInterstitial(
@@ -163,7 +193,7 @@ class CategoriesActivity : AppCompatActivity() {
                                 this@CategoriesActivity, CategoryActivity::class.java
                             )
                             intent.putExtra("categoryPosition", categoryPosition)
-                            intent.putExtra("isTrace", isTrace)
+                            intent.putExtra("isTrace", categoriesState.isTrace)
                             startActivity(intent)
                         }
                     })
@@ -171,7 +201,6 @@ class CategoriesActivity : AppCompatActivity() {
         })
 
         binding.recyclerView.adapter = categoriesAdapter
-
 
         writeStoragePermission()
     }
@@ -191,7 +220,6 @@ class CategoriesActivity : AppCompatActivity() {
                         getString(R.string.ad_is_not_loaded_yet),
                         Toast.LENGTH_SHORT
                     ).show()
-
                 }
 
                 override fun onRewComplete() {
@@ -257,7 +285,7 @@ class CategoriesActivity : AppCompatActivity() {
             return
         }
 
-        if (isGallery) {
+        if (categoriesState.isGallery) {
             ImagePicker.with(this)
                 .galleryOnly()
                 .createIntent { intent ->
@@ -292,14 +320,14 @@ class CategoriesActivity : AppCompatActivity() {
                 val fileUri = result.data?.data!!
 
                 Log.d("tag_per", "registerForActivityResult: data = null ${result.data == null}")
-                val selectedImagePath = if (isGallery) {
+                val selectedImagePath = if (categoriesState.isGallery) {
                     AppConstant.getRealPathFromURI_API19(this, fileUri)
                 } else {
                     FileUtils.getPath(fileUri)
                 }
 
                 if (selectedImagePath != null) {
-                    if (isTrace) {
+                    if (categoriesState.isTrace) {
                         traceDrawingScreen(selectedImagePath)
                     } else {
                         sketchDrawingScreen(selectedImagePath)
@@ -324,9 +352,12 @@ class CategoriesActivity : AppCompatActivity() {
     private fun traceDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@CategoriesActivity, TraceActivity::class.java)
-                intent.putExtra("imagePath", imagePath)
-                startActivity(intent)
+                Intent(
+                    this@CategoriesActivity, TraceActivity::class.java
+                ).also {
+                    it.putExtra("imagePath", imagePath)
+                    startActivity(it)
+                }
             }
         })
     }
@@ -334,9 +365,12 @@ class CategoriesActivity : AppCompatActivity() {
     private fun sketchDrawingScreen(imagePath: String) {
         InterManager.showInterstitial(this, object : InterManager.OnAdClosedListener {
             override fun onAdClosed() {
-                val intent = Intent(this@CategoriesActivity, SketchActivity::class.java)
-                intent.putExtra("imagePath", imagePath)
-                startActivity(intent)
+                Intent(
+                    this@CategoriesActivity, SketchActivity::class.java
+                ).also {
+                    it.putExtra("imagePath", imagePath)
+                    startActivity(it)
+                }
             }
         })
     }

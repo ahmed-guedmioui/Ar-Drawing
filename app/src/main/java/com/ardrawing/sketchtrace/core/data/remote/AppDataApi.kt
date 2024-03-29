@@ -10,7 +10,7 @@ import retrofit2.http.GET
 interface AppDataApi {
 
     @GET(ADS_PATH)
-    suspend fun getAppData(): AppDataDto
+    suspend fun getAppData(): AppDataDto?
 
     companion object {
         const val ADS_BASE_URL = BuildConfig.ADS_BASE_URL

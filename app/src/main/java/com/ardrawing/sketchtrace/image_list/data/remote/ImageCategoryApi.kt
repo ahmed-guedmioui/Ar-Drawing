@@ -11,7 +11,7 @@ interface ImageCategoryApi {
 
 
     @GET(IMAGES_PATH)
-    suspend fun getImageCategoryList(): ImageCategoryListDto
+    suspend fun getImageCategoryList(): ImageCategoryListDto?
 
     companion object {
         const val IMAGES_BASE_URL = BuildConfig.IMAGES_BASE_URL
