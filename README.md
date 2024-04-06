@@ -17,24 +17,15 @@ Support up to 7 languages.
 
 ## 🚀 Technologies
 
-Kotlin, Java, and XML
-Multi-module
-MVVM architectural design pattern
-Dagger Hilt for dependency injection
-Coroutunes and Flows
-Retrofit
+Kotlin, Java, and XML - Multi-module -MVVM architectural design pattern - Dagger Hilt for dependency injection - Coroutunes and Flows - Retrofit
 
 ## 💡 Usage
 
-Use the drawing tools to create your artwork.
-Explore different features and techniques for a unique drawing experience.
-Record and share your creations with others.
+Use the drawing tools to create your artwork. Explore different features and techniques for a unique drawing experience and enhance you creativity. Record and share your creations with others.
 
 ## 📲 Geting started
 
-Clone the repository: https://github.com/ahmed-guedmioui/Ar-Drawing.git
-Open the project in Android Studio.
-Build and run the app on your device or emulator.
+Clone the repository: https://github.com/ahmed-guedmioui/Ar-Drawing.git then open the project in Android Studio. Build and run the app on your device or emulator.
 
 ## 🤝  Contributing
 
