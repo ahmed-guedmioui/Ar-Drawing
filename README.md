@@ -6,9 +6,13 @@ The AR Drawing app allows users to sketch and trace in a world of merging a virt
 ## ✨ Features
 
 A verity of images to start with or pick your images from gallery or camera.
+
 Tools to adjust your image from to capasity and removing white background.
+
 A photo editor to make your images look as good as you want.
+
 Save your drawing a photo or video and share it with friends.
+
 Support up to 7 languages.
 
 ## 🚀 Technologies
