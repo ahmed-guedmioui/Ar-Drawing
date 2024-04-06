@@ -17,7 +17,7 @@ Support up to 7 languages.
 
 ## 🚀 Technologies
 
-Kotlin, Java, and XML - Multi-module -MVVM architectural design pattern - Dagger Hilt for dependency injection - Coroutunes and Flows - Retrofit
+Kotlin, Java, and XML - Multi-module - MVVM architectural design pattern - Dagger Hilt for dependency injection - Coroutines and Flows - Retrofit
 
 ## 💡 Usage
 
